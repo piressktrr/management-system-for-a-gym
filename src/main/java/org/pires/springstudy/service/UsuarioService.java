@@ -1,6 +1,5 @@
 package org.pires.springstudy.service;
 
-import org.pires.springstudy.DTOs.UsuarioLoginDTO;
 import org.pires.springstudy.domain.Usuario;
 import org.pires.springstudy.infrastructure.persistence.repository.UsuarioRepository;
 import org.springframework.stereotype.Service;
