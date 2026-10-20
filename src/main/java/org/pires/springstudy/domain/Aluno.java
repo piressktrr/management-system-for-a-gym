@@ -35,7 +35,8 @@ public class Aluno {
     private String sobrenomeAluno;
 
     @Column(nullable = false)
-    private Character sexo;
+    @Enumerated(EnumType.STRING)
+    private String sexo;
 
     @Column(nullable = false)
     private LocalDate dataNascimento;

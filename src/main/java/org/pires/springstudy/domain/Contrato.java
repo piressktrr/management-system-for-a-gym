@@ -17,11 +17,15 @@ public class Contrato {
     private UUID contratoId;
 
     @OneToOne
+    @JoinColumn(nullable = false, name = "matricula_id")
     private Matricula matricula;
 
+    @Column(nullable = false)
     private String descricaoContratual;
 
+    @Column(nullable = false)
     private LocalDateTime dataAssinatura;
 
+    @Column(nullable = false)
     private String assinaturaEscrita;
 }

@@ -17,8 +17,9 @@ public class Matricula {
     private UUID matriculaId;
 
     @ManyToOne(optional = false)
-    @JoinColumn(unique = true, nullable = false, name = "alunoId")
+    @JoinColumn(nullable = false, name = "id_aluno")
     private Aluno aluno;
+
 
     private String descricaoSaude;
 
@@ -26,8 +27,11 @@ public class Matricula {
     private LocalDateTime dataMatricula;
 
     @Column(nullable = false)
+
     private BigDecimal valorMatricula;
     private String motivoDesligamento;
+
+    @Enumerated(EnumType.STRING)
     private String status;
 
 }
