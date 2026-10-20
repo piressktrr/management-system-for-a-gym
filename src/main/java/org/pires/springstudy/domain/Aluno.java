@@ -16,35 +16,35 @@ public class Aluno {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(nullable = false)
-    @JdbcTypeCode(SqlTypes.BIGINT)
-    private UUID id_aluno;
+    private UUID idAluno;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(nullable = false, name = "endereco_id")
+    @ManyToOne(optional = false) // endereço tem varios alunos
+    @JoinColumn(name = "endereco_id", nullable = false)
+
     private Endereco endereco;
 
 
     @Column(unique = true)
     @JdbcTypeCode(SqlTypes.VARCHAR)
-    private String cpf_aluno;
+    private String cpfAluno;
 
     @Column(nullable = false)
-    private String nome_aluno;
+    private String nomeAluno;
 
     @Column(nullable = false)
-    private String sobrenome_aluno;
+    private String sobrenomeAluno;
 
     @Column(nullable = false)
     private Character sexo;
 
     @Column(nullable = false)
-    private LocalDate data_nascimento;
+    private LocalDate dataNascimento;
 
     @Column(nullable = false, unique = true)
-    private String telefone_aluno;
+    private String telefoneAluno;
 
     @Column(nullable = false, unique = true)
-    private String email_aluno;
+    private String emailAluno;
 
 
 }
