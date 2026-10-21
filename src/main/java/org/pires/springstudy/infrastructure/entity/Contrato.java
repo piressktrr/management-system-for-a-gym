@@ -1,4 +1,4 @@
-package org.pires.springstudy.domain;
+package org.pires.springstudy.infrastructure.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;

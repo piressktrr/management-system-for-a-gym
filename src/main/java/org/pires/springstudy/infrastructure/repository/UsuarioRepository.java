@@ -1,4 +1,4 @@
-package org.pires.springstudy.infrastructure.persistence.repository;
+package org.pires.springstudy.infrastructure.repository;
 
 import org.springframework.stereotype.Repository;
 
