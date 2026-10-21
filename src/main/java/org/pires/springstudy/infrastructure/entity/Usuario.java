@@ -20,14 +20,17 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true,  length = 50)
     private String nome;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 50)
     private String sobrenome;
 
-    @Column(nullable = false)
-    private String credencial;
+    @Column(nullable = false, name = "login_email", length = 50)
+    private String identificadorLogin; // email que vai ser usado como login do usuario
 
-//    private Long identificadorLogin;
+    @Column(nullable = false)
+    private String senha_hash; // senha guardada como hash
+
+
 }
