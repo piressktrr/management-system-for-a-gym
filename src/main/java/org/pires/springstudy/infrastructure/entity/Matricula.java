@@ -36,7 +36,6 @@ public class Matricula {
     @Column(length = 100)
     private String motivoDesligamento;
 
-    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private String status;
 

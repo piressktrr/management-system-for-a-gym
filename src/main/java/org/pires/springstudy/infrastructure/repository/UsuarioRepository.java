@@ -9,5 +9,5 @@ import java.util.UUID;
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, UUID> {
 
-    boolean existsByLogin(String identificadorLogin);
+    boolean existsByidentificadorLogin(String identificadorLogin);
 }

@@ -5,7 +5,5 @@ public class ConflictByCreateUserLogin extends RuntimeException {
         super(message);
     }
 
-    public ConflictByCreateUserLogin(String message, Throwable cause) {
-        super(message, cause);
-    }
+
 }

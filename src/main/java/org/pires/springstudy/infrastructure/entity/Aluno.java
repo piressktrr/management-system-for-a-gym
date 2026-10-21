@@ -36,7 +36,7 @@ public class Aluno {
     private String sobrenome;
 
     @Column(nullable = false, length = 30)
-    @Enumerated(EnumType.STRING)
+
     private String sexo;
 
     @Column(nullable = false, name = "data_nascimento", length = 10)

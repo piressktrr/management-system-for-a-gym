@@ -18,7 +18,7 @@ public class UsuarioService { // regras de negocio + lógica
             checkLoginSaveUser(usuario);
             return usuarioRepository.save(usuario);
         } catch (ConflictByCreateUserLogin e) {
-            throw new ConflictByCreateUserLogin(e.getCause().getMessage());
+            throw new ConflictByCreateUserLogin(e.getMessage());
         }
     }
 
@@ -28,11 +28,11 @@ public class UsuarioService { // regras de negocio + lógica
                 throw new ConflictByCreateUserLogin("Email já cadastrado para usuário");
             }
         }catch (ConflictByCreateUserLogin e){
-            System.out.println(e.getCause().getMessage());
+            System.out.println(e.getMessage());
         }
     }
 
     public boolean checkLoginDataBase(String identificadorLogin) {
-        return usuarioRepository.existsByLogin(identificadorLogin); // checa para ver se o email ta cadastrado no banco de dados, pode ser usado para outras funções
+        return usuarioRepository.existsByidentificadorLogin(identificadorLogin); // checa para ver se o email ta cadastrado no banco de dados, pode ser usado para outras funções
     }
 }
