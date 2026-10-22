@@ -18,7 +18,7 @@ public class UsuarioController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public ResponseEntity<Usuario> saveUser(@RequestBody Usuario usuario) {
-        return ResponseEntity.ok(usuarioService.saveUser(usuario)); //  retorna um ok (status code 200) desse post que eu estou fazendo
+        return ResponseEntity.ok(usuarioService.saveUser(usuario)); //  retorna um ok (status code 200) desse post p/ salvar usuario que eu estou fazendo
     }
 
 }
