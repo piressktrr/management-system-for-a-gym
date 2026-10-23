@@ -1,7 +1,7 @@
 package org.pires.springstudy.controller;
 
 import org.pires.springstudy.infrastructure.entity.Usuario;
-import org.pires.springstudy.service.UsuarioService;
+import org.pires.springstudy.service.users.UsuarioService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,5 +20,13 @@ public class UsuarioController {
     public ResponseEntity<Usuario> saveUser(@RequestBody Usuario usuario) {
         return ResponseEntity.ok(usuarioService.saveUser(usuario)); //  retorna um ok (status code 200) desse post p/ salvar usuario que eu estou fazendo
     }
+
+
+//    @GetMapping
+//    public ResponseEntity<List<Usuario>> getAllUsers() {
+//        List<Usuario> users = this.usuarioService.getAllUsers();
+//
+//        return ResponseEntity.ok(users);
+//    }
 
 }

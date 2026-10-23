@@ -1,4 +1,4 @@
-package org.pires.springstudy.service;
+package org.pires.springstudy.service.users;
 
 import lombok.extern.log4j.Log4j2;
 import org.pires.springstudy.infrastructure.entity.Usuario;
@@ -36,4 +36,8 @@ public class UsuarioService { // regras de negocio + lógica
     public boolean checkLoginDataBase(String identificadorLogin) {
         return usuarioRepository.existsByidentificadorLogin(identificadorLogin); // checa para ver se o email ta cadastrado no banco de dados, pode ser usado para outras funções
     }
+
+//    public List<Usuario> getAllUsers() {
+//        return usuarioRepository.findAll();
+//    }
 }

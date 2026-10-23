@@ -8,6 +8,7 @@ import lombok.Setter;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
@@ -38,9 +39,18 @@ public class Usuario implements UserDetails {
     @Column(nullable = false)
     private String senha_hash; // senha guardada como hash
 
+//    @Column(nullable = false)
+//    private UserRole role;
+
+//    @Override
+//    public @NullMarked Collection<? extends GrantedAuthority> getAuthorities() {
+//        if (this.role == UserRole.ADMIN) return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER"));
+//        return  List.of(new SimpleGrantedAuthority("ROLE_USER"));
+//    }
+
 
     @Override
-    public @NullMarked Collection<? extends GrantedAuthority> getAuthorities() {
+    public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of();
     }
 
