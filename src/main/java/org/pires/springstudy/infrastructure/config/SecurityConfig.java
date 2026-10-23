@@ -1,4 +1,4 @@
-package org.pires.springstudy.infrastructure.security;
+package org.pires.springstudy.infrastructure.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -7,7 +7,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,7 +23,7 @@ public class SecurityConfig {
         return http.csrf(csrf -> csrf.disable())
                 .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // autenticação stateless
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
-                                .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/auth/login").permitAll() // permite que todos possam acessar login, o de register por enquanto é so pra teste, mas o certo é deixar so usuarios acessarem p cadastrarem outros usuarios
                         .requestMatchers(HttpMethod.POST, "/usuario/register").permitAll() // provavelmente isso aqui ta errado, devia estar tudo dentro do auth
                                 .anyRequest().authenticated()
                 ) // autorizacao de qualquer requisiçao desde que esteja logado

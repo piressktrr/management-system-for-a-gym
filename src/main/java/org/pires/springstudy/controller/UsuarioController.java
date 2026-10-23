@@ -2,7 +2,7 @@ package org.pires.springstudy.controller;
 
 import org.pires.springstudy.dtos.UsuarioDTO;
 import org.pires.springstudy.infrastructure.entity.Usuario;
-import org.pires.springstudy.service.users.UsuarioService;
+import org.pires.springstudy.service.UsuarioService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

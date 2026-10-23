@@ -1,4 +1,4 @@
-package org.pires.springstudy.service.users;
+package org.pires.springstudy.service;
 
 import lombok.extern.log4j.Log4j2;
 import org.pires.springstudy.dtos.UsuarioDTO;
@@ -27,7 +27,6 @@ public class UsuarioService { // regras de negocio + lógica
         checkLoginSaveUser(usuario);
         return usuarioRepository.save(usuario);
     }
-
 
     public void checkLoginSaveUser(Usuario usuario) { // regra de negocio para verificar se o email já existe na hora de cadastrar usuário
         try {

@@ -1,4 +1,4 @@
-package org.pires.springstudy.service.users;
+package org.pires.springstudy.service;
 
 import org.jspecify.annotations.NullMarked;
 import org.pires.springstudy.infrastructure.repository.UsuarioRepository;
