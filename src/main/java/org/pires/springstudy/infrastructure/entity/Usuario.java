@@ -1,10 +1,7 @@
 package org.pires.springstudy.infrastructure.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 import org.springframework.security.core.GrantedAuthority;
@@ -19,6 +16,7 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Entity
 @Table(name = "usuario")
 public class Usuario implements UserDetails {
@@ -37,9 +35,16 @@ public class Usuario implements UserDetails {
     private String identificadorLogin; // email que vai ser usado como login do usuario
 
     @Column(nullable = false)
-    private String senha_hash; // senha guardada como hash
+    private String senha; // senha guardada como hash
 
-//    @Column(nullable = false)
+    public Usuario(String nome, String sobrenome, String identificadorLogin, String senha) {
+        this.nome = nome;
+        this.sobrenome = sobrenome;
+        this.identificadorLogin = identificadorLogin;
+        this.senha = senha;
+    }
+
+    //    @Column(nullable = false)
 //    private UserRole role;
 
 //    @Override
@@ -56,7 +61,7 @@ public class Usuario implements UserDetails {
 
     @Override
     public  @NullMarked String getPassword() {
-        return senha_hash;
+        return senha;
     }
 
     @Override

@@ -2,6 +2,7 @@ package org.pires.springstudy.infrastructure.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -22,7 +23,11 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(csrf -> csrf.disable())
                 .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // autenticação stateless
-                .authorizeHttpRequests(authorizeRequests -> authorizeRequests.anyRequest().authenticated()) // autorizacao de qualquer requisiçao desde que esteja logado
+                .authorizeHttpRequests(authorizeRequests -> authorizeRequests
+                                .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/usuario/register").permitAll() // provavelmente isso aqui ta errado, devia estar tudo dentro do auth
+                                .anyRequest().authenticated()
+                ) // autorizacao de qualquer requisiçao desde que esteja logado
                 .build();
 
     }

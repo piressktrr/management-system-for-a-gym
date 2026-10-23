@@ -1,5 +1,6 @@
 package org.pires.springstudy.controller;
 
+import org.pires.springstudy.dtos.UsuarioDTO;
 import org.pires.springstudy.infrastructure.entity.Usuario;
 import org.pires.springstudy.service.users.UsuarioService;
 import org.springframework.http.HttpStatus;
@@ -16,9 +17,10 @@ public class UsuarioController {
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping
-    public ResponseEntity<Usuario> saveUser(@RequestBody Usuario usuario) {
-        return ResponseEntity.ok(usuarioService.saveUser(usuario)); //  retorna um ok (status code 200) desse post p/ salvar usuario que eu estou fazendo
+    @PostMapping("/register")
+    public ResponseEntity<Usuario> saveUser(@RequestBody UsuarioDTO usuarioDTO) {
+
+        return ResponseEntity.ok(usuarioService.saveUser(usuarioDTO)); //  retorna um ok (status code 200) desse post p/ salvar usuario que eu estou fazendo
     }
 
 

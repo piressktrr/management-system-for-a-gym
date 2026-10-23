@@ -1,11 +1,13 @@
 package org.pires.springstudy.service.users;
 
 import lombok.extern.log4j.Log4j2;
+import org.pires.springstudy.dtos.UsuarioDTO;
 import org.pires.springstudy.infrastructure.entity.Usuario;
 import org.pires.springstudy.infrastructure.exceptions.ConflictByCreateUserLogin;
 import org.pires.springstudy.infrastructure.repository.UsuarioRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Log4j2
@@ -17,7 +19,11 @@ public class UsuarioService { // regras de negocio + lógica
         this.usuarioRepository = usuarioRepository;
     }
 
-    public Usuario saveUser(Usuario usuario) {
+    public Usuario saveUser(UsuarioDTO usuarioDTO) {
+        String pwdEncrypted = new BCryptPasswordEncoder().encode(usuarioDTO.senha());
+
+        Usuario usuario = new Usuario(usuarioDTO.nome(), usuarioDTO.sobrenome(), usuarioDTO.identificadorLogin(), pwdEncrypted);
+
         checkLoginSaveUser(usuario);
         return usuarioRepository.save(usuario);
     }
