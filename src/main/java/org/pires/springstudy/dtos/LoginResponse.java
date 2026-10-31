@@ -1,4 +1,6 @@
 package org.pires.springstudy.dtos;
 
-public class LoginResponse {
+import java.util.UUID;
+
+public record LoginResponse (String token){
 }

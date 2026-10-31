@@ -11,7 +11,6 @@ import org.springframework.http.ProblemDetail;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-@Log4j2
 @Service
 public class UsuarioService { // regras de negocio + lógica
     private final UsuarioRepository usuarioRepository;

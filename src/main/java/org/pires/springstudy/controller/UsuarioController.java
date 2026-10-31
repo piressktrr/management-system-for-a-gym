@@ -7,6 +7,7 @@ import org.pires.springstudy.service.UsuarioService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 @RestController()
 @RequestMapping("/usuario")
@@ -23,6 +24,7 @@ public class UsuarioController { // logica de crud
 
         return ResponseEntity.ok(usuarioService.saveUser(usuarioRequest)); //  retorna um ok (status code 200) desse post p/ salvar usuario que eu estou fazendo
     }
+
 
 
 //    @GetMapping

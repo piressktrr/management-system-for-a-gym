@@ -7,39 +7,61 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-    // só usuarios com role de admin podem criar usuarios novos
 
-    // senha salva com hash no banco de dados
+    private final JwtUtil jwtUtil;
+    private final UserDetailsService userDetailsService;
+
+    public SecurityConfig(JwtUtil jwtUtil, UserDetailsService userDetailsService) {
+        this.jwtUtil = jwtUtil;
+        this.userDetailsService = userDetailsService;
+    }
+
+
+
+    // Configuração do filtro de segurança (que sempre é ativado antes de chegar no Controller)
+    // Só usuarios com role de admin podem criar usuarios novos
+    // Senha salva com hash no banco de dados
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http.csrf(csrf -> csrf.disable())
-                .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // autenticação stateless
+
+        // cria um novo filtro de requisiçao passando o token JWT e os detalhes do User (ja validados pelo service)
+        JwtRequestFilter jwtRequestFilter = new JwtRequestFilter(jwtUtil, userDetailsService);
+
+        return http.csrf(AbstractHttpConfigurer::disable) // desabilita CSRF, que ja vai ser prevenido utilizando o token jwt
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
-                                .requestMatchers(HttpMethod.POST, "/auth/login").permitAll() // permite que todos possam acessar login, o de register por enquanto é so pra teste, mas o certo é deixar so usuarios acessarem p cadastrarem outros usuarios
-                        .requestMatchers(HttpMethod.POST, "/usuario/register").permitAll() // provavelmente isso aqui ta errado, devia estar tudo dentro do auth
-                                .anyRequest().authenticated()
-                ) // autorizacao de qualquer requisiçao desde que esteja logado
+                        .requestMatchers(HttpMethod.POST, "/auth/login").permitAll() // Permite que todos possam fazer login, o de register por enquanto é so pra teste, mas o certo é deixar so usuarios acessarem p cadastrarem outros usuarios
+                        .requestMatchers(HttpMethod.POST, "/usuario/register").permitAll() // Permite que todos possam se cadastrar
+                        .requestMatchers("/usuario/**").authenticated() // Qualquer outra requisiçao dentro de usuario tera que estar autenticada
+                        .anyRequest().authenticated() // Qualquer outra requisiçao na api tera que estar requisitada
+                )
+
+                .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // diz que a API é stateless (padrao rest)
+                .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class) // Configura o filtro que vai ser passado antes,
+                // No caso o JwtRequestFilter junto com um UserNamePassWordFilter
+
                 .build();
 
     }
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) {
-        return authenticationConfiguration.getAuthenticationManager(); // o ioc instancia no usuario auth controller essa classe do configuration
+        return authenticationConfiguration.getAuthenticationManager(); //  Obtem o AuthenticationManager, que nesse caso ta vindo do UserAuthentication
     }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(); // encrypta a senha em base 64 usando hash sha 256
-    }
+        return new BCryptPasswordEncoder(); // Retorna uma nova instancia do BCrypt, algoritmo utilizado para hashear senhas
 
 
 }
