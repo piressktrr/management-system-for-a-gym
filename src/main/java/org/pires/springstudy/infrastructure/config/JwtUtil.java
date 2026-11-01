@@ -3,11 +3,12 @@ package org.pires.springstudy.infrastructure.config;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
 import java.util.Date;
 
-@Component
+@Service
 public class JwtUtil {
 
     // interface que gera uma secretkey para a nossa aplicação no servidor, comigo passando um algoritmo de hash

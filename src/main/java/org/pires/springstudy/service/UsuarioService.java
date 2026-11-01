@@ -5,11 +5,16 @@ import org.pires.springstudy.dtos.UsuarioRequest;
 import org.pires.springstudy.dtos.UsuarioResponse;
 import org.pires.springstudy.infrastructure.entity.Usuario;
 import org.pires.springstudy.infrastructure.exceptions.ConflictByCreateUserLogin;
+import org.pires.springstudy.infrastructure.exceptions.ResourceNotFoundException;
 import org.pires.springstudy.infrastructure.repository.UsuarioRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.lang.module.FindException;
 
 @Service
 public class UsuarioService { // regras de negocio + lógica
@@ -28,9 +33,19 @@ public class UsuarioService { // regras de negocio + lógica
         String pwdEncrypted = passwordEncoder.encode(usuarioRequest.senha());
 
 
-        usuarioRepository.save(new Usuario(usuarioRequest.nome(), usuarioRequest.sobrenome(), usuarioRequest.identificadorLogin(), pwdEncrypted));
+        var r = usuarioRepository.save(new Usuario(usuarioRequest.nome(), usuarioRequest.sobrenome(), usuarioRequest.identificadorLogin(), pwdEncrypted));
 
-        return new UsuarioResponse(usuarioRequest.nome(), usuarioRequest.sobrenome(), usuarioRequest.identificadorLogin()); // colocar pra retornar so as credenciais importantes
+        return new UsuarioResponse(r.getNome(), r.getSobrenome(), r.getIdentificadorLogin()); // colocar pra retornar so as credenciais importantes
+    }
+
+    public UsuarioResponse findUserByEmail(@RequestParam String identificadorLogin){
+
+        return  usuarioRepository.findByIdentificadorLogin(identificadorLogin)
+                .orElseThrow(() -> new ResourceNotFoundException("Identificador not found: " + identificadorLogin));
+    }
+
+    public void deleteUserByEmail(String identificadorLogin){
+        usuarioRepository.deleteUserByIdentificadorLogin(identificadorLogin);
     }
 
     public void checkLoginSaveUser(String identificadorLogin) { // regra de negocio para verificar se o email já existe na hora de cadastrar usuário

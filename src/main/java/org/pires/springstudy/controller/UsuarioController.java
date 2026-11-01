@@ -25,6 +25,18 @@ public class UsuarioController { // logica de crud
         return ResponseEntity.ok(usuarioService.saveUser(usuarioRequest)); //  retorna um ok (status code 200) desse post p/ salvar usuario que eu estou fazendo
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<UsuarioResponse> searchUserByEmail(@RequestParam("email") String identificadorLogin){
+
+        return ResponseEntity.ok(usuarioService.findUserByEmail(identificadorLogin));
+    }
+
+    @DeleteMapping("/{email}")
+    public ResponseEntity<Void> deleteUserByEmail(@PathVariable("email") String identificadorLogin){
+        usuarioService.deleteUserByEmail(identificadorLogin);
+        return ResponseEntity.ok().build();
+    }
+
 
 
 //    @GetMapping

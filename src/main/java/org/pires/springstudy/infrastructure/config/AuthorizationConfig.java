@@ -1,7 +1,10 @@
 package org.pires.springstudy.infrastructure.config;
 
 import org.jspecify.annotations.NullMarked;
+import org.pires.springstudy.dtos.LoginRequest;
 import org.pires.springstudy.dtos.UsuarioRequest;
+import org.pires.springstudy.dtos.UsuarioResponse;
+import org.pires.springstudy.infrastructure.entity.Usuario;
 import org.pires.springstudy.infrastructure.repository.UsuarioRepository;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,10 +13,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AuthorizationService implements UserDetailsService {
+public class AuthorizationConfig implements UserDetailsService {
     private final UsuarioRepository usuarioRepository;
 
-    public AuthorizationService(UsuarioRepository usuarioRepository) {
+    public AuthorizationConfig(UsuarioRepository usuarioRepository) {
         this.usuarioRepository = usuarioRepository;
     }
 
@@ -22,13 +25,15 @@ public class AuthorizationService implements UserDetailsService {
     public @NullMarked UserDetails  loadUserByUsername(String identificadorLogin) throws UsernameNotFoundException {
 
         // busca o usuario pelo identificador no banco, se não houver e retornar null, retorna exceção
-        UsuarioRequest usuarioRequest = usuarioRepository.findByIdentificadorLogin(identificadorLogin)
+        UsuarioResponse usuarioResponse = usuarioRepository.findByIdentificadorLogin(identificadorLogin)
                 .orElseThrow(() -> new UsernameNotFoundException("Identificador not found: " + identificadorLogin));
+
+
 
         // cria e retorna um novo objeto UserDetails com base no usuario encontrado
         return User
-                .withUsername(usuarioRequest.identificadorLogin())
-                .password(usuarioRequest.senha())
+                .withUsername(usuarioResponse.identificadorLogin())
+                .password(usuarioResponse.senha())
                 .build();
     }
 }

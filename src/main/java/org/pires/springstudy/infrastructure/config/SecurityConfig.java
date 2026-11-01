@@ -40,9 +40,9 @@ public class SecurityConfig {
 
         return http.csrf(AbstractHttpConfigurer::disable) // desabilita CSRF, que ja vai ser prevenido utilizando o token jwt
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
-                        .requestMatchers(HttpMethod.POST, "/auth/login").permitAll() // Permite que todos possam fazer login, o de register por enquanto é so pra teste, mas o certo é deixar so usuarios acessarem p cadastrarem outros usuarios
-                        .requestMatchers(HttpMethod.POST, "/usuario/register").permitAll() // Permite que todos possam se cadastrar
-                        .requestMatchers("/usuario/**").authenticated() // Qualquer outra requisiçao dentro de usuario tera que estar autenticada
+                        .requestMatchers(HttpMethod.POST, "/auth/login").permitAll() // Permite que todos possam fazer login, o de register por enquanto é so pra teste, mas o certo é deixar so usuarios acessarem p cadastrarem outros usuarios// Permite que todos possam se cadastrar
+
+                        .requestMatchers(HttpMethod.POST, "/usuario/register").permitAll()// Qualquer outra requisiçao dentro de usuario tera que estar autenticada
                         .anyRequest().authenticated() // Qualquer outra requisiçao na api tera que estar requisitada
                 )
 
@@ -63,5 +63,5 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(); // Retorna uma nova instancia do BCrypt, algoritmo utilizado para hashear senhas
 
-
+    }
 }
