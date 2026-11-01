@@ -33,15 +33,16 @@ public class UsuarioService { // regras de negocio + lógica
         String pwdEncrypted = passwordEncoder.encode(usuarioRequest.senha());
 
 
-        var r = usuarioRepository.save(new Usuario(usuarioRequest.nome(), usuarioRequest.sobrenome(), usuarioRequest.identificadorLogin(), pwdEncrypted));
+        var response = usuarioRepository.save(new Usuario(usuarioRequest.nome(), usuarioRequest.sobrenome(), usuarioRequest.identificadorLogin(), pwdEncrypted));
 
-        return new UsuarioResponse(r.getNome(), r.getSobrenome(), r.getIdentificadorLogin()); // colocar pra retornar so as credenciais importantes
+        return new UsuarioResponse(response.getNome(), response.getSobrenome(), response.getIdentificadorLogin()); // colocar pra retornar so as credenciais importantes
     }
 
     public UsuarioResponse findUserByEmail(@RequestParam String identificadorLogin){
-
-        return  usuarioRepository.findByIdentificadorLogin(identificadorLogin)
+        var response = usuarioRepository.findByIdentificadorLogin(identificadorLogin)
                 .orElseThrow(() -> new ResourceNotFoundException("Identificador not found: " + identificadorLogin));
+
+        return new UsuarioResponse(response.nome(), response.sobrenome(), response.identificadorLogin());
     }
 
     public void deleteUserByEmail(String identificadorLogin){

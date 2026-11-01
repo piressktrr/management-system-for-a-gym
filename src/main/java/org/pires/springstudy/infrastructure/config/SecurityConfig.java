@@ -41,8 +41,9 @@ public class SecurityConfig {
         return http.csrf(AbstractHttpConfigurer::disable) // desabilita CSRF, que ja vai ser prevenido utilizando o token jwt
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll() // Permite que todos possam fazer login, o de register por enquanto é so pra teste, mas o certo é deixar so usuarios acessarem p cadastrarem outros usuarios// Permite que todos possam se cadastrar
-
-                        .requestMatchers(HttpMethod.POST, "/usuario/register").permitAll()// Qualquer outra requisiçao dentro de usuario tera que estar autenticada
+                        .requestMatchers(HttpMethod.GET, "/usuario/**").permitAll()// Qualquer outra requisiçao dentro de usuario tera que estar autenticada
+                        .requestMatchers(HttpMethod.POST, "/usuario/**").permitAll()// Qualquer outra requisiçao dentro de usuario tera que estar autenticada
+                        .requestMatchers(HttpMethod.DELETE, "/usuario/**").permitAll()// Qualquer outra requisiçao dentro de usuario tera que estar autenticada
                         .anyRequest().authenticated() // Qualquer outra requisiçao na api tera que estar requisitada
                 )
 

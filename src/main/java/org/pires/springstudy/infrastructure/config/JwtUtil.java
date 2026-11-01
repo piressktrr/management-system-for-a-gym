@@ -2,10 +2,12 @@ package org.pires.springstudy.infrastructure.config;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
+import java.security.Key;
 import java.util.Date;
 
 @Service
@@ -14,12 +16,16 @@ public class JwtUtil {
     // interface que gera uma secretkey para a nossa aplicação no servidor, comigo passando um algoritmo de hash
     private final SecretKey secretKey;
 
+
     public JwtUtil() {
         // só entendi que o Jwts é uma classe factory que implementa os algoritmos de hash, criptaçao e keys
         // mas ele vai gerar uma chave secreta para o algoritmo de assinatura HMAC usando sha-256
         this.secretKey = Jwts.SIG.HS256.key().build();
+
         // chave só é gerada em memoria
     }
+
+
 
     // token JWT com validade de 1 hora
     public String generateToken(String payload) {
@@ -27,8 +33,8 @@ public class JwtUtil {
         // gera um token JWT com as claims, tempo de expiração de uma hora e assinatura da chave secreta do construtor usando a interface q eu injetei as depedencias
         return Jwts.builder()
                 .subject(payload)
-                .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60))
+                .issuedAt(new Date(System.currentTimeMillis()))
+                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60)) // token valido por 1 hora
                 .signWith(secretKey)
                 .compact();
     }

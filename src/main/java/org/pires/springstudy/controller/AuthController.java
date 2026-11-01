@@ -41,7 +41,7 @@ public class AuthController {
         var authentication = authenticationManager.authenticate(identificadorLoginPassword); // se for valido ->
 
         // Aqui eu pego e gero um token com o name (identificadorLogin) desse authentication (autenticaçao criada e validada do login + senha)
-        String  JWT = new JwtUtil().generateToken(authentication.getName());
+        String  JWT = this.jwtUtil.generateToken(authentication.getName());
 
 
         return ResponseEntity.ok(new LoginResponse(JWT));

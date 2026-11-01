@@ -26,13 +26,13 @@ public class UsuarioController { // logica de crud
     }
 
     @GetMapping("/search")
-    public ResponseEntity<UsuarioResponse> searchUserByEmail(@RequestParam("email") String identificadorLogin){
+    public ResponseEntity<UsuarioResponse> searchUserByEmail(@RequestParam("email") String identificadorLogin){ /// parametro
 
         return ResponseEntity.ok(usuarioService.findUserByEmail(identificadorLogin));
     }
 
     @DeleteMapping("/{email}")
-    public ResponseEntity<Void> deleteUserByEmail(@PathVariable("email") String identificadorLogin){
+    public ResponseEntity<Void> deleteUserByEmail(@PathVariable("email") String identificadorLogin){ /// variavel
         usuarioService.deleteUserByEmail(identificadorLogin);
         return ResponseEntity.ok().build();
     }

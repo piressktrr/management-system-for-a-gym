@@ -20,7 +20,6 @@ public interface UsuarioRepository extends JpaRepository<Usuario, UUID> {
 
     Optional<UsuarioResponse> findByIdentificadorLogin(String identificadorLogin);
 
-   // Optional<UsuarioResponse> findByIdentificadorLogin(String identificadorLogin);
 
     @Transactional // n sei oq faz
     void deleteUserByIdentificadorLogin(String identificadorLogin);
