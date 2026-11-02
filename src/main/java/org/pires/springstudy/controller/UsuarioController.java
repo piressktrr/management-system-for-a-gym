@@ -1,7 +1,7 @@
 package org.pires.springstudy.controller;
 
-import org.pires.springstudy.dtos.UsuarioDTO;
-import org.pires.springstudy.infrastructure.entity.Usuario;
+import org.pires.springstudy.dtos.request.UsuarioRequest;
+import org.pires.springstudy.dtos.response.UsuarioResponse;
 import org.pires.springstudy.service.UsuarioService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController()
 @RequestMapping("/usuario")
-public class UsuarioController {
+public class UsuarioController { // logica de crud
 
     private final UsuarioService usuarioService;
     public UsuarioController(UsuarioService usuarioService) {
@@ -18,10 +18,23 @@ public class UsuarioController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/register")
-    public ResponseEntity<Usuario> saveUser(@RequestBody UsuarioDTO usuarioDTO) {
+    public ResponseEntity<UsuarioResponse> saveUser(@RequestBody UsuarioRequest usuarioRequest) {
 
-        return ResponseEntity.ok(usuarioService.saveUser(usuarioDTO)); //  retorna um ok (status code 200) desse post p/ salvar usuario que eu estou fazendo
+        return ResponseEntity.ok(usuarioService.saveUser(usuarioRequest)); //  retorna um ok (status code 200) desse post p/ salvar usuario que eu estou fazendo
     }
+
+    @GetMapping("/search")
+    public ResponseEntity<UsuarioResponse> searchUserByEmail(@RequestParam("email") String identificadorLogin){ /// parametro
+
+        return ResponseEntity.ok(usuarioService.findUserByEmail(identificadorLogin));
+    }
+
+    @DeleteMapping("/{email}")
+    public ResponseEntity<Void> deleteUserByEmail(@PathVariable("email") String identificadorLogin){ /// variavel
+        usuarioService.deleteUserByEmail(identificadorLogin);
+        return ResponseEntity.ok().build();
+    }
+
 
 
 //    @GetMapping

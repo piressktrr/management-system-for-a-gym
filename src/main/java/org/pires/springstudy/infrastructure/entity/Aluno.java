@@ -16,12 +16,24 @@ import java.util.UUID;
 @NoArgsConstructor
 @Table(name = "aluno")
 public class Aluno {
+
+    public Aluno(Endereco endereco, String CPF, String nome, String sobrenome, Sexo sexo, LocalDate dataNascimento, String telefone, String email) {
+        this.endereco = endereco;
+        this.CPF = CPF;
+        this.nome = nome;
+        this.sobrenome = sobrenome;
+        this.sexo = sexo;
+        this.dataNascimento = dataNascimento;
+        this.telefone = telefone;
+        this.email = email;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(nullable = false)
     private UUID id;
 
-    @ManyToOne(optional = false) // endereço tem varios alunos
+    @ManyToOne(optional = false, cascade = CascadeType.PERSIST) // endereço tem varios alunos e o cascade type me permite salvar aluno com endereço e ja levar pro banco ambos
     @JoinColumn(name = "id_endereco", nullable = false)
     private Endereco endereco;
 
@@ -36,8 +48,8 @@ public class Aluno {
     private String sobrenome;
 
     @Column(nullable = false, length = 30)
-
-    private String sexo;
+    @Enumerated(EnumType.STRING) // ja converte automaticamente persistindo a string no banco
+    private Sexo sexo;
 
     @Column(nullable = false, name = "data_nascimento", length = 10)
     private LocalDate dataNascimento;
@@ -47,6 +59,7 @@ public class Aluno {
 
     @Column(nullable = false, unique = true, length = 100)
     private String email;
+
 
 
 }

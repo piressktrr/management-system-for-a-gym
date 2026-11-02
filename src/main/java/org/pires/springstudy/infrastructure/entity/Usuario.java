@@ -20,6 +20,13 @@ import java.util.UUID;
 @Entity
 @Table(name = "usuario")
 public class Usuario implements UserDetails {
+    public Usuario(String nome, String sobrenome, String identificadorLogin, String senha) {
+        this.nome = nome;
+        this.sobrenome = sobrenome;
+        this.identificadorLogin = identificadorLogin;
+        this.senha = senha;
+    }
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -31,18 +38,12 @@ public class Usuario implements UserDetails {
     @Column(nullable = false, length = 50)
     private String sobrenome;
 
-    @Column(nullable = false, name = "login_email", length = 50)
+    @Column(nullable = false, name = "login_email", length = 50, unique = true) // mesmo checando no service, o unique == true mantem a unicidade no banco
     private String identificadorLogin; // email que vai ser usado como login do usuario
 
     @Column(nullable = false)
     private String senha; // senha guardada como hash
 
-    public Usuario(String nome, String sobrenome, String identificadorLogin, String senha) {
-        this.nome = nome;
-        this.sobrenome = sobrenome;
-        this.identificadorLogin = identificadorLogin;
-        this.senha = senha;
-    }
 
     //    @Column(nullable = false)
 //    private UserRole role;
@@ -62,7 +63,7 @@ public class Usuario implements UserDetails {
     @Override
     public  @NullMarked String getPassword() {
         return senha;
-    }
+    } // ver porque a resposta ta retornando o password (senha) e o username (identificador) junto com a senha e o identificador, deixar so um dos dois
 
     @Override
     public  @NullMarked String getUsername() {
