@@ -35,7 +35,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
 
             // pega o token JWT que vem depois do bearer (6 letras + espaço)
-            final String token = authorizationHeader.substring(7);
+            final String token = authorizationHeader.substring("Bearer ".length());
 
             // pega o payload do token JWT (que ta codificado em Base64 depois do primeiro ponto -> header.payload.signature)
             final String payload = jwtUtil.extractUsername(token);

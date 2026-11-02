@@ -1,5 +1,6 @@
 package org.pires.springstudy.infrastructure.config;
 
+import jakarta.servlet.DispatcherType;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -38,12 +39,14 @@ public class SecurityConfig {
         // cria um novo filtro de requisiçao passando o token JWT e os detalhes do User (ja validados pelo service)
         JwtRequestFilter jwtRequestFilter = new JwtRequestFilter(jwtUtil, userDetailsService);
 
-        return http.csrf(AbstractHttpConfigurer::disable) // desabilita CSRF, que ja vai ser prevenido utilizando o token jwt
+        return http.csrf(AbstractHttpConfigurer::disable)
+                .cors(cors -> cors.configure(http)) // configura a validação de CORS
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
+                        .dispatcherTypeMatchers(DispatcherType.FORWARD,  DispatcherType.ERROR).permitAll() // permito que o ERROR e FORWARD não precisam estar autenticados pra fazer tratamento de exceçao
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll() // Permite que todos possam fazer login, o de register por enquanto é so pra teste, mas o certo é deixar so usuarios acessarem p cadastrarem outros usuarios// Permite que todos possam se cadastrar
                         .requestMatchers(HttpMethod.GET, "/usuario/**").permitAll()// Qualquer outra requisiçao dentro de usuario tera que estar autenticada
-                        .requestMatchers(HttpMethod.POST, "/usuario/**").permitAll()// Qualquer outra requisiçao dentro de usuario tera que estar autenticada
-                        .requestMatchers(HttpMethod.DELETE, "/usuario/**").permitAll()// Qualquer outra requisiçao dentro de usuario tera que estar autenticada
+                        .requestMatchers(HttpMethod.POST, "/usuario/register").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/aluno/register").authenticated()// Qualquer outra requisiçao dentro de usuario tera que estar autenticada// Qualquer outra requisiçao dentro de usuario tera que estar autenticada
                         .anyRequest().authenticated() // Qualquer outra requisiçao na api tera que estar requisitada
                 )
 
