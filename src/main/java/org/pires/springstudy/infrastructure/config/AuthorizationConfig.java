@@ -1,9 +1,6 @@
 package org.pires.springstudy.infrastructure.config;
 
 import org.jspecify.annotations.NullMarked;
-import org.pires.springstudy.dtos.LoginRequest;
-import org.pires.springstudy.dtos.UsuarioRequest;
-import org.pires.springstudy.dtos.UsuarioResponse;
 import org.pires.springstudy.infrastructure.entity.Usuario;
 import org.pires.springstudy.infrastructure.repository.UsuarioRepository;
 import org.springframework.security.core.userdetails.User;
@@ -25,15 +22,15 @@ public class AuthorizationConfig implements UserDetailsService {
     public @NullMarked UserDetails  loadUserByUsername(String identificadorLogin) throws UsernameNotFoundException {
 
         // busca o usuario pelo identificador no banco, se não houver e retornar null, retorna exceção
-        UsuarioResponse usuarioResponse = usuarioRepository.findByIdentificadorLogin(identificadorLogin)
+        Usuario usuario = usuarioRepository.findByIdentificadorLogin(identificadorLogin)
                 .orElseThrow(() -> new UsernameNotFoundException("Identificador not found: " + identificadorLogin));
 
 
 
         // cria e retorna um novo objeto UserDetails com base no usuario encontrado
         return User
-                .withUsername(usuarioResponse.identificadorLogin())
-                .password(usuarioResponse.senha())
+                .withUsername(usuario.getIdentificadorLogin())
+                .password(usuario.getSenha())
                 .build();
     }
 }

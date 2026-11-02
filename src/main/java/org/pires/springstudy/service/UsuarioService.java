@@ -1,6 +1,5 @@
 package org.pires.springstudy.service;
 
-import lombok.extern.log4j.Log4j2;
 import org.pires.springstudy.dtos.UsuarioRequest;
 import org.pires.springstudy.dtos.UsuarioResponse;
 import org.pires.springstudy.infrastructure.entity.Usuario;
@@ -11,10 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.lang.module.FindException;
 
 @Service
 public class UsuarioService { // regras de negocio + lógica
@@ -32,17 +29,18 @@ public class UsuarioService { // regras de negocio + lógica
 
         String pwdEncrypted = passwordEncoder.encode(usuarioRequest.senha());
 
-
+        // ele ta retornando a senha aqui e no find user by email, eu tenho que dar um jeito de só buscar o nome, sobrenome e login
         var response = usuarioRepository.save(new Usuario(usuarioRequest.nome(), usuarioRequest.sobrenome(), usuarioRequest.identificadorLogin(), pwdEncrypted));
 
         return new UsuarioResponse(response.getNome(), response.getSobrenome(), response.getIdentificadorLogin()); // colocar pra retornar so as credenciais importantes
     }
 
     public UsuarioResponse findUserByEmail(@RequestParam String identificadorLogin){
-        var response = usuarioRepository.findByIdentificadorLogin(identificadorLogin)
+
+        Usuario usuario = usuarioRepository.findByIdentificadorLogin(identificadorLogin)
                 .orElseThrow(() -> new ResourceNotFoundException("Identificador not found: " + identificadorLogin));
 
-        return new UsuarioResponse(response.nome(), response.sobrenome(), response.identificadorLogin());
+        return new UsuarioResponse(usuario.getNome(), usuario.getSobrenome(), usuario.getIdentificadorLogin());
     }
 
     public void deleteUserByEmail(String identificadorLogin){

@@ -18,7 +18,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, UUID> {
 
     boolean existsByidentificadorLogin(String identificadorLogin);
 
-    Optional<UsuarioResponse> findByIdentificadorLogin(String identificadorLogin);
+    Optional<Usuario> findByIdentificadorLogin(String identificadorLogin);
 
 
     @Transactional // n sei oq faz
