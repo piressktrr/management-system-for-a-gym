@@ -1,7 +1,7 @@
 package org.pires.springstudy.controller;
 
-import org.pires.springstudy.dtos.usuarioDtos.LoginRequest;
-import org.pires.springstudy.dtos.usuarioDtos.LoginResponse;
+import org.pires.springstudy.dtos.request.LoginRequest;
+import org.pires.springstudy.dtos.response.LoginResponse;
 import org.pires.springstudy.infrastructure.config.JwtUtil;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -37,7 +37,8 @@ public class AuthController {
 
         // se for valido ->
         // Cria um authentication que ta validando o UsernamePasswordAuthenticationToken, retornando true or false para a validação
-        var authentication = authenticationManager.authenticate(identificadorLoginPassword); // se for valido ->
+        var authentication = authenticationManager.authenticate(identificadorLoginPassword); // se for valido -> chama uma classe que implementa UserDetailsService
+        // nesse caso, o nosso amigo AuthConfig
 
         // Aqui eu pego e gero um token com o name (identificadorLogin) desse authentication (autenticaçao criada e validada do login + senha)
         String  JWT = this.jwtUtil.generateToken(authentication.getName());

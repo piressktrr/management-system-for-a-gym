@@ -11,7 +11,7 @@ import java.util.UUID;
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, UUID> {
 
-    boolean existsByidentificadorLogin(String identificadorLogin);
+    boolean existsByidentificadorLogin(String identificadorLogin); // repositorio sempre deve retornar a entidade
 
     Optional<Usuario> findByIdentificadorLogin(String identificadorLogin);
 

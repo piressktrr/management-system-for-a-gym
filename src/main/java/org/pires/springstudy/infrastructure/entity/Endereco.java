@@ -17,6 +17,17 @@ import java.util.UUID;
 @Table(name = "endereco")
 public class Endereco {
 
+    public Endereco(String rua, Integer numero, String complemento, String bairro, String municipio, Estado estado, String pais, String cep) {
+        this.rua = rua;
+        this.numero = numero;
+        this.complemento = complemento;
+        this.bairro = bairro;
+        this.municipio = municipio;
+        this.estado = estado;
+        this.pais = pais;
+        this.cep = cep;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(nullable = false)
@@ -38,12 +49,13 @@ public class Endereco {
     private String municipio;
 
     @Column(nullable = false, length = 100)
-    private String estado;
+    @Enumerated(EnumType.STRING)
+    private Estado estado;
 
     @Column(nullable = false)
     private String pais;
 
-    @Column(nullable = false, length = 75)
+    @Column(nullable = false, length = 8)
     private String cep;
 
 

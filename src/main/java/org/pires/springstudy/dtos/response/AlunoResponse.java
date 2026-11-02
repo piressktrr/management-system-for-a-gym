@@ -1,4 +1,4 @@
-package org.pires.springstudy.dtos;
+package org.pires.springstudy.dtos.response;
 
 import org.pires.springstudy.infrastructure.entity.Sexo;
 

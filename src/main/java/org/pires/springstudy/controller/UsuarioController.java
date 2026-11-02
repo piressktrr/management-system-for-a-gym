@@ -1,7 +1,7 @@
 package org.pires.springstudy.controller;
 
-import org.pires.springstudy.dtos.usuarioDtos.UsuarioRequest;
-import org.pires.springstudy.dtos.usuarioDtos.UsuarioResponse;
+import org.pires.springstudy.dtos.request.UsuarioRequest;
+import org.pires.springstudy.dtos.response.UsuarioResponse;
 import org.pires.springstudy.service.UsuarioService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
