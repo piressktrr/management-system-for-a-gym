@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.UUID;
+
 
 @Getter
 @Setter
@@ -16,31 +18,32 @@ import lombok.Setter;
 public class Endereco {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(nullable = false)
-    private Long id;
+    private UUID id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 100)
     private String rua;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 16)
     private Integer numero;
 
+    @Column(length = 50)
     private String complemento;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 100)
     private String bairro;
 
     @Column(nullable = false)
     private String municipio;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 100)
     private String estado;
 
     @Column(nullable = false)
     private String pais;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 75)
     private String cep;
 
 

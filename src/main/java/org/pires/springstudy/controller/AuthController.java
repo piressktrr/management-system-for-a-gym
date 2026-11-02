@@ -1,8 +1,7 @@
 package org.pires.springstudy.controller;
 
-import org.pires.springstudy.dtos.LoginRequest;
-import org.pires.springstudy.dtos.LoginResponse;
-import org.pires.springstudy.dtos.UsuarioRequest;
+import org.pires.springstudy.dtos.usuarioDtos.LoginRequest;
+import org.pires.springstudy.dtos.usuarioDtos.LoginResponse;
 import org.pires.springstudy.infrastructure.config.JwtUtil;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;

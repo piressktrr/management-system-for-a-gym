@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 @Getter
@@ -17,8 +18,8 @@ import java.time.LocalDateTime;
 @Table(name = "matricula")
 public class Matricula {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
     @ManyToOne(optional = false)
     @JoinColumn(nullable = false, name = "id_aluno")
@@ -33,10 +34,15 @@ public class Matricula {
     @Column(nullable = false, length = 10, precision = 2, scale = 2)
     private BigDecimal valorMatricula;
 
+    @Column(nullable = false)
+    private String status;
+
     @Column(length = 100)
     private String motivoDesligamento;
 
-    @Column(nullable = false)
-    private String status;
+    @Column(length = 20)
+    private LocalDateTime dataDesligamento;
+
+
 
 }

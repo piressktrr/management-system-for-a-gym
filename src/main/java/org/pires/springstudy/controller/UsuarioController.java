@@ -1,13 +1,11 @@
 package org.pires.springstudy.controller;
 
-import org.pires.springstudy.dtos.UsuarioRequest;
-import org.pires.springstudy.dtos.UsuarioResponse;
-import org.pires.springstudy.infrastructure.entity.Usuario;
+import org.pires.springstudy.dtos.usuarioDtos.UsuarioRequest;
+import org.pires.springstudy.dtos.usuarioDtos.UsuarioResponse;
 import org.pires.springstudy.service.UsuarioService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.filter.OncePerRequestFilter;
 
 @RestController()
 @RequestMapping("/usuario")
