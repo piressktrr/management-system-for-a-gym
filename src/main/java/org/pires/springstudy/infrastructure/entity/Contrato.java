@@ -23,6 +23,12 @@ public class Contrato {
         this.assinaturaEscrita = assinaturaEscrita;
     }
 
+    public Contrato(String descricaoContratual, LocalDateTime dataAssinatura, String assinaturaEscrita) {
+        this.descricaoContratual = descricaoContratual;
+        this.dataAssinatura = dataAssinatura;
+        this.assinaturaEscrita = assinaturaEscrita;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(nullable = false)

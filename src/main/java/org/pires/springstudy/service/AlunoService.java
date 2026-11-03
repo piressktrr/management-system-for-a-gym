@@ -4,11 +4,16 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.extern.slf4j.Slf4j;
 import org.pires.springstudy.dtos.request.AlunoRequest;
+import org.pires.springstudy.dtos.request.MatriculaRequest;
 import org.pires.springstudy.dtos.response.AlunoResponse;
+import org.pires.springstudy.dtos.response.MatriculaResponse;
+import org.pires.springstudy.dtos.response.RegisterResponse;
 import org.pires.springstudy.infrastructure.entity.Aluno;
 import org.pires.springstudy.infrastructure.entity.Endereco;
+import org.pires.springstudy.infrastructure.entity.Matricula;
 import org.pires.springstudy.infrastructure.exceptions.ConflictByCreateAluno;
 import org.pires.springstudy.infrastructure.repository.AlunoRepository;
+import org.pires.springstudy.infrastructure.repository.MatriculaRepository;
 import org.springframework.format.annotation.NumberFormat;
 import org.springframework.stereotype.Service;
 
@@ -20,12 +25,14 @@ import java.util.List;
 public class AlunoService {
 
     private final AlunoRepository alunoRepository;
+    private final MatriculaRepository matriculaRepository;
 
-    public AlunoService(AlunoRepository alunoRepository) {
+    public AlunoService(AlunoRepository alunoRepository, MatriculaRepository matriculaRepository) {
         this.alunoRepository = alunoRepository;
+        this.matriculaRepository = matriculaRepository;
     }
 
-    public AlunoResponse saveAluno(AlunoRequest alunoRequest) {
+    public RegisterResponse saveAluno(AlunoRequest alunoRequest, MatriculaRequest matriculaRequest) {
         var cpfSemCaracteres = alunoRequest.CPF().replaceAll("\\D", "");
         var telefoneSemCaracteres = alunoRequest.telefone().replaceAll("\\D", "");
         var cepSemCaracteres = alunoRequest.endereco().cep().replaceAll("\\D", "");
@@ -54,7 +61,10 @@ public class AlunoService {
                 telefoneSemCaracteres,
                 alunoRequest.email()));
 
-        return new AlunoResponse(aluno.getNome(), aluno.getSobrenome(), aluno.getSexo());
+        saveMatricula(matriculaRequest, aluno);
+
+        return new RegisterResponse(new AlunoResponse(aluno.getNome(), aluno.getSobrenome(), aluno.getSexo()),
+                saveMatricula(matriculaRequest, aluno));
 
     }
 
@@ -74,6 +84,18 @@ public class AlunoService {
     }
 
 
+
+    private MatriculaResponse saveMatricula(MatriculaRequest matriculaRequest, Aluno aluno) {
+
+
+
+        var matricula = matriculaRepository.save(new Matricula(aluno, matriculaRequest.descricao(),
+                matriculaRequest.dataMatricula(),
+                matriculaRequest.valorMatricula(), matriculaRequest.status(), matriculaRequest.motivoDesligamento(),
+                matriculaRequest.dataDesligamento()));
+
+        return new MatriculaResponse(matricula.getDataMatricula(), matricula.getValorMatricula(), matricula.getStatus());
+    }
 
     public void checkCpf(String cpf) {
         if (alunoRepository.existsByCPF(cpf)) {

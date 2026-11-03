@@ -18,9 +18,9 @@ import java.util.UUID;
 public class Plano {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)
-    private UUID id;
+    private Long id;
 
     @Column(nullable = false, length = 100)
     private String tipoPlano;

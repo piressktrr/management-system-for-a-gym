@@ -1,6 +1,7 @@
 package org.pires.springstudy.dtos.request;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Pattern;
@@ -10,12 +11,11 @@ import org.pires.springstudy.infrastructure.entity.Sexo;
 
 import java.time.LocalDate;
 
-public record AlunoRequest (EnderecoRequest endereco,
+public record AlunoRequest (@Valid EnderecoRequest endereco,
                             @CPF(message = "Cpf inválido, digite um válido para prosseguir") String CPF,
                             String nome,
                             String sobrenome,
                             Sexo sexo,
-                            String complemento,
                             @JsonFormat(pattern = "dd/MM/yyyy") @Past(message = "A data deve ser no passado!")
                             LocalDate dataNascimento,
                             @Pattern(regexp = "^\\d{2}\\s?\\d{9}$",

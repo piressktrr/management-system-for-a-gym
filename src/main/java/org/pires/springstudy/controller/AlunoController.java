@@ -1,9 +1,9 @@
 package org.pires.springstudy.controller;
 
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
 import org.pires.springstudy.dtos.request.*;
 import org.pires.springstudy.dtos.response.AlunoResponse;
+import org.pires.springstudy.dtos.response.RegisterResponse;
 import org.pires.springstudy.service.AlunoService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,11 +20,12 @@ public class AlunoController {
         this.alunoService = alunoService;
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<AlunoResponse> saveAluno(@Valid @RequestBody AlunoRequest alunoRequest,
-                                                   MatriculaRequest matriculaRequest) {
 
-        return ResponseEntity.ok(alunoService.saveAluno(alunoRequest));
+    @PostMapping("/register")
+    public ResponseEntity<RegisterResponse> saveAluno(@Valid @RequestBody AlunoRequest alunoRequest,
+                                                      MatriculaRequest matriculaRequest) {
+
+        return ResponseEntity.ok(alunoService.saveAluno(alunoRequest, matriculaRequest));
 
     }
 
