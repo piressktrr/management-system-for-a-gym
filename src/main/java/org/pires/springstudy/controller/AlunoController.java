@@ -23,7 +23,7 @@ public class AlunoController {
 
     @PostMapping("/register")
     public ResponseEntity<RegisterResponse> saveAluno(@Valid @RequestBody AlunoRequest alunoRequest,
-                                                      MatriculaRequest matriculaRequest) {
+                                                      @RequestBody MatriculaRequest matriculaRequest) {
 
         return ResponseEntity.ok(alunoService.saveAluno(alunoRequest, matriculaRequest));
 

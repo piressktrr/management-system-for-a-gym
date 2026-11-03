@@ -61,10 +61,10 @@ public class AlunoService {
                 telefoneSemCaracteres,
                 alunoRequest.email()));
 
-        saveMatricula(matriculaRequest, aluno);
+        var matricula = saveMatricula(matriculaRequest, aluno);
 
         return new RegisterResponse(new AlunoResponse(aluno.getNome(), aluno.getSobrenome(), aluno.getSexo()),
-                saveMatricula(matriculaRequest, aluno));
+                matricula);
 
     }
 
@@ -88,10 +88,11 @@ public class AlunoService {
     private MatriculaResponse saveMatricula(MatriculaRequest matriculaRequest, Aluno aluno) {
 
 
-
-        var matricula = matriculaRepository.save(new Matricula(aluno, matriculaRequest.descricao(),
+        var matricula = matriculaRepository.save(new Matricula(matriculaRequest.descricao(),
                 matriculaRequest.dataMatricula(),
-                matriculaRequest.valorMatricula(), matriculaRequest.status(), matriculaRequest.motivoDesligamento(),
+                matriculaRequest.valorMatricula(),
+                matriculaRequest.status(),
+                matriculaRequest.motivoDesligamento(),
                 matriculaRequest.dataDesligamento()));
 
         return new MatriculaResponse(matricula.getDataMatricula(), matricula.getValorMatricula(), matricula.getStatus());

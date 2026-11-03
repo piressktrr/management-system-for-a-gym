@@ -16,13 +16,6 @@ import java.util.UUID;
 @NoArgsConstructor
 public class Contrato {
 
-    public Contrato(Matricula matricula, String descricaoContratual, LocalDateTime dataAssinatura, String assinaturaEscrita) {
-        this.matricula = matricula;
-        this.descricaoContratual = descricaoContratual;
-        this.dataAssinatura = dataAssinatura;
-        this.assinaturaEscrita = assinaturaEscrita;
-    }
-
     public Contrato(String descricaoContratual, LocalDateTime dataAssinatura, String assinaturaEscrita) {
         this.descricaoContratual = descricaoContratual;
         this.dataAssinatura = dataAssinatura;
