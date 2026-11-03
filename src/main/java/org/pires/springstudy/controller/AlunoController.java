@@ -1,17 +1,17 @@
 package org.pires.springstudy.controller;
 
 import jakarta.validation.Valid;
-import org.pires.springstudy.dtos.request.AlunoRequest;
+import jakarta.validation.constraints.NotNull;
+import org.pires.springstudy.dtos.request.*;
 import org.pires.springstudy.dtos.response.AlunoResponse;
 import org.pires.springstudy.service.AlunoService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
-@RequestMapping("/aluno")
+@RequestMapping("/alunos")
 public class AlunoController {
 
     private final AlunoService alunoService;
@@ -21,9 +21,25 @@ public class AlunoController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<AlunoResponse> saveAluno(@Valid @RequestBody AlunoRequest alunoRequest) {
+    public ResponseEntity<AlunoResponse> saveAluno(@Valid @RequestBody AlunoRequest alunoRequest,
+                                                   MatriculaRequest matriculaRequest) {
 
         return ResponseEntity.ok(alunoService.saveAluno(alunoRequest));
 
     }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<AlunoResponse>> searchByNumComplCEP(@Valid @RequestParam Integer numero, String complemento, String cep) {
+
+        return ResponseEntity.ok(alunoService.searchByNumComplCep(numero, complemento, cep));
+
+    }
+
+
+//    @PostMapping("/alunos/{id}/matriculas") -> rematriculas para um aluno ja existente,
+//    chama o mesmo service de matricular do register
+
+//    public ResponseEntity<AlunoResponse> saveMatriculaAndContrato() {
+//
+//    }
 }

@@ -60,6 +60,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                     // salva o token de autenticaçao do usuario no contexto de segurança do spring
                     // que vai utilizar para passar nas barreiras de filtro
                     SecurityContextHolder.getContext().setAuthentication(authentication);
+                    // é o contexto do Spring Security responsavel por ver se há algum usuario logado
 
                 }
 

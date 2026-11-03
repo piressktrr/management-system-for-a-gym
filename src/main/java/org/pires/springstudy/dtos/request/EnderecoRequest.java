@@ -7,3 +7,4 @@ public record EnderecoRequest (String rua, Integer numero, String complemento, S
                                String municipio, Estado estado, String pais, @Pattern(regexp = "^\\d{5}-?\\d{3}$\n") String cep) {
 }
 // essa pattern ai é pra validar o formato do cep
+// colocar validaçao de not null e not blank em todos aqui

@@ -17,6 +17,17 @@ import java.util.UUID;
 @NoArgsConstructor
 @Table(name = "matricula")
 public class Matricula {
+    public Matricula(Aluno aluno, String descricaoSaude, LocalDateTime dataMatricula, BigDecimal valorMatricula,
+                     StatusMatricula status, String motivoDesligamento, LocalDateTime dataDesligamento) {
+        this.aluno = aluno;
+        this.descricaoSaude = descricaoSaude;
+        this.dataMatricula = dataMatricula;
+        this.valorMatricula = valorMatricula;
+        this.status = status;
+        this.motivoDesligamento = motivoDesligamento;
+        this.dataDesligamento = dataDesligamento;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
@@ -35,7 +46,8 @@ public class Matricula {
     private BigDecimal valorMatricula;
 
     @Column(nullable = false)
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private StatusMatricula status;
 
     @Column(length = 100)
     private String motivoDesligamento;

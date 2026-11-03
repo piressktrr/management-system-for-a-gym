@@ -1,5 +1,7 @@
 package org.pires.springstudy.service;
 
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import lombok.extern.slf4j.Slf4j;
 import org.pires.springstudy.dtos.request.AlunoRequest;
 import org.pires.springstudy.dtos.response.AlunoResponse;
@@ -7,7 +9,11 @@ import org.pires.springstudy.infrastructure.entity.Aluno;
 import org.pires.springstudy.infrastructure.entity.Endereco;
 import org.pires.springstudy.infrastructure.exceptions.ConflictByCreateAluno;
 import org.pires.springstudy.infrastructure.repository.AlunoRepository;
+import org.springframework.format.annotation.NumberFormat;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -52,9 +58,22 @@ public class AlunoService {
 
     }
 
-//    public AlunoResponse atualizarAluno(AlunoRequest alunoRequest) {}
-//
-//    public AlunoResponse desligarAluno(AlunoRequest alunoRequest) {}
+    public List<AlunoResponse> searchByNumComplCep(@NumberFormat @NotNull Integer numero,
+                                                   @NotNull String complemento,
+                                                   @Pattern(regexp = "^\\d{5}-?\\d{3}$\n") @NotNull String cep){
+
+
+        List<AlunoResponse> alunoResponses = new ArrayList<>();
+
+        alunoRepository.findAlunoByEndereco_NumeroAndEndereco_ComplementoAndEndereco_Cep(
+                numero, complemento, cep.replaceAll("\\D", "")).
+                forEach(aluno ->
+                { alunoResponses.add(new AlunoResponse(aluno.getNome(), aluno.getSobrenome(), aluno.getSexo())); });
+
+        return alunoResponses;
+    }
+
+
 
     public void checkCpf(String cpf) {
         if (alunoRepository.existsByCPF(cpf)) {
