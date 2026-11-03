@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.pires.springstudy.infrastructure.entity.enums.Sexo;
 
 import java.time.LocalDate;
 import java.util.UUID;

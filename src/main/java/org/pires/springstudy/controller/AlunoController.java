@@ -1,6 +1,7 @@
 package org.pires.springstudy.controller;
 
 import jakarta.validation.Valid;
+import org.pires.springstudy.dtos.RegisterRequest;
 import org.pires.springstudy.dtos.request.*;
 import org.pires.springstudy.dtos.response.AlunoResponse;
 import org.pires.springstudy.dtos.response.RegisterResponse;
@@ -22,10 +23,9 @@ public class AlunoController {
 
 
     @PostMapping("/register")
-    public ResponseEntity<RegisterResponse> saveAluno(@Valid @RequestBody AlunoRequest alunoRequest,
-                                                      @RequestBody MatriculaRequest matriculaRequest) {
+    public ResponseEntity<RegisterResponse> saveAluno(@Valid @RequestBody RegisterRequest registerRequest) {
 
-        return ResponseEntity.ok(alunoService.saveAluno(alunoRequest, matriculaRequest));
+        return ResponseEntity.ok(alunoService.saveAluno(registerRequest));
 
     }
 

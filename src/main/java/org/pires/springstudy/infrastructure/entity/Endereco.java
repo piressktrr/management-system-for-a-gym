@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.pires.springstudy.infrastructure.entity.enums.Estado;
 
 import java.util.UUID;
 

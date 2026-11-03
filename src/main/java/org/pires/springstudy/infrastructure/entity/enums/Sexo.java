@@ -1,4 +1,4 @@
-package org.pires.springstudy.infrastructure.entity;
+package org.pires.springstudy.infrastructure.entity.enums;
 
 public enum Sexo {
     MASCULINO,

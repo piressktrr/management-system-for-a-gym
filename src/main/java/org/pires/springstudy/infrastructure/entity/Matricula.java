@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.pires.springstudy.infrastructure.entity.enums.StatusMatricula;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -31,7 +32,7 @@ public class Matricula {
     private UUID id;
 
     @ManyToOne(optional = false)
-    @JoinColumn(nullable = false, name = "id_aluno")
+    @JoinColumn(name = "id_aluno")
     private Aluno aluno;
 
     @Column(length = 100)

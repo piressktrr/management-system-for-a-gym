@@ -6,8 +6,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Pattern;
 import org.hibernate.validator.constraints.br.CPF;
-import org.pires.springstudy.infrastructure.entity.Endereco;
-import org.pires.springstudy.infrastructure.entity.Sexo;
+import org.pires.springstudy.infrastructure.entity.enums.Sexo;
 
 import java.time.LocalDate;
 

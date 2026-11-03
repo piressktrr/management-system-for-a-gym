@@ -3,6 +3,7 @@ package org.pires.springstudy.service;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.extern.slf4j.Slf4j;
+import org.pires.springstudy.dtos.RegisterRequest;
 import org.pires.springstudy.dtos.request.AlunoRequest;
 import org.pires.springstudy.dtos.request.MatriculaRequest;
 import org.pires.springstudy.dtos.response.AlunoResponse;
@@ -16,6 +17,7 @@ import org.pires.springstudy.infrastructure.repository.AlunoRepository;
 import org.pires.springstudy.infrastructure.repository.MatriculaRepository;
 import org.springframework.format.annotation.NumberFormat;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,36 +34,36 @@ public class AlunoService {
         this.matriculaRepository = matriculaRepository;
     }
 
-    public RegisterResponse saveAluno(AlunoRequest alunoRequest, MatriculaRequest matriculaRequest) {
-        var cpfSemCaracteres = alunoRequest.CPF().replaceAll("\\D", "");
-        var telefoneSemCaracteres = alunoRequest.telefone().replaceAll("\\D", "");
-        var cepSemCaracteres = alunoRequest.endereco().cep().replaceAll("\\D", "");
+    public RegisterResponse saveAluno(RegisterRequest registerRequest) {
+        var cpfSemCaracteres = registerRequest.alunoRequest().CPF().replaceAll("\\D", "");
+        var telefoneSemCaracteres = registerRequest.alunoRequest().telefone().replaceAll("\\D", "");
+        var cepSemCaracteres = registerRequest.alunoRequest().endereco().cep().replaceAll("\\D", "");
 
         checkCpf(cpfSemCaracteres);
-        checkEmail(alunoRequest.email()); //  ver se isso ta certo ou ta overenginering com boilerplate la em baixo
+        checkEmail(registerRequest.alunoRequest().email()); //  ver se isso ta certo ou ta overenginering com boilerplate la em baixo
         checkTelefone(telefoneSemCaracteres);
 
         var endereco = new Endereco(
-                alunoRequest.endereco().rua(),
-                alunoRequest.endereco().numero(),
-                alunoRequest.endereco().complemento(),
-                alunoRequest.endereco().bairro(),
-                alunoRequest.endereco().municipio(),
-                alunoRequest.endereco().estado(),
-                alunoRequest.endereco().pais(),
+                registerRequest.alunoRequest().endereco().rua(),
+                registerRequest.alunoRequest().endereco().numero(),
+                registerRequest.alunoRequest().endereco().complemento(),
+                registerRequest.alunoRequest().endereco().bairro(),
+                registerRequest.alunoRequest().endereco().municipio(),
+                registerRequest.alunoRequest().endereco().estado(),
+                registerRequest.alunoRequest().endereco().pais(),
                 cepSemCaracteres);
 
 
         var aluno = alunoRepository.save(new Aluno(endereco,
                 cpfSemCaracteres,
-                alunoRequest.nome(),
-                alunoRequest.sobrenome(),
-                alunoRequest.sexo(),
-                alunoRequest.dataNascimento(),
+                registerRequest.alunoRequest().nome(),
+                registerRequest.alunoRequest().sobrenome(),
+                registerRequest.alunoRequest().sexo(),
+                registerRequest.alunoRequest().dataNascimento(),
                 telefoneSemCaracteres,
-                alunoRequest.email()));
+                registerRequest.alunoRequest().email()));
 
-        var matricula = saveMatricula(matriculaRequest, aluno);
+        var matricula = saveMatricula(registerRequest.matriculaRequest());
 
         return new RegisterResponse(new AlunoResponse(aluno.getNome(), aluno.getSobrenome(), aluno.getSexo()),
                 matricula);
@@ -85,10 +87,10 @@ public class AlunoService {
 
 
 
-    private MatriculaResponse saveMatricula(MatriculaRequest matriculaRequest, Aluno aluno) {
+    private MatriculaResponse saveMatricula(MatriculaRequest matriculaRequest) {
 
 
-        var matricula = matriculaRepository.save(new Matricula(matriculaRequest.descricao(),
+        var matricula = matriculaRepository.save(new Matricula(matriculaRequest.descricaoSaude(),
                 matriculaRequest.dataMatricula(),
                 matriculaRequest.valorMatricula(),
                 matriculaRequest.status(),
