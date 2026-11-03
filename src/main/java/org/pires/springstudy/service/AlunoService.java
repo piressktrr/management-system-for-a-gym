@@ -20,9 +20,13 @@ public class AlunoService {
     }
 
     public AlunoResponse saveAluno(AlunoRequest alunoRequest) {
-        checkCpf(alunoRequest.CPF());
+        var cpfSemCaracteres = alunoRequest.CPF().replaceAll("\\D", "");
+        var telefoneSemCaracteres = alunoRequest.telefone().replaceAll("\\D", "");
+        var cepSemCaracteres = alunoRequest.endereco().cep().replaceAll("\\D", "");
+
+        checkCpf(cpfSemCaracteres);
         checkEmail(alunoRequest.email()); //  ver se isso ta certo ou ta overenginering com boilerplate la em baixo
-        checkTelefone(alunoRequest.telefone());
+        checkTelefone(telefoneSemCaracteres);
 
         var endereco = new Endereco(
                 alunoRequest.endereco().rua(),
@@ -32,10 +36,16 @@ public class AlunoService {
                 alunoRequest.endereco().municipio(),
                 alunoRequest.endereco().estado(),
                 alunoRequest.endereco().pais(),
-                alunoRequest.endereco().cep());
+                cepSemCaracteres);
 
-        var aluno = alunoRepository.save(new Aluno(endereco, alunoRequest.CPF(), alunoRequest.nome(),
-                alunoRequest.sobrenome(), alunoRequest.sexo(), alunoRequest.dataNascimento(), alunoRequest.telefone(),
+
+        var aluno = alunoRepository.save(new Aluno(endereco,
+                cpfSemCaracteres,
+                alunoRequest.nome(),
+                alunoRequest.sobrenome(),
+                alunoRequest.sexo(),
+                alunoRequest.dataNascimento(),
+                telefoneSemCaracteres,
                 alunoRequest.email()));
 
         return new AlunoResponse(aluno.getNome(), aluno.getSobrenome(), aluno.getSexo());

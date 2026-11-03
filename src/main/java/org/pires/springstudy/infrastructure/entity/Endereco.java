@@ -16,7 +16,8 @@ import java.util.UUID;
 @Entity
 @Table(name = "endereco")
 public class Endereco {
-
+        // seria melhor eu gerar um Long para o ID para salvar o endereço? caso tenha varios alunos com o mesmo endereço
+        // pra ficar mais facil de consultar
     public Endereco(String rua, Integer numero, String complemento, String bairro, String municipio, Estado estado, String pais, String cep) {
         this.rua = rua;
         this.numero = numero;

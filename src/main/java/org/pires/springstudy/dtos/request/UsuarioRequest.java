@@ -1,4 +1,6 @@
 package org.pires.springstudy.dtos.request;
 
-public record UsuarioRequest(String nome, String sobrenome, String identificadorLogin, String senha) {
+import jakarta.validation.constraints.NotBlank;
+
+public record UsuarioRequest(String nome, String sobrenome, @NotBlank String identificadorLogin, @NotBlank String senha) {
 }
