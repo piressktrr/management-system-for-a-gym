@@ -25,6 +25,7 @@ public class RegisterService {
         var aluno = alunoService.saveAluno(registerRequest.aluno()); // retorno um Aluno invés de um AlunoResponse, para passar ele no saveMatricula
         var matricula = matriculaService.saveMatricula(registerRequest.matricula(), aluno);
         var contrato = contratoService.saveContrato(registerRequest.contrato(), matricula);
+        // var matricula_plano = matriculaPlanoService.saveMatriculaPlano();
 
 
         return new RegisterResponse(

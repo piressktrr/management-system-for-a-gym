@@ -5,7 +5,9 @@ import org.pires.springstudy.dtos.RegisterRequest;
 import org.pires.springstudy.dtos.request.*;
 import org.pires.springstudy.dtos.response.AlunoResponse;
 import org.pires.springstudy.dtos.response.RegisterResponse;
+import org.pires.springstudy.infrastructure.entity.Plano;
 import org.pires.springstudy.service.AlunoService;
+import org.pires.springstudy.service.PlanoService;
 import org.pires.springstudy.service.RegisterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,16 +20,16 @@ import java.util.List;
 @RequestMapping("/alunos")
 public class AlunoController {
 
-    private final AlunoService alunoService;
+    private final RegisterService registerService; // injeçao por atributo só para teste
 
-    @Autowired
-    private RegisterService registerService; // injeçao por atributo só para teste
-    public AlunoController(AlunoService alunoService) {
-        this.alunoService = alunoService;
+    private final PlanoService planoService;
+
+    public AlunoController(RegisterService registerService, PlanoService planoService) {
+        this.registerService = registerService;
+        this.planoService = planoService;
     }
 
-
-//    @PostMapping("/register") // o atual de como ta agora, o de baixo é pra teste
+    //    @PostMapping("/register") // o atual de como ta agora, o de baixo é pra teste
 //    public ResponseEntity<AlunoResponse> saveAluno(@Valid @RequestBody AlunoRequest alunoRequest) {
 //
 //        return ResponseEntity.ok(alunoService.saveAluno(alunoRequest));
@@ -40,6 +42,11 @@ public class AlunoController {
 
         return ResponseEntity.ok(registerService.saveTransactionalRegister(registerRequest));
 
+    }
+
+    @GetMapping("/planos")
+    public ResponseEntity<List<Plano>> getPlanos() {
+        return ResponseEntity.ok(planoService.getPlanos());
     }
 //    @GetMapping("/search")
 //    public ResponseEntity<List<AlunoResponse>> searchByNumComplCEP(@Valid @RequestParam Integer numero, String complemento, String cep) {
