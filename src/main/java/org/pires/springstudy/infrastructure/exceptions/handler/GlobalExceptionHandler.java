@@ -3,6 +3,7 @@ package org.pires.springstudy.infrastructure.exceptions.handler;
 
 import org.pires.springstudy.infrastructure.exceptions.ConflictByCreateAluno;
 import org.pires.springstudy.infrastructure.exceptions.ConflictBySaveLoginForUser;
+import org.pires.springstudy.infrastructure.exceptions.PlanoNotFound;
 import org.pires.springstudy.infrastructure.exceptions.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,5 +27,10 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ConflictBySaveLoginForUser.class)
     public ResponseEntity<String>  handleConflictByCreateUserLogin(ConflictBySaveLoginForUser e) {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+    }
+
+    @ExceptionHandler(PlanoNotFound.class)
+    public ResponseEntity<String>  handlePlanoNotFound(PlanoNotFound e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
     }
 }

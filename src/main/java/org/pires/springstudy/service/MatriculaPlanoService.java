@@ -1,5 +1,9 @@
 package org.pires.springstudy.service;
 
+import org.pires.springstudy.dtos.request.alunoRegister.MatriculaPlanoRequest;
+import org.pires.springstudy.infrastructure.entity.Matricula;
+import org.pires.springstudy.infrastructure.entity.MatriculaPlano;
+import org.pires.springstudy.infrastructure.entity.Plano;
 import org.pires.springstudy.infrastructure.repository.MatriculaPlanoRepository;
 import org.springframework.stereotype.Service;
 
@@ -12,12 +16,12 @@ public class MatriculaPlanoService {
         this.matriculaPlanoRepository = matriculaPlanoRepository;
     }
 
-//    public MatriculaPlano saveMatriculaPlano(MatriculaPlanoRequest matriculaPlano, Plano plano, Matricula matricula ) {
-//        return matriculaPlanoRepository.save(new MatriculaPlano(
-//                matricula,
-//                planoId,
-//                matriculaPlano.dataInicio(),
-//                matriculaPlano.dataFim()
-//        ));
-//    }
+    public MatriculaPlano saveMatriculaPlano(MatriculaPlanoRequest matriculaPlano, Plano plano, Matricula matricula ) {
+        return matriculaPlanoRepository.save(new MatriculaPlano(
+                matricula,
+                plano,
+                matriculaPlano.dataInicio(),
+                matriculaPlano.dataFim()
+        ));
+    }
 }

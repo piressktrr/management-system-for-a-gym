@@ -1,6 +1,7 @@
 package org.pires.springstudy.service;
 
 import org.pires.springstudy.infrastructure.entity.Plano;
+import org.pires.springstudy.infrastructure.exceptions.PlanoNotFound;
 import org.pires.springstudy.infrastructure.repository.PlanoRepository;
 import org.springframework.stereotype.Service;
 
@@ -17,5 +18,9 @@ public class PlanoService {
     public List<Plano> getPlanos() {
 
         return planoRepository.findAll();
+    }
+
+    public Plano findById(Long id) {
+        return planoRepository.findById(id).orElseThrow(() -> new PlanoNotFound("Plano não encontrado na base da dados!"));
     }
 }
