@@ -1,4 +1,4 @@
-package org.pires.springstudy.dtos.request;
+package org.pires.springstudy.dtos.request.user;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

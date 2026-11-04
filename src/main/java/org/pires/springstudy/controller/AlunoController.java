@@ -1,15 +1,11 @@
 package org.pires.springstudy.controller;
 
 import jakarta.validation.Valid;
-import org.pires.springstudy.dtos.RegisterRequest;
-import org.pires.springstudy.dtos.request.*;
-import org.pires.springstudy.dtos.response.AlunoResponse;
-import org.pires.springstudy.dtos.response.RegisterResponse;
+import org.pires.springstudy.dtos.request.alunoRegister.RegisterRequest;
+import org.pires.springstudy.dtos.response.alunoRegister.RegisterResponse;
 import org.pires.springstudy.infrastructure.entity.Plano;
-import org.pires.springstudy.service.AlunoService;
 import org.pires.springstudy.service.PlanoService;
 import org.pires.springstudy.service.RegisterService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

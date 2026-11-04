@@ -1,8 +1,8 @@
 package org.pires.springstudy.controller;
 
 import jakarta.validation.Valid;
-import org.pires.springstudy.dtos.request.LoginRequest;
-import org.pires.springstudy.dtos.response.LoginResponse;
+import org.pires.springstudy.dtos.request.user.LoginRequest;
+import org.pires.springstudy.dtos.response.user.LoginResponse;
 import org.pires.springstudy.infrastructure.config.JwtUtil;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;

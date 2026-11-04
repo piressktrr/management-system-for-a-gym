@@ -1,6 +1,6 @@
 package org.pires.springstudy.service;
 
-import org.pires.springstudy.dtos.request.ContratoRequest;
+import org.pires.springstudy.dtos.request.alunoRegister.ContratoRequest;
 import org.pires.springstudy.infrastructure.entity.Contrato;
 import org.pires.springstudy.infrastructure.entity.Matricula;
 import org.pires.springstudy.infrastructure.repository.ContratoRepository;

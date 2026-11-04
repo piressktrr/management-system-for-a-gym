@@ -1,8 +1,7 @@
 package org.pires.springstudy.service;
 
 import lombok.extern.slf4j.Slf4j;
-import org.pires.springstudy.dtos.request.AlunoRequest;
-import org.pires.springstudy.dtos.response.AlunoResponse;
+import org.pires.springstudy.dtos.request.alunoRegister.AlunoRequest;
 import org.pires.springstudy.infrastructure.entity.Aluno;
 import org.pires.springstudy.infrastructure.entity.Endereco;
 import org.pires.springstudy.infrastructure.exceptions.ConflictByCreateAluno;

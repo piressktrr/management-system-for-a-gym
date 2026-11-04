@@ -1,4 +1,4 @@
-package org.pires.springstudy.dtos.request;
+package org.pires.springstudy.dtos.request.alunoRegister;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;

@@ -1,7 +1,7 @@
 package org.pires.springstudy.service;
 
-import org.pires.springstudy.dtos.request.UsuarioRequest;
-import org.pires.springstudy.dtos.response.UsuarioResponse;
+import org.pires.springstudy.dtos.request.user.UsuarioRequest;
+import org.pires.springstudy.dtos.response.user.UsuarioResponse;
 import org.pires.springstudy.infrastructure.entity.Usuario;
 import org.pires.springstudy.infrastructure.exceptions.ConflictBySaveLoginForUser;
 import org.pires.springstudy.infrastructure.exceptions.ResourceNotFoundException;

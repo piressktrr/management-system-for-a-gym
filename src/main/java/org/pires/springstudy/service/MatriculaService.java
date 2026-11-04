@@ -1,7 +1,6 @@
 package org.pires.springstudy.service;
 
-import org.pires.springstudy.dtos.request.MatriculaRequest;
-import org.pires.springstudy.dtos.response.MatriculaResponse;
+import org.pires.springstudy.dtos.request.alunoRegister.MatriculaRequest;
 import org.pires.springstudy.infrastructure.entity.Aluno;
 import org.pires.springstudy.infrastructure.entity.Matricula;
 import org.pires.springstudy.infrastructure.repository.MatriculaRepository;

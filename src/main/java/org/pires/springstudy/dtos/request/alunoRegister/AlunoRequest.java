@@ -1,4 +1,4 @@
-package org.pires.springstudy.dtos.request;
+package org.pires.springstudy.dtos.request.alunoRegister;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.Valid;

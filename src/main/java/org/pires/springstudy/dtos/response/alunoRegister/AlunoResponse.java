@@ -1,4 +1,4 @@
-package org.pires.springstudy.dtos.response;
+package org.pires.springstudy.dtos.response.alunoRegister;
 
 import org.pires.springstudy.infrastructure.entity.enums.Sexo;
 

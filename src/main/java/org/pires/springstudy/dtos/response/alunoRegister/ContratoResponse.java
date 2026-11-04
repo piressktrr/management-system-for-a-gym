@@ -1,4 +1,4 @@
-package org.pires.springstudy.dtos.response;
+package org.pires.springstudy.dtos.response.alunoRegister;
 
 import java.time.LocalDateTime;
 
