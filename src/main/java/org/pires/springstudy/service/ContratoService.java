@@ -1,5 +1,8 @@
 package org.pires.springstudy.service;
 
+import org.pires.springstudy.dtos.request.ContratoRequest;
+import org.pires.springstudy.infrastructure.entity.Contrato;
+import org.pires.springstudy.infrastructure.entity.Matricula;
 import org.pires.springstudy.infrastructure.repository.ContratoRepository;
 import org.springframework.stereotype.Service;
 
@@ -10,5 +13,15 @@ public class ContratoService {
 
     public ContratoService(ContratoRepository contratoRepository) {
         this.contratoRepository = contratoRepository;
+    }
+
+    public Contrato saveContrato(ContratoRequest contrato, Matricula matricula) {
+        return contratoRepository.save(
+                new Contrato(
+                        matricula,
+                        contrato.descricaoContratual(),
+                        contrato.dataAssinatura(),
+                        contrato.assinatura()
+                ));
     }
 }

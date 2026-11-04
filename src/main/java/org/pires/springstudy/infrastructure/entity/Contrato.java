@@ -16,10 +16,11 @@ import java.util.UUID;
 @NoArgsConstructor
 public class Contrato {
 
-    public Contrato(String descricaoContratual, LocalDateTime dataAssinatura, String assinaturaEscrita) {
+    public Contrato(Matricula matricula, String descricaoContratual, LocalDateTime dataAssinatura, String assinatura) {
+        this.matricula = matricula;
         this.descricaoContratual = descricaoContratual;
         this.dataAssinatura = dataAssinatura;
-        this.assinaturaEscrita = assinaturaEscrita;
+        this.assinatura = assinatura;
     }
 
     @Id
@@ -38,5 +39,5 @@ public class Contrato {
     private LocalDateTime dataAssinatura;
 
     @Column(nullable = false)
-    private String assinaturaEscrita;
+    private String assinatura;
 }

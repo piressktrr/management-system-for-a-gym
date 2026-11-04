@@ -2,6 +2,7 @@ package org.pires.springstudy.service;
 
 import org.pires.springstudy.dtos.RegisterRequest;
 import org.pires.springstudy.dtos.response.AlunoResponse;
+import org.pires.springstudy.dtos.response.ContratoResponse;
 import org.pires.springstudy.dtos.response.MatriculaResponse;
 import org.pires.springstudy.dtos.response.RegisterResponse;
 import org.springframework.stereotype.Service;
@@ -21,21 +22,25 @@ public class RegisterService {
     public RegisterResponse saveTransactionalRegister(RegisterRequest registerRequest) {
 
 
-        var a = alunoService.saveAluno(registerRequest.aluno()); // retorno um Aluno invés de um AlunoResponse, para passar ele no saveMatricula
-        var b = matriculaService.saveMatricula(registerRequest.matricula(), a);
-//        var c = contratoService.saveContrato(registerRequest.contratoRequest(), b);
+        var aluno = alunoService.saveAluno(registerRequest.aluno()); // retorno um Aluno invés de um AlunoResponse, para passar ele no saveMatricula
+        var matricula = matriculaService.saveMatricula(registerRequest.matricula(), aluno);
+        var contrato = contratoService.saveContrato(registerRequest.contrato(), matricula);
 
 
         return new RegisterResponse(
                 new AlunoResponse(
-                        a.getNome(),
-                        a.getSobrenome(),
-                        a.getSexo()),
+                        aluno.getNome(),
+                        aluno.getSobrenome(),
+                        aluno.getSexo()),
 
                 new MatriculaResponse(
-                        b.getDataMatricula(),
-                        b.getValorMatricula(),
-                        b.getStatus())
+                        matricula.getDataMatricula(),
+                        matricula.getValorMatricula(),
+                        matricula.getStatus()),
+
+                new ContratoResponse(
+                        contrato.getDataAssinatura()
+                )
         );
     }
 }
