@@ -4,5 +4,6 @@ public record RegisterResponse(AlunoResponse aluno,
                                MatriculaResponse matricula,
                                ContratoResponse contrato,
                                PlanoResponse plano,
-                               MatriculaPlanoResponse matriculaPlanoResponse) {
+                               MatriculaPlanoResponse matriculaPlanoResponse,
+                               CobrancaResponse cobranca) {
 }

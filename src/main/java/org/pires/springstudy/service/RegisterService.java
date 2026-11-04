@@ -12,13 +12,17 @@ public class RegisterService {
     private final ContratoService contratoService;
     private final MatriculaPlanoService matriculaPlanoService;
     private final PlanoService planoService;
+    private final CobrancaService cobrancaService;
 
-    public RegisterService(MatriculaService matriculaService, AlunoService alunoService, ContratoService contratoService, MatriculaPlanoService matriculaPlanoService, PlanoService planoService) {
+    public RegisterService(MatriculaService matriculaService, AlunoService alunoService,
+                           ContratoService contratoService, MatriculaPlanoService matriculaPlanoService,
+                           PlanoService planoService, CobrancaService cobrancaService) {
         this.matriculaService = matriculaService;
         this.alunoService = alunoService;
         this.contratoService = contratoService;
         this.matriculaPlanoService = matriculaPlanoService;
         this.planoService = planoService;
+        this.cobrancaService = cobrancaService;
     }
 
     public RegisterResponse saveTransactionalRegister(RegisterRequest registerRequest) {
@@ -30,6 +34,8 @@ public class RegisterService {
 
         var matricula_plano = matriculaPlanoService.saveMatriculaPlano(registerRequest.matriculaPlano(),
                 plano, matricula);
+
+        var cobranca = cobrancaService.saveCobranca(registerRequest.cobranca(), matricula_plano);
 
 
         return new RegisterResponse(
@@ -53,7 +59,8 @@ public class RegisterService {
 
                 new MatriculaPlanoResponse(
                         matricula_plano.getDataInicio(), matricula_plano.getDataFim()
-                )
+                ),
+                new CobrancaResponse(cobranca.getStatusCobranca())
         );
     }
 }
