@@ -14,7 +14,6 @@ public interface AlunoRepository extends JpaRepository<Aluno, UUID> {
     boolean existsByEmail(String email);
     boolean existsByTelefone(String telefone);
 
-    List<Aluno> findAlunoByEndereco_NumeroAndEndereco_ComplementoAndEndereco_Cep(
-            Integer enderecoNumero, String enderecoComplemento, String enderecoCep
-    );
+    boolean existsAlunoByEndereco_NumeroAndEndereco_ComplementoAndEndereco_Cep(Integer numero, String complemento, String cep);
+//    Optional<Aluno> findAlunoByEndereco_NumeroAndEndereco_ComplementoAndEndereco_Cep(Integer numero, String complemento, String cep);
 }

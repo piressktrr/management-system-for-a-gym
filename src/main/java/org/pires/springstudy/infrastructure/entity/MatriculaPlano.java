@@ -34,7 +34,7 @@ public class MatriculaPlano {
     @Column(length = 10, nullable = false, name = "Data_Inicio")
     private LocalDate dataInicio;
 
-    @Column(length = 10, nullable = false, name = "Data_Fim")
+    @Column(length = 10, name = "Data_Fim")
     private LocalDate dataFim;
 
 

@@ -23,18 +23,18 @@ public class AlunoController {
 
 
     @PostMapping("/register")
-    public ResponseEntity<RegisterResponse> saveAluno(@Valid @RequestBody RegisterRequest registerRequest) {
+    public ResponseEntity<AlunoResponse> saveAluno(@Valid @RequestBody AlunoRequest alunoRequest) {
 
-        return ResponseEntity.ok(alunoService.saveAluno(registerRequest));
-
-    }
-
-    @GetMapping("/search")
-    public ResponseEntity<List<AlunoResponse>> searchByNumComplCEP(@Valid @RequestParam Integer numero, String complemento, String cep) {
-
-        return ResponseEntity.ok(alunoService.searchByNumComplCep(numero, complemento, cep));
+        return ResponseEntity.ok(alunoService.saveAluno(alunoRequest));
 
     }
+
+//    @GetMapping("/search")
+//    public ResponseEntity<List<AlunoResponse>> searchByNumComplCEP(@Valid @RequestParam Integer numero, String complemento, String cep) {
+//
+//        return ResponseEntity.ok(alunoService.searchByNumComplCep(numero, complemento, cep));
+//
+//    }
 
 
 //    @PostMapping("/alunos/{id}/matriculas") -> rematriculas para um aluno ja existente,

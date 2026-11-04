@@ -1,5 +1,6 @@
 package org.pires.springstudy.infrastructure.entity;
 
+import com.sun.jdi.Type;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,7 +16,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "endereco")
+@Table(name = "endereco", uniqueConstraints = @UniqueConstraint(name = "uk_endereco_cep_numero_complemento", columnNames = {"numero", "complemento", "cep"}))
 public class Endereco {
         // seria melhor eu gerar um Long para o ID para salvar o endereço? caso tenha varios alunos com o mesmo endereço
         // pra ficar mais facil de consultar
@@ -41,7 +42,7 @@ public class Endereco {
     @Column(nullable = false, length = 16)
     private Integer numero;
 
-    @Column(length = 50)
+    @Column(length = 50, nullable = false)
     private String complemento;
 
     @Column(nullable = false, length = 100)

@@ -14,6 +14,7 @@ import org.pires.springstudy.infrastructure.entity.Endereco;
 import org.pires.springstudy.infrastructure.entity.Matricula;
 import org.pires.springstudy.infrastructure.exceptions.ConflictByCreateAluno;
 import org.pires.springstudy.infrastructure.repository.AlunoRepository;
+import org.pires.springstudy.infrastructure.repository.EnderecoRepository;
 import org.pires.springstudy.infrastructure.repository.MatriculaRepository;
 import org.springframework.format.annotation.NumberFormat;
 import org.springframework.stereotype.Service;
@@ -27,78 +28,77 @@ import java.util.List;
 public class AlunoService {
 
     private final AlunoRepository alunoRepository;
-    private final MatriculaRepository matriculaRepository;
+    private final EnderecoRepository enderecoRepository;
 
-    public AlunoService(AlunoRepository alunoRepository, MatriculaRepository matriculaRepository) {
+    public AlunoService(AlunoRepository alunoRepository, EnderecoRepository enderecoRepository) {
         this.alunoRepository = alunoRepository;
-        this.matriculaRepository = matriculaRepository;
+        this.enderecoRepository = enderecoRepository;
     }
 
-    public RegisterResponse saveAluno(RegisterRequest registerRequest) {
-        var cpfSemCaracteres = registerRequest.alunoRequest().CPF().replaceAll("\\D", "");
-        var telefoneSemCaracteres = registerRequest.alunoRequest().telefone().replaceAll("\\D", "");
-        var cepSemCaracteres = registerRequest.alunoRequest().endereco().cep().replaceAll("\\D", "");
+    public AlunoResponse saveAluno(AlunoRequest alunoRequest) {
 
-        checkCpf(cpfSemCaracteres);
-        checkEmail(registerRequest.alunoRequest().email()); //  ver se isso ta certo ou ta overenginering com boilerplate la em baixo
-        checkTelefone(telefoneSemCaracteres);
-
-        var endereco = new Endereco(
-                registerRequest.alunoRequest().endereco().rua(),
-                registerRequest.alunoRequest().endereco().numero(),
-                registerRequest.alunoRequest().endereco().complemento(),
-                registerRequest.alunoRequest().endereco().bairro(),
-                registerRequest.alunoRequest().endereco().municipio(),
-                registerRequest.alunoRequest().endereco().estado(),
-                registerRequest.alunoRequest().endereco().pais(),
-                cepSemCaracteres);
+        var cpfSemCaracteres = alunoRequest.CPF().replaceAll("\\D", "");
+        var telefoneSemCaracteres = alunoRequest.telefone().replaceAll("\\D", "");
+        var cepSemCaracteres = alunoRequest.endereco().cep().replaceAll("\\D", "");
+        var complementoNormalizado = alunoRequest.endereco().complemento().replace(" ", "");
 
 
-        var aluno = alunoRepository.save(new Aluno(endereco,
+        checkCpf(cpfSemCaracteres); // checa se ja tem cpf cadastrado
+        checkTelefone(telefoneSemCaracteres); // checa se ja tem telefone cadastrado
+        checkEmail(alunoRequest.email());  // checa se ja tem email cadastrado
+        var en = searchByNumComplCep(alunoRequest, cepSemCaracteres, complementoNormalizado); // se houver endereço, retorna o mesmo endereço
+
+        // se nao cria um novo pro aluno
+
+        // checa se essa combinação ja ta cadastrada na tabela de endereço
+        // o problema aqui é que caso a pessoa nao passe um complemento e ter um mesmo endereço mas com o complemento salvo
+        // a logica pode interpretar como se fossem diferentes e deixar passar, tenho q arrumar isso
+
+//        var endereco = new Endereco(
+//                alunoRequest.endereco().rua(),
+//                alunoRequest.endereco().numero(),
+//                alunoRequest.endereco().complemento(),
+//                alunoRequest.endereco().bairro(),
+//                alunoRequest.endereco().municipio(),
+//                alunoRequest.endereco().estado(),
+//                alunoRequest.endereco().pais(),
+//                cepSemCaracteres);
+
+
+        var aluno = alunoRepository.save(new Aluno(en,
                 cpfSemCaracteres,
-                registerRequest.alunoRequest().nome(),
-                registerRequest.alunoRequest().sobrenome(),
-                registerRequest.alunoRequest().sexo(),
-                registerRequest.alunoRequest().dataNascimento(),
+                alunoRequest.nome(),
+                alunoRequest.sobrenome(),
+                alunoRequest.sexo(),
+                alunoRequest.dataNascimento(),
                 telefoneSemCaracteres,
-                registerRequest.alunoRequest().email()));
+                alunoRequest.email()));
 
-        var matricula = saveMatricula(registerRequest.matriculaRequest());
 
-        return new RegisterResponse(new AlunoResponse(aluno.getNome(), aluno.getSobrenome(), aluno.getSexo()),
-                matricula);
+        return new AlunoResponse(aluno.getNome(), aluno.getSobrenome(), aluno.getSexo());
 
     }
 
-    public List<AlunoResponse> searchByNumComplCep(@NumberFormat @NotNull Integer numero,
-                                                   @NotNull String complemento,
-                                                   @Pattern(regexp = "^\\d{5}-?\\d{3}$\n") @NotNull String cep){
+    public Endereco searchByNumComplCep(AlunoRequest alunoRequest, String cepSemCaracteres, String complementoNormalizado) {
 
 
-        List<AlunoResponse> alunoResponses = new ArrayList<>();
+            return enderecoRepository.findByNumeroAndComplementoAndCep(
+                            alunoRequest.endereco().numero(),
+                            complementoNormalizado, //  por enquanto ele ta aceitando ""
+                            cepSemCaracteres)
 
-        alunoRepository.findAlunoByEndereco_NumeroAndEndereco_ComplementoAndEndereco_Cep(
-                numero, complemento, cep.replaceAll("\\D", "")).
-                forEach(aluno ->
-                { alunoResponses.add(new AlunoResponse(aluno.getNome(), aluno.getSobrenome(), aluno.getSexo())); });
+                    .orElse(new Endereco(alunoRequest.endereco().rua(),
+                            alunoRequest.endereco().numero(),
+                            complementoNormalizado,
+                            alunoRequest.endereco().bairro(),
+                            alunoRequest.endereco().municipio(),
+                            alunoRequest.endereco().estado(),
+                            alunoRequest.endereco().pais(),
+                            cepSemCaracteres));
 
-        return alunoResponses;
+
     }
 
-
-
-    private MatriculaResponse saveMatricula(MatriculaRequest matriculaRequest) {
-
-
-        var matricula = matriculaRepository.save(new Matricula(matriculaRequest.descricaoSaude(),
-                matriculaRequest.dataMatricula(),
-                matriculaRequest.valorMatricula(),
-                matriculaRequest.status(),
-                matriculaRequest.motivoDesligamento(),
-                matriculaRequest.dataDesligamento()));
-
-        return new MatriculaResponse(matricula.getDataMatricula(), matricula.getValorMatricula(), matricula.getStatus());
-    }
 
     public void checkCpf(String cpf) {
         if (alunoRepository.existsByCPF(cpf)) {
@@ -106,6 +106,7 @@ public class AlunoService {
             // aqui eu nao quero falar q o erro foi no CPF, para não dar informações a pessoas maliciosas
         }
     }
+
     // provavelmente esses dois de baixo sao boilerplate, ver dps se da pra elimina-los
     public void checkEmail(String email) {
         if (alunoRepository.existsByEmail(email)) {
