@@ -17,9 +17,10 @@ import java.util.UUID;
 @NoArgsConstructor
 @Entity
 @Table(name = "endereco", uniqueConstraints = @UniqueConstraint(name = "uk_endereco_cep_numero_complemento", columnNames = {"numero", "complemento", "cep"}))
+// a constraint aqui em cima restringe que duas requisições possam tentar inserir na mesma tupla
+// mas ela permite com que um endereço seja reutilizado
 public class Endereco {
-        // seria melhor eu gerar um Long para o ID para salvar o endereço? caso tenha varios alunos com o mesmo endereço
-        // pra ficar mais facil de consultar
+
     public Endereco(String rua, Integer numero, String complemento, String bairro, String municipio, Estado estado, String pais, String cep) {
         this.rua = rua;
         this.numero = numero;
@@ -32,9 +33,9 @@ public class Endereco {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)
-    private UUID id;
+    private Long id;
 
     @Column(nullable = false, length = 100)
     private String rua;

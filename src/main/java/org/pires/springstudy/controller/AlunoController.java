@@ -6,6 +6,9 @@ import org.pires.springstudy.dtos.request.*;
 import org.pires.springstudy.dtos.response.AlunoResponse;
 import org.pires.springstudy.dtos.response.RegisterResponse;
 import org.pires.springstudy.service.AlunoService;
+import org.pires.springstudy.service.RegisterService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,18 +20,27 @@ public class AlunoController {
 
     private final AlunoService alunoService;
 
+    @Autowired
+    private RegisterService registerService; // injeçao por atributo só para teste
     public AlunoController(AlunoService alunoService) {
         this.alunoService = alunoService;
     }
 
 
-    @PostMapping("/register")
-    public ResponseEntity<AlunoResponse> saveAluno(@Valid @RequestBody AlunoRequest alunoRequest) {
+//    @PostMapping("/register") // o atual de como ta agora, o de baixo é pra teste
+//    public ResponseEntity<AlunoResponse> saveAluno(@Valid @RequestBody AlunoRequest alunoRequest) {
+//
+//        return ResponseEntity.ok(alunoService.saveAluno(alunoRequest));
+//
+//    }
 
-        return ResponseEntity.ok(alunoService.saveAluno(alunoRequest));
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping("/register")
+    public ResponseEntity<RegisterResponse> saveTest(@Valid @RequestBody RegisterRequest registerRequest) {
+
+        return ResponseEntity.ok(registerService.saveTransactionalRegister(registerRequest));
 
     }
-
 //    @GetMapping("/search")
 //    public ResponseEntity<List<AlunoResponse>> searchByNumComplCEP(@Valid @RequestParam Integer numero, String complemento, String cep) {
 //

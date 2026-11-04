@@ -18,7 +18,10 @@ import java.util.UUID;
 @NoArgsConstructor
 @Table(name = "matricula")
 public class Matricula {
-    public Matricula(String descricaoSaude, LocalDateTime dataMatricula, BigDecimal valorMatricula, StatusMatricula status, String motivoDesligamento, LocalDateTime dataDesligamento) {
+    public Matricula(Aluno aluno, String descricaoSaude,
+                     LocalDateTime dataMatricula, BigDecimal valorMatricula,
+                     StatusMatricula status, String motivoDesligamento, LocalDateTime dataDesligamento) {
+        this.aluno = aluno;
         this.descricaoSaude = descricaoSaude;
         this.dataMatricula = dataMatricula;
         this.valorMatricula = valorMatricula;
