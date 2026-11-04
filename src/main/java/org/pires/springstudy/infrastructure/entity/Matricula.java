@@ -44,7 +44,7 @@ public class Matricula {
     @Column(nullable = false, length = 20)
     private LocalDateTime dataMatricula;
 
-    @Column(nullable = false, length = 10, precision = 2, scale = 2)
+    @Column(nullable = false, length = 10, precision = 5, scale = 2)
     private BigDecimal valorMatricula;
 
     @Column(nullable = false)

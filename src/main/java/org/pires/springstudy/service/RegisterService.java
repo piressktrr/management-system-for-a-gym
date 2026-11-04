@@ -21,8 +21,8 @@ public class RegisterService {
     public RegisterResponse saveTransactionalRegister(RegisterRequest registerRequest) {
 
 
-        var a = alunoService.saveAluno(registerRequest.alunoRequest()); // retorno um Aluno invés de um AlunoResponse, para passar ele no saveMatricula
-        var b = matriculaService.saveMatricula(registerRequest.matriculaRequest(), a);
+        var a = alunoService.saveAluno(registerRequest.aluno()); // retorno um Aluno invés de um AlunoResponse, para passar ele no saveMatricula
+        var b = matriculaService.saveMatricula(registerRequest.matricula(), a);
 //        var c = contratoService.saveContrato(registerRequest.contratoRequest(), b);
 
 
