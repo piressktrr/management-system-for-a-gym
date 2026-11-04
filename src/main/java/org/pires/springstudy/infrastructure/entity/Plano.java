@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.SQLInsert;
+import org.hibernate.sql.Insert;
 import org.pires.springstudy.infrastructure.entity.enums.TipoPlano;
 
 import java.math.BigDecimal;
@@ -25,6 +27,7 @@ public class Plano {
 
     @Column(nullable = false, length = 100)
     @Enumerated(EnumType.STRING)
+
     private TipoPlano tipoPlano; // vou expor isso aqui pra matricula associar o id do plano
 
     @Column(nullable = false, length = 15, precision = 5, scale = 2)
