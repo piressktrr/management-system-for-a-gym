@@ -28,7 +28,7 @@ public class Plano {
     @Column(nullable = false, length = 100)
     @Enumerated(EnumType.STRING)
 
-    private TipoPlano tipoPlano; // vou expor isso aqui pra matricula associar o id do plano
+    private TipoPlano tipoPlano; // vou expor isso aqui pra matricula associar o id do planoId
 
     @Column(nullable = false, length = 15, precision = 5, scale = 2)
     private BigDecimal valorPlano;

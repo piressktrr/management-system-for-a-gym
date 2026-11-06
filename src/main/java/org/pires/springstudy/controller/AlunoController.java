@@ -25,32 +25,22 @@ public class AlunoController {
         this.planoService = planoService;
     }
 
-    //    @PostMapping("/register") // o atual de como ta agora, o de baixo é pra teste
-//    public ResponseEntity<AlunoResponse> saveAluno(@Valid @RequestBody AlunoRequest alunoRequest) {
-//
-//        return ResponseEntity.ok(alunoService.saveAluno(alunoRequest));
-//
-//    }
 
-    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/register")
     public ResponseEntity<RegisterResponse> saveTest(@Valid @RequestBody RegisterRequest registerRequest) {
 
-        return ResponseEntity.ok(registerService.saveTransactionalRegister(registerRequest));
+        return new ResponseEntity<>(registerService.saveTransactionalRegister(registerRequest),
+                HttpStatus.CREATED);
+
 
     }
 
+    @ResponseStatus(HttpStatus.FOUND)
     @GetMapping("/planos")
     public ResponseEntity<List<Plano>> getPlanos() {
-        return ResponseEntity.ok(planoService.getPlanos());
-    }
-//    @GetMapping("/search")
-//    public ResponseEntity<List<AlunoResponse>> searchByNumComplCEP(@Valid @RequestParam Integer numero, String complemento, String cep) {
-//
-//        return ResponseEntity.ok(alunoService.searchByNumComplCep(numero, complemento, cep));
-//
-//    }
+        return new ResponseEntity<>(planoService.getPlanos(), HttpStatus.FOUND);
 
+    }
 
 //    @PostMapping("/alunos/{id}/matriculas") -> rematriculas para um aluno ja existente,
 //    chama o mesmo service de matricular do register

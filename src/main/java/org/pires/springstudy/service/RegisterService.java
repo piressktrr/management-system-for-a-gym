@@ -1,8 +1,8 @@
 package org.pires.springstudy.service;
 
+import jakarta.transaction.Transactional;
 import org.pires.springstudy.dtos.request.alunoRegister.RegisterRequest;
 import org.pires.springstudy.dtos.response.alunoRegister.*;
-import org.pires.springstudy.infrastructure.entity.Plano;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -25,12 +25,13 @@ public class RegisterService {
         this.cobrancaService = cobrancaService;
     }
 
+    @Transactional
     public RegisterResponse saveTransactionalRegister(RegisterRequest registerRequest) {
 
         var aluno = alunoService.saveAluno(registerRequest.aluno()); // retorno um Aluno invés de um AlunoResponse, para passar ele no saveMatricula
         var matricula = matriculaService.saveMatricula(registerRequest.matricula(), aluno);
         var contrato = contratoService.saveContrato(registerRequest.contrato(), matricula);
-        var plano = planoService.findById(registerRequest.plano().id());
+        var plano = planoService.findById(registerRequest.planoId().id()); // pego o id do plano passado no json e retorno o do catalogo
 
         var matricula_plano = matriculaPlanoService.saveMatriculaPlano(registerRequest.matriculaPlano(),
                 plano, matricula);
@@ -45,6 +46,7 @@ public class RegisterService {
                         aluno.getSexo()),
 
                 new MatriculaResponse(
+                        matricula.getId(),
                         matricula.getDataMatricula(),
                         matricula.getValorMatricula(),
                         matricula.getStatus()),
@@ -60,7 +62,10 @@ public class RegisterService {
                 new MatriculaPlanoResponse(
                         matricula_plano.getDataInicio(), matricula_plano.getDataFim()
                 ),
-                new CobrancaResponse(cobranca.getStatusCobranca())
+                new CobrancaResponse(
+                        cobranca.getId(),
+                        cobranca.getStatusCobranca()
+                )
         );
     }
 }

@@ -6,6 +6,8 @@ import org.pires.springstudy.infrastructure.entity.Matricula;
 import org.pires.springstudy.infrastructure.repository.ContratoRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 public class ContratoService {
 
@@ -19,8 +21,8 @@ public class ContratoService {
         return contratoRepository.save(
                 new Contrato(
                         matricula,
-                        contrato.descricaoContratual(),
-                        contrato.dataAssinatura(),
+                        "Vou pedir pro claude me gerar uma descriçao ficticia para por aqui depois",
+                        LocalDateTime.now(),
                         contrato.assinatura()
                 ));
     }

@@ -7,6 +7,8 @@ import org.pires.springstudy.infrastructure.entity.Plano;
 import org.pires.springstudy.infrastructure.repository.MatriculaPlanoRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+
 @Service
 public class MatriculaPlanoService {
 
@@ -20,8 +22,8 @@ public class MatriculaPlanoService {
         return matriculaPlanoRepository.save(new MatriculaPlano(
                 matricula,
                 plano,
-                matriculaPlano.dataInicio(),
-                matriculaPlano.dataFim()
+                matriculaPlano.dataInicio(), // isso vai derivar da data de inicio do plano
+                null
         ));
     }
 }

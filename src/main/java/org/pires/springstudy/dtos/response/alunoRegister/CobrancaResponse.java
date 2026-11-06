@@ -2,5 +2,7 @@ package org.pires.springstudy.dtos.response.alunoRegister;
 
 import org.pires.springstudy.infrastructure.entity.enums.StatusCobranca;
 
-public record CobrancaResponse(StatusCobranca statusCobranca) {
+import java.util.UUID;
+
+public record CobrancaResponse(UUID id, StatusCobranca statusCobranca) {
 }
