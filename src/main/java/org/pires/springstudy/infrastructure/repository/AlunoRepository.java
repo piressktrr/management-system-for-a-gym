@@ -9,10 +9,13 @@ import java.util.Optional;
 import java.util.UUID;
 @Repository
 public interface AlunoRepository extends JpaRepository<Aluno, UUID> {
+    List<Aluno> findAllByNome(String nome);
+
 
     boolean existsByCPF(String cpf);
     boolean existsByEmail(String email);
     boolean existsByTelefone(String telefone);
+
 
     boolean existsAlunoByEndereco_NumeroAndEndereco_ComplementoAndEndereco_Cep(Integer numero, String complemento, String cep);
 //    Optional<Aluno> findAlunoByEndereco_NumeroAndEndereco_ComplementoAndEndereco_Cep(Integer numero, String complemento, String cep);

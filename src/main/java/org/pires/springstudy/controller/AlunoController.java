@@ -2,8 +2,10 @@ package org.pires.springstudy.controller;
 
 import jakarta.validation.Valid;
 import org.pires.springstudy.dtos.request.alunoRegister.RegisterRequest;
+import org.pires.springstudy.dtos.response.alunoRegister.AlunoResponse;
 import org.pires.springstudy.dtos.response.alunoRegister.RegisterResponse;
 import org.pires.springstudy.infrastructure.entity.Plano;
+import org.pires.springstudy.service.AlunoService;
 import org.pires.springstudy.service.PlanoService;
 import org.pires.springstudy.service.RegisterService;
 import org.springframework.http.HttpStatus;
@@ -20,19 +22,35 @@ public class AlunoController {
 
     private final PlanoService planoService;
 
-    public AlunoController(RegisterService registerService, PlanoService planoService) {
+    private final AlunoService alunoService;
+
+
+    public AlunoController(RegisterService registerService, PlanoService planoService, AlunoService alunoService) {
         this.registerService = registerService;
         this.planoService = planoService;
+        this.alunoService = alunoService;
     }
 
 
     @PostMapping("/register")
-    public ResponseEntity<RegisterResponse> saveTest(@Valid @RequestBody RegisterRequest registerRequest) {
+    public ResponseEntity<RegisterResponse> saveRegisterAluno(@Valid @RequestBody RegisterRequest registerRequest) {
 
         return new ResponseEntity<>(registerService.saveTransactionalRegister(registerRequest),
                 HttpStatus.CREATED);
 
 
+    }
+
+    @GetMapping("/search/nome")
+    public ResponseEntity<List<AlunoResponse>> searchAlunosByName(@RequestParam("nome") String nome) {
+
+        return new ResponseEntity<>(alunoService.searchAlunoByName(nome), HttpStatus.FOUND);
+    }
+
+    @GetMapping("/planos/{planoId}/alunos")
+    public ResponseEntity<List<AlunoResponse>> searchAlunosByTipoPlano(@PathVariable("planoId") Long planoId) {
+
+        return new ResponseEntity<>(planoService.findAlunosByPlanoId(planoId), HttpStatus.FOUND);
     }
 
     @ResponseStatus(HttpStatus.FOUND)

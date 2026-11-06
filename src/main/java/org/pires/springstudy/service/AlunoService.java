@@ -2,12 +2,17 @@ package org.pires.springstudy.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.pires.springstudy.dtos.request.alunoRegister.AlunoRequest;
+import org.pires.springstudy.dtos.response.alunoRegister.AlunoResponse;
 import org.pires.springstudy.infrastructure.entity.Aluno;
 import org.pires.springstudy.infrastructure.entity.Endereco;
 import org.pires.springstudy.infrastructure.exceptions.ConflictByCreateAluno;
 import org.pires.springstudy.infrastructure.repository.AlunoRepository;
 import org.pires.springstudy.infrastructure.repository.EnderecoRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -52,6 +57,21 @@ public class AlunoService {
 
     }
 
+    public List<AlunoResponse> searchAlunoByName(@RequestParam String nome) {
+
+        return alunoRepository.findAllByNome(nome)
+                .stream()
+                .map(aluno -> new AlunoResponse(
+                        aluno.getNome(),
+                        aluno.getSobrenome(),
+                        aluno.getSexo()
+                ))
+                .toList();
+
+    }
+
+
+
     private Endereco searchByNumComplCep(AlunoRequest alunoRequest, String cepSemCaracteres, String complementoNormalizado) {
 
 
@@ -71,7 +91,6 @@ public class AlunoService {
 
 
     }
-
 
     private void checkCpf(String cpf) {
         if (alunoRepository.existsByCPF(cpf)) {

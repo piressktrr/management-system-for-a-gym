@@ -10,4 +10,5 @@ import java.util.List;
 public interface PlanoRepository extends JpaRepository<Plano, Long>
 {
 
+
 }
