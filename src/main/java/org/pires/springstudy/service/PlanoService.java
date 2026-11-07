@@ -43,6 +43,7 @@ public class PlanoService {
     public List<AlunoResponse> findAlunosByPlanoId(Long planoId) {
         List<UUID> matriculasPlanos = matriculaPlanoRepository.findMatriculaPlanoByPlano(findById(planoId))
                 .stream()
+                .filter(m -> m.getDataFim() == null)
                 .map(m -> m.getMatricula().getId())
                 .toList();
 

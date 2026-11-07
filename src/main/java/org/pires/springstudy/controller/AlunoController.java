@@ -44,19 +44,19 @@ public class AlunoController {
     @GetMapping("/search/nome")
     public ResponseEntity<List<AlunoResponse>> searchAlunosByName(@RequestParam("nome") String nome) {
 
-        return new ResponseEntity<>(alunoService.searchAlunoByName(nome), HttpStatus.FOUND);
+        return new ResponseEntity<>(alunoService.searchAlunoByName(nome), HttpStatus.OK);
     }
 
-    @GetMapping("/planos/{planoId}/alunos")
+    @GetMapping("/planos/{planoId}")
     public ResponseEntity<List<AlunoResponse>> searchAlunosByTipoPlano(@PathVariable("planoId") Long planoId) {
 
-        return new ResponseEntity<>(planoService.findAlunosByPlanoId(planoId), HttpStatus.FOUND);
+        return new ResponseEntity<>(planoService.findAlunosByPlanoId(planoId), HttpStatus.OK);
     }
 
     @ResponseStatus(HttpStatus.FOUND)
     @GetMapping("/planos")
     public ResponseEntity<List<Plano>> getPlanos() {
-        return new ResponseEntity<>(planoService.getPlanos(), HttpStatus.FOUND);
+        return new ResponseEntity<>(planoService.getPlanos(), HttpStatus.OK);
 
     }
 
