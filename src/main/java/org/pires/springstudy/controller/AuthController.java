@@ -1,7 +1,8 @@
 package org.pires.springstudy.controller;
 
-import org.pires.springstudy.dtos.request.LoginRequest;
-import org.pires.springstudy.dtos.response.LoginResponse;
+import jakarta.validation.Valid;
+import org.pires.springstudy.dtos.request.user.LoginRequest;
+import org.pires.springstudy.dtos.response.user.LoginResponse;
 import org.pires.springstudy.infrastructure.config.JwtUtil;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -27,7 +28,7 @@ public class AuthController {
 
     // Esse post ta seguindo o principio de responsabilidade única
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest usuario) {
+    public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest usuario) {
 
         // fluxo -> pegar o usuario autenticado, gerar o JWT para ele, devolver esse token no corpo da resposta (LoginResponse)
 

@@ -43,11 +43,11 @@ public class SecurityConfig {
                 .cors(cors -> cors.configure(http)) // configura a validação de CORS
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
                         .dispatcherTypeMatchers(DispatcherType.FORWARD,  DispatcherType.ERROR).permitAll() // permito que o ERROR e FORWARD não precisam estar autenticados pra fazer tratamento de exceçao
-                        .requestMatchers(HttpMethod.POST, "/auth/login").permitAll() // Permite que todos possam fazer login, o de register por enquanto é so pra teste, mas o certo é deixar so usuarios acessarem p cadastrarem outros usuarios// Permite que todos possam se cadastrar
-                        .requestMatchers(HttpMethod.GET, "/usuario/**").permitAll()// Qualquer outra requisiçao dentro de usuario tera que estar autenticada
-                        .requestMatchers(HttpMethod.POST, "/usuario/register").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/aluno/register").authenticated()// Qualquer outra requisiçao dentro de usuario tera que estar autenticada// Qualquer outra requisiçao dentro de usuario tera que estar autenticada
-                        .anyRequest().authenticated() // Qualquer outra requisiçao na api tera que estar requisitada
+                        .requestMatchers(HttpMethod.POST, "/auth/login").permitAll() // Permite que todos possam fazer login, o de register por enquanto é so pra teste, mas o certo é deixar so usuarios acessarem p cadastrarem outros usuarios
+                        .requestMatchers(HttpMethod.GET, "/usuario/**").permitAll()// Permite que qualquer requisiçao get no usuario nao precisa estar autenticada
+                        .requestMatchers(HttpMethod.POST, "/usuario/register").permitAll()// Permite que todos possam se cadastrar
+                        .requestMatchers(HttpMethod.POST, "/aluno/**").authenticated()
+                        .anyRequest().authenticated() // Qualquer outra requisiçao na api tera que estar com um usuario autenticado
                 )
 
                 .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // diz que a API é stateless (padrao rest)

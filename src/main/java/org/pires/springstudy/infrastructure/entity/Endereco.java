@@ -1,10 +1,12 @@
 package org.pires.springstudy.infrastructure.entity;
 
+import com.sun.jdi.Type;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.pires.springstudy.infrastructure.entity.enums.Estado;
 
 import java.util.UUID;
 
@@ -14,7 +16,9 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "endereco")
+@Table(name = "endereco", uniqueConstraints = @UniqueConstraint(name = "uk_endereco_cep_numero_complemento", columnNames = {"numero", "complemento", "cep"}))
+// a constraint aqui em cima restringe que duas requisições possam tentar inserir na mesma tupla
+// mas ela permite com que um endereço seja reutilizado
 public class Endereco {
 
     public Endereco(String rua, Integer numero, String complemento, String bairro, String municipio, Estado estado, String pais, String cep) {
@@ -29,9 +33,9 @@ public class Endereco {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)
-    private UUID id;
+    private Long id;
 
     @Column(nullable = false, length = 100)
     private String rua;
@@ -39,7 +43,7 @@ public class Endereco {
     @Column(nullable = false, length = 16)
     private Integer numero;
 
-    @Column(length = 50)
+    @Column(length = 50, nullable = false)
     private String complemento;
 
     @Column(nullable = false, length = 100)

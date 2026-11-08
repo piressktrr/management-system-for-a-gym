@@ -2,7 +2,7 @@ services:
   database:
     env_file:
       - .env
-    image: postgres
+    image: postgres:17
     environment:
       POSTGRES_DB: ${POSTGRES_DATABASE}
       POSTGRES_USER: ${POSTGRES_USER}

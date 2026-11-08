@@ -14,8 +14,15 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "Matricula_Plano")
+@Table(name = "matricula_plano")
 public class MatriculaPlano {
+
+    public MatriculaPlano(Matricula matricula, Plano plano, LocalDate dataInicio, LocalDate dataFim) {
+        this.matricula = matricula;
+        this.plano = plano;
+        this.dataInicio = dataInicio;
+        this.dataFim = dataFim;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -34,7 +41,7 @@ public class MatriculaPlano {
     @Column(length = 10, nullable = false, name = "Data_Inicio")
     private LocalDate dataInicio;
 
-    @Column(length = 10, nullable = false, name = "Data_Fim")
+    @Column(length = 10, name = "Data_Fim")
     private LocalDate dataFim;
 
 

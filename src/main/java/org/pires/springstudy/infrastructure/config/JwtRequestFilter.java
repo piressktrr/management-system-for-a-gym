@@ -4,6 +4,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.jspecify.annotations.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,9 +26,11 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     }
 
 
-    // método que é chamado uma vez por requisição para fazer a validação usando esse filtro aqui
+    // metodo que é chamado uma vez por requisição para fazer a validação usando esse filtro aqui
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, @NonNull HttpServletResponse response,
+                                    @NonNull FilterChain filterChain) throws ServletException, IOException {
+
         // pega o valor do Authorization header da requisiçao
         final String authorizationHeader = request.getHeader("Authorization");
 
@@ -49,8 +52,16 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                 // se o método que ta utilizando o token e o payload for verdadeiro (validando o token jwt)
                 if (jwtUtil.validateToken(token, payload)) {
 
-                    // cria um token JWT (objeto) de autenticaçao para o usuario, passando seu userdetails, sem credenciais e suas autorizaçoes
-                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                    // cria um token JWT (objeto) de autenticaçao para o usuario,
+                    // passando seu userdetails, sem credenciais e suas autorizaçoes
+                    UsernamePasswordAuthenticationToken authentication =
+                            new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+
+                    // salva o token de autenticaçao do usuario no contexto de segurança do spring
+                    // que vai utilizar para passar nas barreiras de filtro
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                    // é o contexto do Spring Security responsavel por ver se há algum usuario logado
+
                 }
 
             }
