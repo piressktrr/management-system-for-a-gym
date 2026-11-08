@@ -1,6 +1,8 @@
 package org.pires.springstudy.controller;
 
 import org.pires.springstudy.dtos.response.alunoRegister.AlunoResponse;
+import org.pires.springstudy.dtos.response.alunoSearch.AlunoResponseSearch;
+import org.pires.springstudy.service.MatriculaPlanoService;
 import org.pires.springstudy.service.PlanoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,15 +18,16 @@ import java.util.List;
 @RequestMapping("/planos")
 public class PlanoController {
     private final PlanoService planoService;
+    private final MatriculaPlanoService matriculaPlanoService;
 
-    public PlanoController(PlanoService planoService) {
+    public PlanoController(PlanoService planoService, MatriculaPlanoService matriculaPlanoService) {
         this.planoService = planoService;
+        this.matriculaPlanoService = matriculaPlanoService;
     }
 
-
     @GetMapping("/{planoId}/alunos")
-    public ResponseEntity<List<AlunoResponse>> searchAlunosByTipoPlano(@PathVariable("planoId") Long planoId) {
+    public ResponseEntity<List<AlunoResponseSearch>> searchAlunosByTipoPlano(@PathVariable("planoId") Long planoId) {
 
-        return new ResponseEntity<>(planoService.findAlunosByPlanoId(planoId), HttpStatus.OK);
+        return new ResponseEntity<>(matriculaPlanoService.findAlunosByPlanoId(planoId), HttpStatus.OK);
     }
 }

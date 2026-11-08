@@ -15,7 +15,9 @@ import org.pires.springstudy.infrastructure.repository.EnderecoRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -90,7 +92,7 @@ public class AlunoService {
 
 
         return cobrancaRepository.findAlunosByStatusCobrancaPendenteAndDataVencimentoBeforeActualDate(
-                LocalDateTime.now())
+                StatusCobranca.PENDENTE, LocalDate.now(ZoneId.of("America/Sao_Paulo"))) // aplica o fuso do horario de brasilia
                 .stream()
                 .map(a -> new AlunoResponse(a.getNome(), a.getSobrenome(), a.getSexo()))
                 .toList();

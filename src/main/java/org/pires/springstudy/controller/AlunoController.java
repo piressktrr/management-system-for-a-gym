@@ -50,10 +50,10 @@ public class AlunoController {
     }
 
 
-    @GetMapping("/search/status") // busca alunos por status da cobranca
+    @GetMapping("/search/status") // busca alunos por status da cobranca e por cobranca vencida = true ou false (se for true ignora os status da cobranca)
     public ResponseEntity<List<AlunoResponse>> searchAlunosByStatusCobranca(
-            @RequestParam(defaultValue = "statusCobranca", required = false) StatusCobranca statusCobranca,
-            @RequestParam(defaultValue = "cobrancaVencida", required = false) boolean cobrancaVencida) {
+            @RequestParam(name = "statusCobranca", required = false) StatusCobranca statusCobranca, // name define o nome do parametro a ser bindado
+            @RequestParam(name = "cobrancaVencida", defaultValue = "false", required = false) boolean cobrancaVencida) {
         if (!cobrancaVencida) {
             return new ResponseEntity<>(alunoService.searchAlunoByStatusCobranca(statusCobranca), HttpStatus.OK);
         } else {
@@ -61,7 +61,7 @@ public class AlunoController {
         }
 
     }
-    //@GetMapping("/search/vencidos")
+
 
     @ResponseStatus(HttpStatus.FOUND)
     @GetMapping("/planos")

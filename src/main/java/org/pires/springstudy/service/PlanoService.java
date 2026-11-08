@@ -1,6 +1,7 @@
 package org.pires.springstudy.service;
 
 import org.pires.springstudy.dtos.response.alunoRegister.AlunoResponse;
+import org.pires.springstudy.dtos.response.alunoSearch.AlunoResponseSearch;
 import org.pires.springstudy.infrastructure.entity.Aluno;
 import org.pires.springstudy.infrastructure.entity.Matricula;
 import org.pires.springstudy.infrastructure.entity.MatriculaPlano;
@@ -20,13 +21,8 @@ import java.util.UUID;
 @Service
 public class PlanoService {
     private final PlanoRepository planoRepository;
-    @Autowired
-    private MatriculaPlanoRepository matriculaPlanoRepository;
-    @Autowired
-    private MatriculaRepository matriculaRepository;
 
-    @Autowired
-    private AlunoRepository alunoRepository;
+
     public PlanoService(PlanoRepository planoRepository) {
         this.planoRepository = planoRepository;
     }
@@ -40,25 +36,6 @@ public class PlanoService {
         return planoRepository.findById(id).orElseThrow(() -> new PlanoNotFound("Plano não encontrado na base da dados!"));
     }
 
-    public List<AlunoResponse> findAlunosByPlanoId(Long planoId) {
-        List<UUID> matriculasPlanos = matriculaPlanoRepository.findMatriculaPlanoByPlano(findById(planoId))
-                .stream()
-                .filter(m -> m.getDataFim() == null)
-                .map(m -> m.getMatricula().getId())
-                .toList();
-
-        List<Matricula> matriculas  = matriculaRepository.findAllById(matriculasPlanos);
-
-        List<Aluno> alunos =  alunoRepository.findAllById(matriculas
-                .stream()
-                .map(m -> m.getAluno().getId())
-                .toList());
-
-        return alunos
-                .stream()
-                .map(a -> new AlunoResponse(a.getNome(), a.getSobrenome(), a.getSexo()))
-                .toList();
-    }
 
 
 }
