@@ -61,12 +61,15 @@ public class MatriculaService {
         );
     }
 
-    // o service busca essa matrícula e usa suas relações para chegar ao aluno (`matricula.getAluno()`),
-    // ao contrato e ao vínculo atual em `MatriculaPlano`
+
     // Este metodo coordena várias alterações relacionadas.
     // A transação garante que todas sejam persistidas juntas ou nenhuma delas.
     @Transactional
     public void cancelarMatricula(UUID matriculaId, String motivoCancelamento) {
+        // O service busca  matrícula e usa suas relações para chegar ao aluno (`matricula.getAluno()`),
+        // Ao contrato e ao vínculo atual em `MatriculaPlano`.
+
+        // TIVE MUITA AJUDA DA I.A NESSE METODO
         var matricula = matriculaRepository.findById(matriculaId).orElseThrow(() ->
                 new ResourceNotFoundException("Matricula não encontrada!"));
 
@@ -104,7 +107,7 @@ public class MatriculaService {
         boolean existeCobrancaVencida = cobrancasPendentes.stream()
                 .map(Cobranca::getDataDeVencimento)
                 .map(LocalDateTime::toLocalDate)
-                .anyMatch(dataVencimento -> dataVencimento.isBefore(LocalDate.now(ZoneId.of("America/Sao-Paulo"))));
+                .anyMatch(dataVencimento -> dataVencimento.isBefore(LocalDate.now(ZoneId.of("America/Sao_Paulo"))));
 
         if (existeCobrancaVencida) {
             throw new InvalidMatriculaCancellationException(
@@ -118,17 +121,17 @@ public class MatriculaService {
 
         // Atualiza o vínculo individual do aluno com o plano, sem alterar
         // o registro do plano compartilhado no catálogo.
-        matriculaPlano.setDataFim(dataCancelamento);
+        matriculaPlano.setDataFim(LocalDate.now(ZoneId.of("America/Sao_Paulo")));
         matriculaPlanoRepository.save(matriculaPlano);
 
         // Encerra o contrato associado à matrícula.
-        contrato.setDataEncerramento(dataHoraCancelamento);
+        contrato.setDataEncerramento(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
         contratoRepository.save(contrato);
 
         // Registra o cancelamento na matrícula e preserva seu histórico.
         matricula.setStatus(StatusMatricula.CANCELADA);
         matricula.setMotivoDesligamento(motivoCancelamento);
-        matricula.setDataDesligamento(dataHoraCancelamento);
+        matricula.setDataDesligamento(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
         matriculaRepository.save(matricula);
     }
 }
