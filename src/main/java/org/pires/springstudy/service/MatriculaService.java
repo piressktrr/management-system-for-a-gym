@@ -1,6 +1,7 @@
 package org.pires.springstudy.service;
 
 import jakarta.transaction.Transactional;
+import org.pires.springstudy.dtos.request.MatriculaAlunoDadosRequest;
 import org.pires.springstudy.dtos.request.alunoRegister.MatriculaRequest;
 import org.pires.springstudy.dtos.response.alunoRegister.AlunoResponse;
 import org.pires.springstudy.dtos.response.alunoRegister.MatriculaResponse;
@@ -61,6 +62,20 @@ public class MatriculaService {
         );
     }
 
+    @Transactional // transactional pq se der erro ele nao altera nada
+    public void alterarDadosMatricula(UUID matriculaId, MatriculaAlunoDadosRequest matriculaAlunoDadosRequest) {
+        Matricula matricula = matriculaRepository.findById(matriculaId).orElseThrow(() ->
+                new ResourceNotFoundException("Matricula não encontrada"));
+
+        if (matricula.getStatus() != StatusMatricula.ATIVO) {
+            throw new IllegalArgumentException("Uma matricula cancelada ou inativa não pode ser alterada");
+        }
+
+        matricula.setDescricaoSaude(matriculaAlunoDadosRequest.descricaoSaude());
+        matricula.getAluno().setTelefone(matriculaAlunoDadosRequest.telefone());
+        matricula.getAluno().setEmail(matriculaAlunoDadosRequest.email());
+        matriculaRepository.save(matricula);
+    }
 
     // Este metodo coordena várias alterações relacionadas.
     // A transação garante que todas sejam persistidas juntas ou nenhuma delas.
@@ -89,7 +104,7 @@ public class MatriculaService {
                     "A matrícula deve ter exatamente um vínculo de plano atual.");
         }
 
-        var matriculaPlano = vinculosAtuais.get(0);
+        var matriculaPlano = vinculosAtuais.getFirst();
 
         var contrato = contratoRepository.findByMatricula(matricula)
                 .orElseThrow(() ->
@@ -98,7 +113,7 @@ public class MatriculaService {
 
 
         // A regra é baseada em dia de calendário no fuso de Brasília:
-        // vencimento hoje não é dívida vencida; só uma data anterior bloqueia.
+        // Vencimento hoje não é dívida vencida; só uma data anterior bloqueia.
 
         var cobrancasPendentes =
                 cobrancaRepository.findAllByIdMatriculaPlano_Matricula_IdAndStatusCobranca(
