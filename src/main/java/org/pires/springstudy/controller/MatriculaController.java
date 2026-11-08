@@ -19,7 +19,8 @@ public class MatriculaController {
     }
 
     @PostMapping("/{matriculaId}/cancelamento")
-    public ResponseEntity<?> cancelarMatriculaAluno(@PathVariable String matriculaId) {
+    public ResponseEntity<?> cancelarMatriculaAluno(@PathVariable UUID matriculaId,
+                                                    @RequestBody String motivoCancelamento) {
 
 
     }

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
@@ -43,5 +44,8 @@ public interface CobrancaRepository extends JpaRepository<Cobranca, UUID> {
         // com aquele status
     List<Aluno> findAlunosByStatusCobrancaPendenteAndDataVencimentoBeforeActualDate(
             @Param("status") StatusCobranca statusCobranca,
-            @Param("dataAtual") LocalDate localDate);
+            @Param("dataAtual") LocalDateTime localDate);
+
+
+
 }

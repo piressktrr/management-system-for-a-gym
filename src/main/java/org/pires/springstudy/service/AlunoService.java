@@ -102,7 +102,7 @@ public class AlunoService {
 
 
         return cobrancaRepository.findAlunosByStatusCobrancaPendenteAndDataVencimentoBeforeActualDate(
-                StatusCobranca.PENDENTE, LocalDate.now(ZoneId.of("America/Sao_Paulo"))) // aplica o fuso do horario de brasilia
+                StatusCobranca.PENDENTE, LocalDateTime.now(ZoneId.of("America/Sao_Paulo"))) // aplica o fuso do horario de brasilia
                 .stream()
                 .map(a -> new AlunoResponse(a.getNome(), a.getSobrenome(), a.getSexo()))
                 .toList();

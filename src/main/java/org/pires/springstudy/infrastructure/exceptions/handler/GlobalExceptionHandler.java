@@ -1,10 +1,7 @@
 package org.pires.springstudy.infrastructure.exceptions.handler;
 
 
-import org.pires.springstudy.infrastructure.exceptions.ConflictByCreateAluno;
-import org.pires.springstudy.infrastructure.exceptions.ConflictBySaveLoginForUser;
-import org.pires.springstudy.infrastructure.exceptions.PlanoNotFound;
-import org.pires.springstudy.infrastructure.exceptions.ResourceNotFoundException;
+import org.pires.springstudy.infrastructure.exceptions.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -32,5 +29,10 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(PlanoNotFound.class)
     public ResponseEntity<String>  handlePlanoNotFound(PlanoNotFound e) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+    }
+
+    @ExceptionHandler(AlunoHasACobrancaVencida.class)
+    public ResponseEntity<String>  handleCobrancaVencida(AlunoHasACobrancaVencida e) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
     }
 }
