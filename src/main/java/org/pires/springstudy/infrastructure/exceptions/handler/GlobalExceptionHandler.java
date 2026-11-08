@@ -35,4 +35,10 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String>  handleCobrancaVencida(AlunoHasACobrancaVencida e) {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
     }
+
+    @ExceptionHandler(InvalidMatriculaCancellationException.class)
+    public ResponseEntity<String>  handleInvalidMatriculaCancellationException(InvalidMatriculaCancellationException e) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+
+    }
 }

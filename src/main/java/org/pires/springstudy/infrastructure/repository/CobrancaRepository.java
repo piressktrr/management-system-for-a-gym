@@ -47,5 +47,12 @@ public interface CobrancaRepository extends JpaRepository<Cobranca, UUID> {
             @Param("dataAtual") LocalDateTime localDate);
 
 
+    // Busca somente pendências da matrícula solicitada, não cobranças de outros alunos.
+    // O nome percorre os campos Java:
+    // `Cobranca.idMatriculaPlano → MatriculaPlano.matricula → Matricula.id`,
+    // e restringe a consulta às cobranças com o status informado.
+    List<Cobranca> findAllByIdMatriculaPlano_Matricula_IdAndStatusCobranca(
+            UUID matriculaId,
+            StatusCobranca statusCobranca);
 
 }

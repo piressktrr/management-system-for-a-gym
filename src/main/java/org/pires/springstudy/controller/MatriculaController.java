@@ -1,5 +1,7 @@
 package org.pires.springstudy.controller;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import org.pires.springstudy.dtos.request.alunoRegister.MatriculaRequest;
 import org.pires.springstudy.infrastructure.entity.enums.StatusMatricula;
 import org.pires.springstudy.service.MatriculaService;
@@ -19,9 +21,14 @@ public class MatriculaController {
     }
 
     @PostMapping("/{matriculaId}/cancelamento")
-    public ResponseEntity<?> cancelarMatriculaAluno(@PathVariable UUID matriculaId,
-                                                    @RequestBody String motivoCancelamento) {
+    public ResponseEntity<Void> cancelarMatriculaAluno(@PathVariable UUID matriculaId,
+                                                    @RequestBody @Valid @NotBlank String motivoCancelamento) {
 
+        matriculaService.cancelarMatricula(matriculaId, motivoCancelamento);
+
+
+        // porque o cancelamento foi concluido e não há nada a devolver
+        return ResponseEntity.noContent().build();
 
     }
 }
