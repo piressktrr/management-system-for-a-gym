@@ -3,14 +3,19 @@ package org.pires.springstudy.service;
 import lombok.extern.slf4j.Slf4j;
 import org.pires.springstudy.dtos.request.alunoRegister.AlunoRequest;
 import org.pires.springstudy.dtos.response.alunoRegister.AlunoResponse;
+import org.pires.springstudy.dtos.response.alunoSearch.AlunoResponseSearch;
 import org.pires.springstudy.infrastructure.entity.Aluno;
+import org.pires.springstudy.infrastructure.entity.Cobranca;
 import org.pires.springstudy.infrastructure.entity.Endereco;
+import org.pires.springstudy.infrastructure.entity.enums.StatusCobranca;
 import org.pires.springstudy.infrastructure.exceptions.ConflictByCreateAluno;
 import org.pires.springstudy.infrastructure.repository.AlunoRepository;
+import org.pires.springstudy.infrastructure.repository.CobrancaRepository;
 import org.pires.springstudy.infrastructure.repository.EnderecoRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,10 +25,12 @@ public class AlunoService {
 
     private final AlunoRepository alunoRepository;
     private final EnderecoRepository enderecoRepository;
+    private final CobrancaRepository cobrancaRepository;
 
-    public AlunoService(AlunoRepository alunoRepository, EnderecoRepository enderecoRepository) {
+    public AlunoService(AlunoRepository alunoRepository, EnderecoRepository enderecoRepository, CobrancaRepository cobrancaRepository) {
         this.alunoRepository = alunoRepository;
         this.enderecoRepository = enderecoRepository;
+        this.cobrancaRepository = cobrancaRepository;
     }
 
     public Aluno saveAluno(AlunoRequest alunoRequest) {
@@ -57,11 +64,12 @@ public class AlunoService {
 
     }
 
-    public List<AlunoResponse> searchAlunoByName(@RequestParam String nome) {
+    public List<AlunoResponseSearch> searchAlunoByName(@RequestParam String nome) {
 
         return alunoRepository.findAllByNome(nome)
                 .stream()
-                .map(aluno -> new AlunoResponse(
+                .map(aluno -> new AlunoResponseSearch(
+                        aluno.getId(),
                         aluno.getNome(),
                         aluno.getSobrenome(),
                         aluno.getSexo()
@@ -70,7 +78,23 @@ public class AlunoService {
 
     }
 
+    public List<AlunoResponse> searchAlunoByStatusCobranca(StatusCobranca statusCobranca) {
 
+        return cobrancaRepository.findAlunosByStatusCobranca(statusCobranca)
+                .stream()
+                .map(a -> new AlunoResponse(a.getNome(), a.getSobrenome(), a.getSexo()))
+                .toList();
+    }
+
+    public List<AlunoResponse> searchAlunoByCobrancaVencida(){
+
+
+        return cobrancaRepository.findAlunosByStatusCobrancaPendenteAndDataVencimentoBeforeActualDate(
+                LocalDateTime.now())
+                .stream()
+                .map(a -> new AlunoResponse(a.getNome(), a.getSobrenome(), a.getSexo()))
+                .toList();
+    }
 
     private Endereco searchByNumComplCep(AlunoRequest alunoRequest, String cepSemCaracteres, String complementoNormalizado) {
 

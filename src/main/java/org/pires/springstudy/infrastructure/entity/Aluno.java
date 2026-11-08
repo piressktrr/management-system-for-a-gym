@@ -18,6 +18,8 @@ import java.util.UUID;
 @Table(name = "aluno")
 public class Aluno {
 
+
+
     public Aluno(Endereco endereco, String CPF, String nome, String sobrenome, Sexo sexo, LocalDate dataNascimento, String telefone, String email) {
         this.endereco = endereco;
         this.CPF = CPF;
@@ -27,6 +29,13 @@ public class Aluno {
         this.dataNascimento = dataNascimento;
         this.telefone = telefone;
         this.email = email;
+    }
+
+    public Aluno(UUID id, String nome, String sobrenome, Sexo sexo) {
+        this.id = id;
+        this.nome = nome;
+        this.sobrenome = sobrenome;
+        this.sexo = sexo;
     }
 
     @Id

@@ -4,7 +4,9 @@ import jakarta.validation.Valid;
 import org.pires.springstudy.dtos.request.alunoRegister.RegisterRequest;
 import org.pires.springstudy.dtos.response.alunoRegister.AlunoResponse;
 import org.pires.springstudy.dtos.response.alunoRegister.RegisterResponse;
+import org.pires.springstudy.dtos.response.alunoSearch.AlunoResponseSearch;
 import org.pires.springstudy.infrastructure.entity.Plano;
+import org.pires.springstudy.infrastructure.entity.enums.StatusCobranca;
 import org.pires.springstudy.service.AlunoService;
 import org.pires.springstudy.service.PlanoService;
 import org.pires.springstudy.service.RegisterService;
@@ -42,16 +44,24 @@ public class AlunoController {
     }
 
     @GetMapping("/search/nome")
-    public ResponseEntity<List<AlunoResponse>> searchAlunosByName(@RequestParam("nome") String nome) {
+    public ResponseEntity<List<AlunoResponseSearch>> searchAlunosByName(@RequestParam("nome") String nome) {
 
         return new ResponseEntity<>(alunoService.searchAlunoByName(nome), HttpStatus.OK);
     }
 
-    @GetMapping("/planos/{planoId}")
-    public ResponseEntity<List<AlunoResponse>> searchAlunosByTipoPlano(@PathVariable("planoId") Long planoId) {
 
-        return new ResponseEntity<>(planoService.findAlunosByPlanoId(planoId), HttpStatus.OK);
+    @GetMapping("/search/status") // busca alunos por status da cobranca
+    public ResponseEntity<List<AlunoResponse>> searchAlunosByStatusCobranca(
+            @RequestParam(defaultValue = "statusCobranca", required = false) StatusCobranca statusCobranca,
+            @RequestParam(defaultValue = "cobrancaVencida", required = false) boolean cobrancaVencida) {
+        if (!cobrancaVencida) {
+            return new ResponseEntity<>(alunoService.searchAlunoByStatusCobranca(statusCobranca), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(alunoService.searchAlunoByCobrancaVencida(), HttpStatus.OK);
+        }
+
     }
+    //@GetMapping("/search/vencidos")
 
     @ResponseStatus(HttpStatus.FOUND)
     @GetMapping("/planos")
@@ -66,4 +76,5 @@ public class AlunoController {
 //    public ResponseEntity<AlunoResponse> saveMatriculaAndContrato() {
 //
 //    }
+
 }
