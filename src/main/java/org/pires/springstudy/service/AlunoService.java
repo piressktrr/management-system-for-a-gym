@@ -82,7 +82,7 @@ public class AlunoService {
     }
 
     public AlunoResponseSearch searchAlunoByCPF(@RequestParam String cpf) {
-        var aluno = alunoRepository.findByCPF(cpf)
+        var aluno = alunoRepository.findByCPF(cpf.replaceAll("\\D", ""))
                 .orElseThrow(() -> new ResourceNotFoundException("Cpf Não cadastrado"));
 
 

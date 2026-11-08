@@ -3,6 +3,7 @@ package org.pires.springstudy.service;
 import jakarta.transaction.Transactional;
 import org.pires.springstudy.dtos.request.MatriculaAlunoDadosRequest;
 import org.pires.springstudy.dtos.request.alunoRegister.MatriculaRequest;
+import org.pires.springstudy.dtos.response.MatriculaResponseSearch;
 import org.pires.springstudy.dtos.response.alunoRegister.AlunoResponse;
 import org.pires.springstudy.dtos.response.alunoRegister.MatriculaResponse;
 import org.pires.springstudy.infrastructure.entity.Aluno;
@@ -12,6 +13,7 @@ import org.pires.springstudy.infrastructure.entity.MatriculaPlano;
 import org.pires.springstudy.infrastructure.entity.enums.StatusCobranca;
 import org.pires.springstudy.infrastructure.entity.enums.StatusMatricula;
 import org.pires.springstudy.infrastructure.exceptions.AlunoHasACobrancaVencida;
+import org.pires.springstudy.infrastructure.exceptions.AlunoNotFoundException;
 import org.pires.springstudy.infrastructure.exceptions.InvalidMatriculaCancellationException;
 import org.pires.springstudy.infrastructure.exceptions.ResourceNotFoundException;
 import org.pires.springstudy.infrastructure.repository.CobrancaRepository;
@@ -25,6 +27,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -71,9 +74,16 @@ public class MatriculaService {
             throw new IllegalArgumentException("Uma matricula cancelada ou inativa não pode ser alterada");
         }
 
-        matricula.setDescricaoSaude(matriculaAlunoDadosRequest.descricaoSaude());
-        matricula.getAluno().setTelefone(matriculaAlunoDadosRequest.telefone());
-        matricula.getAluno().setEmail(matriculaAlunoDadosRequest.email());
+        if (!matriculaAlunoDadosRequest.descricaoSaude().isEmpty()) {
+            matricula.setDescricaoSaude(matriculaAlunoDadosRequest.descricaoSaude());
+        }
+        if (!matriculaAlunoDadosRequest.email().isBlank()) {
+            matricula.getAluno().setEmail(matriculaAlunoDadosRequest.email());
+        }
+        if(!matriculaAlunoDadosRequest.telefone().isEmpty()) {
+            matricula.getAluno().setTelefone(matriculaAlunoDadosRequest.telefone());
+        }
+
         matriculaRepository.save(matricula);
     }
 
@@ -148,5 +158,17 @@ public class MatriculaService {
         matricula.setMotivoDesligamento(motivoCancelamento);
         matricula.setDataDesligamento(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
         matriculaRepository.save(matricula);
+    }
+
+
+    public List<MatriculaResponseSearch> searchAllMatriculasByAluno(UUID alunoId) {
+        var aluno = matriculaRepository.findByAluno_Id(alunoId).orElseThrow(() ->
+                new AlunoNotFoundException("Aluno não encontrado!"));
+
+        var lista = matriculaRepository.findAllMatriculasByAluno(aluno.getAluno());
+
+        return lista.stream().map(m ->
+                new MatriculaResponseSearch(m.getId(), m.getAluno(), m.getDataMatricula(), m.getStatus()))
+                .toList();
     }
 }

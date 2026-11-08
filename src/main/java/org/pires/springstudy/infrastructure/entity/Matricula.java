@@ -30,6 +30,13 @@ public class Matricula {
         this.dataDesligamento = dataDesligamento;
     }
 
+    public Matricula(UUID id, Aluno aluno, LocalDateTime dataMatricula, StatusMatricula status) {
+        this.id = id;
+        this.aluno = aluno;
+        this.dataMatricula = dataMatricula;
+        this.status = status;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;

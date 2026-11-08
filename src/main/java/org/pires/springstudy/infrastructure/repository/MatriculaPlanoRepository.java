@@ -22,4 +22,6 @@ public interface MatriculaPlanoRepository extends JpaRepository<MatriculaPlano, 
 
     // DataFim nula identifica o vínculo de plano que ainda está ATUAL .
     List<MatriculaPlano> findAllByMatriculaAndDataFimIsNull(Matricula matricula);
+
+
 }

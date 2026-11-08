@@ -21,7 +21,9 @@ public class MatriculaController {
         this.matriculaService = matriculaService;
     }
 
-    @PostMapping("/{matriculaId}/cancelamento")
+
+
+    @PostMapping("/{matriculaId}/cancelar")
     public ResponseEntity<Void> cancelarMatriculaAluno(@PathVariable UUID matriculaId,
                                                     @RequestBody @Valid @NotBlank String motivoCancelamento) {
 
