@@ -4,10 +4,9 @@ import org.pires.springstudy.dtos.request.alunoRegister.MatriculaRequest;
 import org.pires.springstudy.infrastructure.entity.enums.StatusMatricula;
 import org.pires.springstudy.service.MatriculaService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/matriculas")
@@ -19,5 +18,9 @@ public class MatriculaController {
         this.matriculaService = matriculaService;
     }
 
+    @PostMapping("/{matriculaId}/cancelamento")
+    public ResponseEntity<?> cancelarMatriculaAluno(@PathVariable String matriculaId) {
 
+
+    }
 }

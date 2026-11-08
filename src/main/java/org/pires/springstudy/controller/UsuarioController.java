@@ -1,5 +1,7 @@
 package org.pires.springstudy.controller;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
 import org.pires.springstudy.dtos.request.user.UsuarioRequest;
 import org.pires.springstudy.dtos.response.user.UsuarioResponse;
 import org.pires.springstudy.service.UsuarioService;
@@ -24,13 +26,13 @@ public class UsuarioController { // logica de crud
     }
 
     @GetMapping("/search")
-    public ResponseEntity<UsuarioResponse> searchUserByEmail(@RequestParam("email") String identificadorLogin){ /// parametro
+    public ResponseEntity<UsuarioResponse> searchUserByEmail(@RequestParam("email") @Valid @Email String identificadorLogin){ /// parametro
 
         return ResponseEntity.ok(usuarioService.findUserByEmail(identificadorLogin));
     }
 
     @DeleteMapping("/{email}")
-    public ResponseEntity<Void> deleteUserByEmail(@PathVariable("email") String identificadorLogin){ /// variavel
+    public ResponseEntity<Void> deleteUserByEmail(@PathVariable("email") @Valid @Email String identificadorLogin){ /// variavel
         usuarioService.deleteUserByEmail(identificadorLogin);
         return ResponseEntity.ok().build();
     }

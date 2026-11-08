@@ -1,6 +1,7 @@
 package org.pires.springstudy.controller;
 
 import jakarta.validation.Valid;
+import org.hibernate.validator.constraints.br.CPF;
 import org.pires.springstudy.dtos.request.alunoRegister.RegisterRequest;
 import org.pires.springstudy.dtos.response.alunoRegister.AlunoResponse;
 import org.pires.springstudy.dtos.response.alunoRegister.RegisterResponse;
@@ -50,7 +51,7 @@ public class AlunoController {
     }
 
     @GetMapping("/search/cpf")
-    public ResponseEntity<AlunoResponseSearch> searchAlunoByCpf(@RequestParam("cpf") String cpf) {
+    public ResponseEntity<AlunoResponseSearch> searchAlunoByCpf(@RequestParam("cpf") @Valid @CPF String cpf) {
 
         return new ResponseEntity<>(alunoService.searchAlunoByCPF(cpf), HttpStatus.OK);
     }
@@ -70,6 +71,9 @@ public class AlunoController {
         }
 
     }
+
+
+
 
 
 
