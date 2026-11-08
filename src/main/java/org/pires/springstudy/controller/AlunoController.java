@@ -49,11 +49,20 @@ public class AlunoController {
         return new ResponseEntity<>(alunoService.searchAlunoByName(nome), HttpStatus.OK);
     }
 
+    @GetMapping("/search/cpf")
+    public ResponseEntity<AlunoResponseSearch> searchAlunoByCpf(@RequestParam("cpf") String cpf) {
 
-    @GetMapping("/search/status") // busca alunos por status da cobranca e por cobranca vencida = true ou false (se for true ignora os status da cobranca)
+        return new ResponseEntity<>(alunoService.searchAlunoByCPF(cpf), HttpStatus.OK);
+    }
+
+
+    @GetMapping("/search/status")
+    // busca alunos por status da cobranca e por cobranca vencida = true ou false (se for true ignora os status da cobranca)
     public ResponseEntity<List<AlunoResponse>> searchAlunosByStatusCobranca(
-            @RequestParam(name = "statusCobranca", required = false) StatusCobranca statusCobranca, // name define o nome do parametro a ser bindado
+            // name define o nome do parametro a ser bindado
+            @RequestParam(name = "statusCobranca", required = false) StatusCobranca statusCobranca,
             @RequestParam(name = "cobrancaVencida", defaultValue = "false", required = false) boolean cobrancaVencida) {
+
         if (!cobrancaVencida) {
             return new ResponseEntity<>(alunoService.searchAlunoByStatusCobranca(statusCobranca), HttpStatus.OK);
         } else {
@@ -63,12 +72,6 @@ public class AlunoController {
     }
 
 
-    @ResponseStatus(HttpStatus.FOUND)
-    @GetMapping("/planos")
-    public ResponseEntity<List<Plano>> getPlanos() {
-        return new ResponseEntity<>(planoService.getPlanos(), HttpStatus.OK);
-
-    }
 
 //    @PostMapping("/alunos/{id}/matriculas") -> rematriculas para um aluno ja existente,
 //    chama o mesmo service de matricular do register

@@ -9,6 +9,7 @@ import org.pires.springstudy.infrastructure.entity.Cobranca;
 import org.pires.springstudy.infrastructure.entity.Endereco;
 import org.pires.springstudy.infrastructure.entity.enums.StatusCobranca;
 import org.pires.springstudy.infrastructure.exceptions.ConflictByCreateAluno;
+import org.pires.springstudy.infrastructure.exceptions.ResourceNotFoundException;
 import org.pires.springstudy.infrastructure.repository.AlunoRepository;
 import org.pires.springstudy.infrastructure.repository.CobrancaRepository;
 import org.pires.springstudy.infrastructure.repository.EnderecoRepository;
@@ -77,6 +78,15 @@ public class AlunoService {
                         aluno.getSexo()
                 ))
                 .toList();
+
+    }
+
+    public AlunoResponseSearch searchAlunoByCPF(@RequestParam String cpf) {
+        var aluno = alunoRepository.findByCPF(cpf)
+                .orElseThrow(() -> new ResourceNotFoundException("Cpf Não cadastrado"));
+
+
+        return new AlunoResponseSearch(aluno.getId(), aluno.getNome(), aluno.getSobrenome(), aluno.getSexo());
 
     }
 

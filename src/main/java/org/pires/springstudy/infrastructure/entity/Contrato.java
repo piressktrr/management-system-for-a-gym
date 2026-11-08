@@ -40,4 +40,7 @@ public class Contrato {
 
     @Column(nullable = false)
     private String assinatura;
+
+    @Column
+    private LocalDateTime dataEncerramento;
 }

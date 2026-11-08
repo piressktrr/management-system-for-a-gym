@@ -11,6 +11,7 @@ import java.util.UUID;
 public interface AlunoRepository extends JpaRepository<Aluno, UUID> {
     List<Aluno> findAllByNome(String nome);
 
+    Optional<Aluno> findByCPF(String cpf);
 
     boolean existsByCPF(String cpf);
     boolean existsByEmail(String email);

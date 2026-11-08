@@ -2,14 +2,12 @@ package org.pires.springstudy.controller;
 
 import org.pires.springstudy.dtos.response.alunoRegister.AlunoResponse;
 import org.pires.springstudy.dtos.response.alunoSearch.AlunoResponseSearch;
+import org.pires.springstudy.infrastructure.entity.Plano;
 import org.pires.springstudy.service.MatriculaPlanoService;
 import org.pires.springstudy.service.PlanoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,6 +21,13 @@ public class PlanoController {
     public PlanoController(PlanoService planoService, MatriculaPlanoService matriculaPlanoService) {
         this.planoService = planoService;
         this.matriculaPlanoService = matriculaPlanoService;
+    }
+
+    @ResponseStatus(HttpStatus.FOUND)
+    @GetMapping("/all")
+    public ResponseEntity<List<Plano>> getPlanos() {
+        return new ResponseEntity<>(planoService.getPlanos(), HttpStatus.OK);
+
     }
 
     @GetMapping("/{planoId}/alunos")
