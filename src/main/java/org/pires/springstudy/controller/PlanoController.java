@@ -1,6 +1,7 @@
 package org.pires.springstudy.controller;
 
 import org.pires.springstudy.dtos.response.alunoRegister.AlunoResponse;
+import org.pires.springstudy.dtos.response.alunoRegister.PlanoResponse;
 import org.pires.springstudy.dtos.response.alunoSearch.AlunoResponseSearch;
 import org.pires.springstudy.infrastructure.entity.Plano;
 import org.pires.springstudy.service.MatriculaPlanoService;
@@ -25,7 +26,7 @@ public class PlanoController {
 
     @ResponseStatus(HttpStatus.FOUND)
     @GetMapping("/all")
-    public ResponseEntity<List<Plano>> getPlanos() {
+    public ResponseEntity<List<PlanoResponse>> getPlanos() {
         return new ResponseEntity<>(planoService.getPlanos(), HttpStatus.OK);
 
     }

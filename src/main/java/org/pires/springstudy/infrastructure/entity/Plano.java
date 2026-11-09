@@ -20,6 +20,14 @@ import java.util.UUID;
 @Table(name = "plano")
 public class Plano {
 
+    public Plano(Long id, TipoPlano tipoPlano, BigDecimal valorPlano, Integer duracaoMeses, boolean pessoaExtra) {
+        this.id = id;
+        this.tipoPlano = tipoPlano;
+        this.valorPlano = valorPlano;
+        this.duracaoMeses = duracaoMeses;
+        this.pessoaExtra = pessoaExtra;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)
