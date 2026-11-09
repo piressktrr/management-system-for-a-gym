@@ -1,6 +1,8 @@
 package org.pires.springstudy.service;
 
+import org.pires.springstudy.dtos.PlanoResponseSearch;
 import org.pires.springstudy.dtos.response.alunoRegister.AlunoResponse;
+import org.pires.springstudy.dtos.response.alunoRegister.PlanoResponse;
 import org.pires.springstudy.dtos.response.alunoSearch.AlunoResponseSearch;
 import org.pires.springstudy.infrastructure.entity.Aluno;
 import org.pires.springstudy.infrastructure.entity.Matricula;
@@ -27,15 +29,18 @@ public class PlanoService {
         this.planoRepository = planoRepository;
     }
 
-    public List<Plano> getPlanos() {
+    public List<PlanoResponseSearch> getPlanos() {
 
-        return planoRepository.findAll();
+        var w = planoRepository.findAll();
+
+        return w.stream().map(p -> new PlanoResponseSearch(
+                p.getId(), p.getTipoPlano(), p.getValorPlano(), p.getDuracaoMeses(), p.isPermitePessoaExtra())).toList();
+
     }
 
     public Plano findById(Long id) {
         return planoRepository.findById(id).orElseThrow(() -> new PlanoNotFound("Plano não encontrado na base da dados!"));
     }
-
 
 
 }

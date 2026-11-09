@@ -59,7 +59,7 @@ public class AlunoService {
                 alunoRequest.sexo(),
                 alunoRequest.dataNascimento(),
                 telefoneSemCaracteres,
-                alunoRequest.email()));
+                alunoRequest.email().toLowerCase()));
 
 
         return aluno;
@@ -82,7 +82,7 @@ public class AlunoService {
     }
 
     public AlunoResponseSearch searchAlunoByCPF(@RequestParam String cpf) {
-        var aluno = alunoRepository.findByCPF(cpf)
+        var aluno = alunoRepository.findByCpf(cpf.replaceAll("\\D", ""))
                 .orElseThrow(() -> new ResourceNotFoundException("Cpf Não cadastrado"));
 
 
@@ -102,7 +102,7 @@ public class AlunoService {
 
 
         return cobrancaRepository.findAlunosByStatusCobrancaPendenteAndDataVencimentoBeforeActualDate(
-                StatusCobranca.PENDENTE, LocalDate.now(ZoneId.of("America/Sao_Paulo"))) // aplica o fuso do horario de brasilia
+                StatusCobranca.PENDENTE, LocalDateTime.now(ZoneId.of("America/Sao_Paulo"))) // aplica o fuso do horario de brasilia
                 .stream()
                 .map(a -> new AlunoResponse(a.getNome(), a.getSobrenome(), a.getSexo()))
                 .toList();
@@ -129,7 +129,7 @@ public class AlunoService {
     }
 
     private void checkCpf(String cpf) {
-        if (alunoRepository.existsByCPF(cpf)) {
+        if (alunoRepository.existsByCpf(cpf)) {
             throw new ConflictByCreateAluno("Erro na hora de salvar aluno, cheque as credenciais e tente novamente!");
             // aqui eu nao quero falar q o erro foi no CPF, para não dar informações a pessoas maliciosas
         }

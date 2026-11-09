@@ -1,13 +1,14 @@
 package org.pires.springstudy.controller;
 
-import org.pires.springstudy.dtos.request.alunoRegister.MatriculaRequest;
-import org.pires.springstudy.infrastructure.entity.enums.StatusMatricula;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import org.pires.springstudy.dtos.request.MotivoCancelamentoRequest;
+import org.pires.springstudy.dtos.request.alunoSearch.MatriculaAlunoDadosRequest;
 import org.pires.springstudy.service.MatriculaService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/matriculas")
@@ -20,4 +21,28 @@ public class MatriculaController {
     }
 
 
+
+    @PostMapping("/{matriculaId}/cancelar")
+    public ResponseEntity<Void> cancelarMatriculaAluno(@PathVariable UUID matriculaId,
+                                                    @RequestBody @Valid @NotBlank MotivoCancelamentoRequest motivoCancelamento) {
+
+        matriculaService.cancelarMatricula(matriculaId, motivoCancelamento);
+
+
+        // porque o cancelamento foi concluido e não há nada a devolver
+        return ResponseEntity.noContent().build();
+
+    }
+
+    @PatchMapping("/{matriculaId}/atualizar")
+    public ResponseEntity<Void> alterarMatricula(
+            @PathVariable UUID matriculaId,
+            @Valid @RequestBody MatriculaAlunoDadosRequest matriculaAlunoDadosRequest) {
+
+        matriculaService.alterarDadosMatricula(matriculaId, matriculaAlunoDadosRequest);
+
+
+        // atualização concluida e não há nada a devolver
+        return ResponseEntity.noContent().build();
+    }
 }

@@ -28,26 +28,26 @@ public class UsuarioService { // regras de negocio + lógica
 
         // ele ta retornando a senha aqui e no find user by email, eu tenho que dar um jeito de só buscar o nome, sobrenome e login
         var response = usuarioRepository.save(new Usuario(usuarioRequest.nome(), usuarioRequest.sobrenome(),
-                usuarioRequest.identificadorLogin(), passwordEncoder.encode(usuarioRequest.senha())));
+                usuarioRequest.identificadorLogin().toLowerCase(), passwordEncoder.encode(usuarioRequest.senha())));
 
         return new UsuarioResponse(response.getNome(), response.getSobrenome(), response.getIdentificadorLogin()); // colocar pra retornar so as credenciais importantes
     }
 
     public UsuarioResponse findUserByEmail(@RequestParam String identificadorLogin){
 
-        Usuario usuario = usuarioRepository.findByIdentificadorLogin(identificadorLogin)
+        Usuario usuario = usuarioRepository.findByIdentificadorLogin(identificadorLogin.toLowerCase())
                 .orElseThrow(() -> new ResourceNotFoundException("Identificador not found: " + identificadorLogin));
 
         return new UsuarioResponse(usuario.getNome(), usuario.getSobrenome(), usuario.getIdentificadorLogin());
     }
 
     public void deleteUserByEmail(String identificadorLogin){
-        usuarioRepository.deleteUserByIdentificadorLogin(identificadorLogin);
+        usuarioRepository.deleteUserByIdentificadorLogin(identificadorLogin.toLowerCase());
     }
 
     public void checkLoginSaveUser(String identificadorLogin) {
         // regra de negocio para verificar se o email já existe na hora de cadastrar usuário
-        if (checkLoginDataBase(identificadorLogin)) {
+        if (checkLoginDataBase(identificadorLogin.toLowerCase())) {
             throw new ConflictBySaveLoginForUser("Email ja cadastrado para usuario");
             // ja ta validando com o handler na minha pasta de exceptions
         }
@@ -55,7 +55,7 @@ public class UsuarioService { // regras de negocio + lógica
     }
 
     public boolean checkLoginDataBase(String identificadorLogin) {
-        return usuarioRepository.existsByidentificadorLogin(identificadorLogin);
+        return usuarioRepository.existsByidentificadorLogin(identificadorLogin.toLowerCase());
         // checa para ver se o email ta cadastrado no banco de dados, pode ser usado para outras funções
     }
 

@@ -9,6 +9,7 @@ import org.pires.springstudy.infrastructure.entity.enums.StatusCobranca;
 import org.pires.springstudy.infrastructure.entity.enums.TipoCobranca;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -17,11 +18,12 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "cobrança")
+@Table(name = "cobranca")
 public class Cobranca {
 
-    public Cobranca(MatriculaPlano idMatriculaPlano, LocalDateTime dataDeVencimento, BigDecimal valorAPagar, TipoCobranca tipoCobranca, StatusCobranca statusCobranca) {
-        this.idMatriculaPlano = idMatriculaPlano;
+    public Cobranca(Matricula matricula, MatriculaPlano matriculaPlano, LocalDate dataDeVencimento, BigDecimal valorAPagar, TipoCobranca tipoCobranca, StatusCobranca statusCobranca) {
+        this.matricula = matricula;
+        this.matriculaPlano = matriculaPlano;
         this.dataDeVencimento = dataDeVencimento;
         this.valorAPagar = valorAPagar;
         this.tipoCobranca = tipoCobranca;
@@ -33,22 +35,26 @@ public class Cobranca {
     @Column(nullable = false)
     private UUID id;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(nullable = false, name = "id_matricula", unique = false)
+    private Matricula matricula;
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(nullable = false, name = "id_matricula_plano")
-    private MatriculaPlano idMatriculaPlano;
+    @JoinColumn(name = "id_matricula_plano")
+    private MatriculaPlano matriculaPlano;
 
 
     @Column(nullable = false, name = "data_de_vencimento_cobranca")
-    private LocalDateTime dataDeVencimento;
+    private LocalDate dataDeVencimento;
 
-    @Column(nullable = false, length = 15, precision = 5, scale = 2, name = "Valor_A_Pagar")
+    @Column(nullable = false, precision = 10, scale = 2, name = "valor_a_pagar")
     private BigDecimal valorAPagar;
 
-    @Column(nullable = false, name = "tipo_de_cobranca")
+    @Column(nullable = false, name = "tipo_de_cobranca", length = 30)
     @Enumerated(EnumType.STRING)
     private TipoCobranca tipoCobranca;
 
-    @Column(nullable = false, name = "status_da_cobranca")
+    @Column(nullable = false, name = "status_da_cobranca", length = 30)
     @Enumerated(EnumType.STRING)
     private StatusCobranca statusCobranca;
 }

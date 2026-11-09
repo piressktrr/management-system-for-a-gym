@@ -46,7 +46,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll() // Permite que todos possam fazer login, o de register por enquanto é so pra teste, mas o certo é deixar so usuarios acessarem p cadastrarem outros usuarios
                         .requestMatchers(HttpMethod.GET, "/usuario/**").permitAll()// Permite que qualquer requisiçao get no usuario nao precisa estar autenticada
                         .requestMatchers(HttpMethod.POST, "/usuario/register").permitAll()// Permite que todos possam se cadastrar
-                        .requestMatchers(HttpMethod.POST, "/aluno/**").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/alunos/**").authenticated()
                         .anyRequest().authenticated() // Qualquer outra requisiçao na api tera que estar com um usuario autenticado
                 )
 

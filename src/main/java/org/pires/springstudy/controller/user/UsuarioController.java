@@ -1,5 +1,7 @@
-package org.pires.springstudy.controller;
+package org.pires.springstudy.controller.user;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
 import org.pires.springstudy.dtos.request.user.UsuarioRequest;
 import org.pires.springstudy.dtos.response.user.UsuarioResponse;
 import org.pires.springstudy.service.UsuarioService;
@@ -16,21 +18,24 @@ public class UsuarioController { // logica de crud
         this.usuarioService = usuarioService;
     }
 
-    @ResponseStatus(HttpStatus.CREATED)
+
     @PostMapping("/register")
     public ResponseEntity<UsuarioResponse> saveUser(@RequestBody UsuarioRequest usuarioRequest) {
 
-        return ResponseEntity.ok(usuarioService.saveUser(usuarioRequest)); //  retorna um ok (status code 200) desse post p/ salvar usuario que eu estou fazendo
+        return new ResponseEntity<>(usuarioService.saveUser(usuarioRequest), HttpStatus.CREATED);
+        //  retorna um ok (status code 200) desse post p/ salvar usuario que eu estou fazendo
     }
 
     @GetMapping("/search")
-    public ResponseEntity<UsuarioResponse> searchUserByEmail(@RequestParam("email") String identificadorLogin){ /// parametro
+    public ResponseEntity<UsuarioResponse> searchUserByEmail(@RequestParam("email") @Valid @Email String identificadorLogin){
+        /// parametro (RequestParam)
 
         return ResponseEntity.ok(usuarioService.findUserByEmail(identificadorLogin));
     }
 
     @DeleteMapping("/{email}")
-    public ResponseEntity<Void> deleteUserByEmail(@PathVariable("email") String identificadorLogin){ /// variavel
+    public ResponseEntity<Void> deleteUserByEmail(@PathVariable("email") @Valid @Email String identificadorLogin){
+        /// variavel (PathVariable)
         usuarioService.deleteUserByEmail(identificadorLogin);
         return ResponseEntity.ok().build();
     }

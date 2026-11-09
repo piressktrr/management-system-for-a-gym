@@ -1,6 +1,7 @@
 package org.pires.springstudy.infrastructure.repository;
 
 import org.pires.springstudy.infrastructure.entity.Aluno;
+import org.pires.springstudy.infrastructure.entity.Matricula;
 import org.pires.springstudy.infrastructure.entity.MatriculaPlano;
 import org.pires.springstudy.infrastructure.entity.Plano;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,8 +15,13 @@ import java.util.UUID;
 @Repository
 public interface MatriculaPlanoRepository extends JpaRepository<MatriculaPlano, UUID> {
     @Query("""
-    SELECT DISTINCT alunos FROM MatriculaPlano mp JOIN Matricula m JOIN Aluno alunos WHERE mp.plano = :planoId AND mp.dataFim = null
+    SELECT DISTINCT a FROM MatriculaPlano mp JOIN mp.matricula m JOIN m.aluno a WHERE mp.plano.id = :planoId AND mp.dataFim IS NULL
     """)
     List<Aluno> findAlunosByPlanoId(@Param("planoId") Long planoId);
+
+
+    // DataFim nula identifica o vínculo de plano que ainda está ATUAL .
+    List<MatriculaPlano> findAllByMatriculaAndDataFimIsNull(Matricula matricula);
+
 
 }

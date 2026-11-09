@@ -1,4 +1,4 @@
-package org.pires.springstudy.controller;
+package org.pires.springstudy.controller.user;
 
 import jakarta.validation.Valid;
 import org.pires.springstudy.dtos.request.user.LoginRequest;

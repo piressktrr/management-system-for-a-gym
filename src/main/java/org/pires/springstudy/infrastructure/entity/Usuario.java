@@ -32,13 +32,13 @@ public class Usuario implements UserDetails {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(nullable = false,  length = 50)
+    @Column(nullable = false,  length = 100)
     private String nome;
 
-    @Column(nullable = false, length = 50)
+    @Column(nullable = false, length = 100)
     private String sobrenome;
 
-    @Column(nullable = false, name = "login_email", length = 50, unique = true) // mesmo checando no service, o unique == true mantem a unicidade no banco
+    @Column(nullable = false, name = "email_login", length = 254, unique = true) // mesmo checando no service, o unique == true mantem a unicidade no banco
     private String identificadorLogin; // email que vai ser usado como login do usuario
 
     @Column(nullable = false)

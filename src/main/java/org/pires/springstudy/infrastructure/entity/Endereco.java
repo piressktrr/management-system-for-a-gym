@@ -1,6 +1,5 @@
 package org.pires.springstudy.infrastructure.entity;
 
-import com.sun.jdi.Type;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,7 +20,7 @@ import java.util.UUID;
 // mas ela permite com que um endereço seja reutilizado
 public class Endereco {
 
-    public Endereco(String rua, Integer numero, String complemento, String bairro, String municipio, Estado estado, String pais, String cep) {
+    public Endereco(String rua, String numero, String complemento, String bairro, String municipio, Estado estado, String pais, String cep) {
         this.rua = rua;
         this.numero = numero;
         this.complemento = complemento;
@@ -33,15 +32,15 @@ public class Endereco {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(nullable = false)
-    private Long id;
+    private UUID id;
 
     @Column(nullable = false, length = 100)
     private String rua;
 
-    @Column(nullable = false, length = 16)
-    private Integer numero;
+    @Column(nullable = false, length = 10)
+    private String numero;
 
     @Column(length = 50, nullable = false)
     private String complemento;
@@ -49,14 +48,14 @@ public class Endereco {
     @Column(nullable = false, length = 100)
     private String bairro;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 100)
     private String municipio;
 
-    @Column(nullable = false, length = 100)
+    @Column(nullable = false, length = 2)
     @Enumerated(EnumType.STRING)
     private Estado estado;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 60)
     private String pais;
 
     @Column(nullable = false, length = 8)

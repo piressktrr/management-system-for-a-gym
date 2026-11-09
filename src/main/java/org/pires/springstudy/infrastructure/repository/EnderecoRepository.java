@@ -11,5 +11,5 @@ import java.util.UUID;
 public interface EnderecoRepository extends JpaRepository<Endereco, UUID> {
 
 
-    Optional<Endereco> findByNumeroAndComplementoAndCep(Integer numero, String complemento, String cep);
+    Optional<Endereco> findByNumeroAndComplementoAndCep(String numero, String complemento, String cep);
 }

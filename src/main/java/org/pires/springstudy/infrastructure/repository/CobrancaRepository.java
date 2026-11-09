@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
@@ -21,7 +22,7 @@ public interface CobrancaRepository extends JpaRepository<Cobranca, UUID> {
     @Query("""
         SELECT DISTINCT a
         FROM Cobranca c
-        JOIN c.idMatriculaPlano mp
+        JOIN c.matriculaPlano mp
         JOIN mp.matricula m
         JOIN m.aluno a
         WHERE c.statusCobranca = :status
@@ -33,7 +34,7 @@ public interface CobrancaRepository extends JpaRepository<Cobranca, UUID> {
     @Query("""
         SELECT DISTINCT a
         FROM Cobranca c
-        JOIN c.idMatriculaPlano mp
+        JOIN c.matriculaPlano mp
         JOIN mp.matricula m
         JOIN m.aluno a
         WHERE c.statusCobranca = :status AND c.dataDeVencimento < :dataAtual
@@ -43,5 +44,16 @@ public interface CobrancaRepository extends JpaRepository<Cobranca, UUID> {
         // com aquele status
     List<Aluno> findAlunosByStatusCobrancaPendenteAndDataVencimentoBeforeActualDate(
             @Param("status") StatusCobranca statusCobranca,
-            @Param("dataAtual") LocalDate localDate);
+            @Param("dataAtual") LocalDateTime localDate);
+
+
+    // Busca somente pendências da matrícula solicitada, não cobranças de outros alunos.
+    // O nome percorre os campos Java:
+    // `Cobranca.idMatriculaPlano → MatriculaPlano.matricula → Matricula.id`,
+    // e restringe a consulta às cobranças com o status informado.
+    
+    List<Cobranca> findAllByMatriculaPlano_Matricula_IdAndStatusCobranca(
+            UUID matriculaId,
+            StatusCobranca statusCobranca);
+
 }
