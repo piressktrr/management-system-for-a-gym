@@ -113,15 +113,15 @@ public class MatriculaService {
 
         // Uma matrícula pode ter vínculos históricos, mas deve ter um único
         // vínculo atual (dataFim nula). Não escolhemos um vínculo ao acaso.
-        var vinculosAtuais =
+        var todasAsMatriculasPlanosAtuais =
                 matriculaPlanoRepository.findAllByMatriculaAndDataFimIsNull(matricula);
 
-        if (vinculosAtuais.size() != 1) {
+        if (todasAsMatriculasPlanosAtuais.size() != 1) {
             throw new InvalidMatriculaCancellationException(
                     "A matrícula deve ter exatamente um vínculo de plano atual.");
         }
 
-        var matriculaPlano = vinculosAtuais.getFirst();
+        var matriculaPlano = todasAsMatriculasPlanosAtuais.getFirst();
 
         var contrato = contratoRepository.findByMatricula(matricula)
                 .orElseThrow(() ->
@@ -136,7 +136,8 @@ public class MatriculaService {
                 cobrancaRepository.findAllByIdMatriculaPlano_Matricula_IdAndStatusCobranca(
                         matriculaId, StatusCobranca.PENDENTE);
 
-        boolean existeCobrancaVencida = cobrancasPendentes.stream()
+        boolean existeCobrancaVencida =
+                cobrancasPendentes.stream()
                 .map(Cobranca::getDataDeVencimento)
                 .map(LocalDateTime::toLocalDate)
                 .anyMatch(dataVencimento -> dataVencimento.isBefore(LocalDate.now(ZoneId.of("America/Sao_Paulo"))));

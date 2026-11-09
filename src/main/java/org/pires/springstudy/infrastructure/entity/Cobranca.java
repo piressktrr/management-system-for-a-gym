@@ -17,7 +17,7 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "cobrança")
+@Table(name = "cobranca")
 public class Cobranca {
 
     public Cobranca(MatriculaPlano idMatriculaPlano, LocalDateTime dataDeVencimento, BigDecimal valorAPagar, TipoCobranca tipoCobranca, StatusCobranca statusCobranca) {
@@ -44,11 +44,11 @@ public class Cobranca {
     @Column(nullable = false, length = 15, precision = 5, scale = 2, name = "Valor_A_Pagar")
     private BigDecimal valorAPagar;
 
-    @Column(nullable = false, name = "tipo_de_cobranca")
+    @Column(nullable = false, name = "tipo_de_cobranca", length = 30)
     @Enumerated(EnumType.STRING)
     private TipoCobranca tipoCobranca;
 
-    @Column(nullable = false, name = "status_da_cobranca")
+    @Column(nullable = false, name = "status_da_cobranca", length = 30)
     @Enumerated(EnumType.STRING)
     private StatusCobranca statusCobranca;
 }

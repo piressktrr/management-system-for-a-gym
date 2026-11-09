@@ -1,0 +1,1 @@
+ALTER TABLE cobrança RENAME TO cobranca;

@@ -52,23 +52,23 @@ public class Aluno {
     @Column(unique = true, length = 11)
     private String CPF;
 
-    @Column(nullable = false, length = 50)
+    @Column(nullable = false, length = 100)
     private String nome;
 
-    @Column(nullable = false, length = 50)
+    @Column(nullable = false, length = 100)
     private String sobrenome;
 
-    @Column(nullable = false, length = 40)
+    @Column(nullable = false, length = 30)
     @Enumerated(EnumType.STRING) // ja converte automaticamente persistindo a string no banco
     private Sexo sexo;
 
-    @Column(nullable = false, name = "data_nascimento", length = 12)
+    @Column(nullable = false, name = "data_nascimento")
     private LocalDate dataNascimento;
 
     @Column(nullable = false, unique = true, length = 11) // ddd + numero nesse caso, pais ja vem automatico
     private String telefone;
 
-    @Column(nullable = false, unique = true, length = 100)
+    @Column(nullable = false, unique = true, length = 254)
     private String email;
 
 

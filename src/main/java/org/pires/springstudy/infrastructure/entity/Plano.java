@@ -20,30 +20,21 @@ import java.util.UUID;
 @Table(name = "plano")
 public class Plano {
 
-    public Plano(Long id, TipoPlano tipoPlano, BigDecimal valorPlano, Integer duracaoMeses, boolean pessoaExtra) {
-        this.id = id;
-        this.tipoPlano = tipoPlano;
-        this.valorPlano = valorPlano;
-        this.duracaoMeses = duracaoMeses;
-        this.pessoaExtra = pessoaExtra;
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)
     private Long id;
 
-    @Column(nullable = false, length = 100)
+    @Column(nullable = false, length = 30)
     @Enumerated(EnumType.STRING)
-
     private TipoPlano tipoPlano; // vou expor isso aqui pra matricula associar o id do planoId
 
-    @Column(nullable = false, length = 15, precision = 5, scale = 2)
+    @Column(nullable = false, precision = 5, scale = 2)
     private BigDecimal valorPlano;
 
-    @Column(nullable = false, length = 18)
+    @Column(nullable = false)
     private Integer duracaoMeses;
 
-    @Column(nullable = false, length = 10) // sim ou nao
+    @Column(nullable = false) // sim ou nao
     private boolean pessoaExtra;
 }

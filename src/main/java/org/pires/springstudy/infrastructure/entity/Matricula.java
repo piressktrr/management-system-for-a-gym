@@ -48,20 +48,20 @@ public class Matricula {
     @Column(length = 100)
     private String descricaoSaude;
 
-    @Column(nullable = false, length = 20)
+    @Column(nullable = false)
     private LocalDateTime dataMatricula;
 
     @Column(nullable = false, length = 10, precision = 5, scale = 2)
     private BigDecimal valorMatricula;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 30)
     @Enumerated(EnumType.STRING)
     private StatusMatricula status;
 
     @Column(length = 100)
     private String motivoDesligamento;
 
-    @Column(length = 20)
+    @Column()
     private LocalDateTime dataDesligamento;
 
 

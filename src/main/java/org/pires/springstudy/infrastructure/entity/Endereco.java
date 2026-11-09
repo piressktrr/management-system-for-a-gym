@@ -37,7 +37,7 @@ public class Endereco {
     @Column(nullable = false, length = 100)
     private String rua;
 
-    @Column(nullable = false, length = 16)
+    @Column(nullable = false)
     private Integer numero;
 
     @Column(length = 50, nullable = false)
@@ -46,14 +46,14 @@ public class Endereco {
     @Column(nullable = false, length = 100)
     private String bairro;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 100)
     private String municipio;
 
-    @Column(nullable = false, length = 100)
+    @Column(nullable = false, length = 2)
     @Enumerated(EnumType.STRING)
     private Estado estado;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 60)
     private String pais;
 
     @Column(nullable = false, length = 8)

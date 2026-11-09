@@ -38,10 +38,10 @@ public class MatriculaPlano {
     @JoinColumn(nullable = false, name = "id_plano")
     private Plano plano;
 
-    @Column(length = 10, nullable = false, name = "Data_Inicio")
+    @Column(nullable = false, name = "Data_Inicio")
     private LocalDate dataInicio;
 
-    @Column(length = 10, name = "Data_Fim")
+    @Column(name = "Data_Fim")
     private LocalDate dataFim;
 
 
