@@ -46,4 +46,14 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleAlunoNotFoundException(AlunoNotFoundException e) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
     }
+
+    @ExceptionHandler(IllegalCredentialsException.class)
+    public ResponseEntity<String> handleIllegalCredentialsExceptions(IllegalCredentialsException e) {
+        return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(e.getMessage());
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+    }
 }

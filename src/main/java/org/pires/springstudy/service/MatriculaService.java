@@ -11,6 +11,7 @@ import org.pires.springstudy.infrastructure.entity.Matricula;
 import org.pires.springstudy.infrastructure.entity.enums.StatusCobranca;
 import org.pires.springstudy.infrastructure.entity.enums.StatusMatricula;
 import org.pires.springstudy.infrastructure.exceptions.AlunoNotFoundException;
+import org.pires.springstudy.infrastructure.exceptions.IllegalCredentialsException;
 import org.pires.springstudy.infrastructure.exceptions.InvalidMatriculaCancellationException;
 import org.pires.springstudy.infrastructure.exceptions.ResourceNotFoundException;
 import org.pires.springstudy.infrastructure.repository.*;
@@ -63,6 +64,9 @@ public class MatriculaService {
 
     @Transactional // transactional pq se der erro ele nao altera nada
     public void alterarDadosMatricula(UUID matriculaId, MatriculaAlunoDadosRequest matriculaAlunoDadosRequest) {
+        var telefone = matriculaAlunoDadosRequest.telefone().replaceAll("\\D", "");
+        var email = matriculaAlunoDadosRequest.email();
+
         Matricula matricula = matriculaRepository.findById(matriculaId).orElseThrow(() ->
                 new ResourceNotFoundException("Matricula não encontrada"));
 
@@ -70,15 +74,21 @@ public class MatriculaService {
             throw new IllegalArgumentException("Uma matricula cancelada ou inativa não pode ser alterada");
         }
 
-        if (!matriculaAlunoDadosRequest.descricaoSaude().isEmpty()) {
-            matricula.setDescricaoSaude(matriculaAlunoDadosRequest.descricaoSaude());
+        if(alunoRepository.existsByEmail(email) || alunoRepository.existsByTelefone(telefone)) {
+            throw new IllegalCredentialsException("Já existe um aluno com essas credenciais!!");
         }
-        if (!matriculaAlunoDadosRequest.email().isBlank()) {
-            matricula.getAluno().setEmail(matriculaAlunoDadosRequest.email());
-        }
-        if(!matriculaAlunoDadosRequest.telefone().isEmpty()) {
-            matricula.getAluno().setTelefone(matriculaAlunoDadosRequest.telefone());
-        }
+
+
+
+//        if (!matriculaAlunoDadosRequest.descricaoSaude().isEmpty()) {
+//            matricula.setDescricaoSaude(matriculaAlunoDadosRequest.descricaoSaude());
+//        }
+//        if (!matriculaAlunoDadosRequest.email().isBlank()) {
+//            matricula.getAluno().setEmail(matriculaAlunoDadosRequest.email());
+//        }
+//        if(!matriculaAlunoDadosRequest.telefone().isEmpty()) {
+//            matricula.getAluno().setTelefone(matriculaAlunoDadosRequest.telefone());
+//        }
 
         matriculaRepository.save(matricula);
     }
