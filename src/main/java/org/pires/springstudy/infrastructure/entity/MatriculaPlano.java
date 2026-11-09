@@ -14,12 +14,19 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "Matricula_Plano")
+@Table(name = "matricula_plano")  //, check = data_fim == null || data_fim >= data_inicio
 public class MatriculaPlano {
+
+    public MatriculaPlano(Matricula matricula, Plano plano, LocalDate dataInicio, LocalDate dataFim) {
+        this.matricula = matricula;
+        this.plano = plano;
+        this.dataInicio = dataInicio;
+        this.dataFim = dataFim;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "ID_matricula_plano")
+    @Column(nullable = false)
     private UUID id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -31,10 +38,10 @@ public class MatriculaPlano {
     @JoinColumn(nullable = false, name = "id_plano")
     private Plano plano;
 
-    @Column(length = 10, nullable = false, name = "Data_Inicio")
+    @Column(nullable = false, name = "data_Inicio", updatable = false)
     private LocalDate dataInicio;
 
-    @Column(length = 10, nullable = false, name = "Data_Fim")
+    @Column(name = "data_Fim")
     private LocalDate dataFim;
 
 

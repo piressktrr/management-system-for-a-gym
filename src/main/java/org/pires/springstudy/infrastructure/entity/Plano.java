@@ -5,6 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.SQLInsert;
+import org.hibernate.sql.Insert;
+import org.pires.springstudy.infrastructure.entity.enums.TipoPlano;
 
 import java.math.BigDecimal;
 import java.util.UUID;
@@ -13,24 +16,24 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@Setter
 @Table(name = "plano")
 public class Plano {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)
-    private UUID id;
+    private Long id;
 
-    @Column(nullable = false, length = 100)
-    private String tipoPlano;
+    @Column(nullable = false, length = 30, unique = true)
+    @Enumerated(EnumType.STRING)
+    private TipoPlano tipoPlano; // vou expor isso aqui pra matricula associar o id do planoId
 
-    @Column(nullable = false, length = 15, precision = 5, scale = 2)
+    @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal valorPlano;
 
-    @Column(nullable = false, length = 18)
+    @Column(nullable = false)
     private Integer duracaoMeses;
 
-    @Column(nullable = false, length = 10) // sim ou nao
-    private boolean pessoaExtra;
+    @Column(nullable = false) // sim ou nao
+    private boolean permitePessoaExtra;
 }

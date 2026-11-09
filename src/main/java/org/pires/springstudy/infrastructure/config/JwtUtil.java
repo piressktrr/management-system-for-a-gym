@@ -7,14 +7,19 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
+import java.io.File;
+import java.io.FileDescriptor;
 import java.security.Key;
 import java.util.Date;
 
 @Service
 public class JwtUtil {
 
+
     // interface que gera uma secretkey para a nossa aplicação no servidor, comigo passando um algoritmo de hash
     private final SecretKey secretKey;
+
+
 
 
     public JwtUtil() {
@@ -29,7 +34,7 @@ public class JwtUtil {
 
     // token JWT com validade de 1 hora
     public String generateToken(String payload) {
-
+        System.out.println(secretKey);
         // gera um token JWT com as claims, tempo de expiração de uma hora e assinatura da chave secreta do construtor usando a interface q eu injetei as depedencias
         return Jwts.builder()
                 .subject(payload)
