@@ -21,9 +21,14 @@ public class CobrancaService {
 
     public Cobranca saveCobranca(CobrancaRequest cobranca, MatriculaPlano matriculaPlano) {
 
-        return cobrancaRepository.save(
+        return cobrancaRepository.save( // acho que ta certo agora, mas provavelmente vou ter que passar um local date aqui mesmo
                 new Cobranca(matriculaPlano,
-                        LocalDateTime.now(),
+                        LocalDateTime.of(
+                                LocalDateTime.now().getYear(),
+                                LocalDateTime.now().getMonth().plus(1),
+                                LocalDateTime.now().getDayOfMonth(),
+                                LocalDateTime.now().getHour(),
+                                LocalDateTime.now().getMinute()),
                         matriculaPlano.getPlano().getValorPlano(),
                         cobranca.tipoCobranca(),
                         StatusCobranca.PENDENTE)
