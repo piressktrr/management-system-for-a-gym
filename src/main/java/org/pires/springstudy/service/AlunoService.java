@@ -59,7 +59,7 @@ public class AlunoService {
                 alunoRequest.sexo(),
                 alunoRequest.dataNascimento(),
                 telefoneSemCaracteres,
-                alunoRequest.email()));
+                alunoRequest.email().toLowerCase()));
 
 
         return aluno;

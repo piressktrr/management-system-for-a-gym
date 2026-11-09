@@ -66,7 +66,7 @@ public class MatriculaService {
     @Transactional // transactional pq se der erro ele nao altera nada
     public void alterarDadosMatricula(UUID matriculaId, MatriculaAlunoDadosRequest matriculaAlunoDadosRequest) {
         var telefone = matriculaAlunoDadosRequest.telefone().replaceAll("\\D", "");
-        var email = matriculaAlunoDadosRequest.email();
+        var email = matriculaAlunoDadosRequest.email().toLowerCase();
 
         Matricula matricula = matriculaRepository.findById(matriculaId).orElseThrow(() ->
                 new ResourceNotFoundException("Matricula não encontrada"));
@@ -139,7 +139,6 @@ public class MatriculaService {
         boolean existeCobrancaVencida =
                 cobrancasPendentes.stream()
                 .map(Cobranca::getDataDeVencimento)
-                .map(LocalDateTime::toLocalDate)
                 .anyMatch(dataVencimento -> dataVencimento.isBefore(LocalDate.now(ZoneId.of("America/Sao_Paulo"))));
 
         if (existeCobrancaVencida) {

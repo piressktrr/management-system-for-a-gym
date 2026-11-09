@@ -7,6 +7,7 @@ import org.pires.springstudy.infrastructure.entity.enums.StatusCobranca;
 import org.pires.springstudy.infrastructure.repository.CobrancaRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
@@ -23,12 +24,10 @@ public class CobrancaService {
 
         return cobrancaRepository.save( // acho que ta certo agora, mas provavelmente vou ter que passar um local date aqui mesmo
                 new Cobranca(matriculaPlano,
-                        LocalDateTime.of(
-                                LocalDateTime.now().getYear(),
-                                LocalDateTime.now().getMonth().plus(1),
-                                LocalDateTime.now().getDayOfMonth(),
-                                LocalDateTime.now().getHour(),
-                                LocalDateTime.now().getMinute()),
+                        LocalDate.of(
+                                LocalDate.now().getYear(),
+                                LocalDate.now().getMonth().plus(1),
+                                LocalDate.now().getDayOfMonth()),
                         matriculaPlano.getPlano().getValorPlano(),
                         cobranca.tipoCobranca(),
                         StatusCobranca.PENDENTE)

@@ -29,20 +29,20 @@ public class Matricula {
         this.motivoDesligamento = motivoDesligamento;
         this.dataDesligamento = dataDesligamento;
     }
-    
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_aluno")
+    @JoinColumn(nullable = false, name = "id_aluno")
     private Aluno aluno;
 
-    @Column(length = 100)
+    @Column(length = 1000, nullable = false, columnDefinition = "text")
     private String descricaoSaude;
 
-    @Column(nullable = false)
+    @Column(nullable = false, updatable = false)
     private LocalDateTime dataMatricula;
 
     @Column(nullable = false, length = 10, precision = 5, scale = 2)

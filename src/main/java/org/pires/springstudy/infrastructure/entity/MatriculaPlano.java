@@ -14,7 +14,7 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "matricula_plano")
+@Table(name = "matricula_plano")  //, check = data_fim == null || data_fim >= data_inicio
 public class MatriculaPlano {
 
     public MatriculaPlano(Matricula matricula, Plano plano, LocalDate dataInicio, LocalDate dataFim) {
@@ -38,10 +38,10 @@ public class MatriculaPlano {
     @JoinColumn(nullable = false, name = "id_plano")
     private Plano plano;
 
-    @Column(nullable = false, name = "Data_Inicio")
+    @Column(nullable = false, name = "data_Inicio", updatable = false)
     private LocalDate dataInicio;
 
-    @Column(name = "Data_Fim")
+    @Column(name = "data_Fim")
     private LocalDate dataFim;
 
 

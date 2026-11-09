@@ -9,6 +9,7 @@ import org.pires.springstudy.infrastructure.entity.enums.StatusCobranca;
 import org.pires.springstudy.infrastructure.entity.enums.TipoCobranca;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -17,10 +18,10 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "cobranca")
+@Table(name = "cobranca", check = valorAPagar >= 0)
 public class Cobranca {
 
-    public Cobranca(MatriculaPlano idMatriculaPlano, LocalDateTime dataDeVencimento, BigDecimal valorAPagar, TipoCobranca tipoCobranca, StatusCobranca statusCobranca) {
+    public Cobranca(MatriculaPlano idMatriculaPlano, LocalDate dataDeVencimento, BigDecimal valorAPagar, TipoCobranca tipoCobranca, StatusCobranca statusCobranca) {
         this.matriculaPlano = idMatriculaPlano;
         this.dataDeVencimento = dataDeVencimento;
         this.valorAPagar = valorAPagar;
@@ -33,15 +34,19 @@ public class Cobranca {
     @Column(nullable = false)
     private UUID id;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(nullable = false, name = id_matricula)
+    private Matricula matricula;
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(nullable = false, name = "matriculaPlano")
+    @JoinColumn(name = "matricula_plano")
     private MatriculaPlano matriculaPlano;
 
 
     @Column(nullable = false, name = "data_de_vencimento_cobranca")
-    private LocalDateTime dataDeVencimento;
+    private LocalDate dataDeVencimento;
 
-    @Column(nullable = false, length = 15, precision = 5, scale = 2, name = "Valor_A_Pagar")
+    @Column(nullable = false, precision = 10, scale = 2, name = "Valor_A_Pagar")
     private BigDecimal valorAPagar;
 
     @Column(nullable = false, name = "tipo_de_cobranca", length = 30)

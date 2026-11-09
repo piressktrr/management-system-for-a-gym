@@ -18,11 +18,9 @@ import java.util.UUID;
 @Table(name = "aluno")
 public class Aluno {
 
-
-
     public Aluno(Endereco endereco, String CPF, String nome, String sobrenome, Sexo sexo, LocalDate dataNascimento, String telefone, String email) {
         this.endereco = endereco;
-        this.CPF = CPF;
+        this.cpf = CPF;
         this.nome = nome;
         this.sobrenome = sobrenome;
         this.sexo = sexo;
@@ -37,14 +35,14 @@ public class Aluno {
     @Column(nullable = false)
     private UUID id;
 
-    @ManyToOne(optional = false, cascade = CascadeType.PERSIST, fetch = FetchType.LAZY) // endereço tem varios alunos
+    @ManyToOne(optional = false, fetch = FetchType.LAZY) // endereço tem varios alunos
     // o cascade type me permite salvar aluno com endereço e ja levar pro banco ambas as entidades
     @JoinColumn(name = "id_endereco", nullable = false)
     private Endereco endereco;
 
 
-    @Column(unique = true, length = 11)
-    private String CPF;
+    @Column(unique = true, length = 11, nullable = false)
+    private String cpf;
 
     @Column(nullable = false, length = 100)
     private String nome;

@@ -16,7 +16,6 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@Setter
 @Table(name = "plano")
 public class Plano {
 
@@ -29,12 +28,12 @@ public class Plano {
     @Enumerated(EnumType.STRING)
     private TipoPlano tipoPlano; // vou expor isso aqui pra matricula associar o id do planoId
 
-    @Column(nullable = false, precision = 5, scale = 2)
+    @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal valorPlano;
 
     @Column(nullable = false)
     private Integer duracaoMeses;
 
     @Column(nullable = false) // sim ou nao
-    private boolean pessoaExtra;
+    private boolean permitePessoaExtra;
 }

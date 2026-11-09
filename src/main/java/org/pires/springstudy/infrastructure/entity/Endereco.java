@@ -20,7 +20,7 @@ import java.util.UUID;
 // mas ela permite com que um endereço seja reutilizado
 public class Endereco {
 
-    public Endereco(String rua, Integer numero, String complemento, String bairro, String municipio, Estado estado, String pais, String cep) {
+    public Endereco(String rua, String numero, String complemento, String bairro, String municipio, Estado estado, String pais, String cep) {
         this.rua = rua;
         this.numero = numero;
         this.complemento = complemento;
@@ -40,7 +40,7 @@ public class Endereco {
     private String rua;
 
     @Column(nullable = false)
-    private Integer numero;
+    private String numero;
 
     @Column(length = 50, nullable = false)
     private String complemento;

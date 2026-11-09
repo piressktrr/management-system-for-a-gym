@@ -14,6 +14,7 @@ import java.util.UUID;
 @Setter // deixei o setter pq é mais facil colocar updatable false do que ao contrario
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "contrato")
 public class Contrato {
 
     public Contrato(Matricula matricula, String descricaoContratual, LocalDateTime dataAssinatura, String assinatura) {
@@ -29,18 +30,19 @@ public class Contrato {
     private UUID id;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(nullable = false, name = "id_matricula", updatable = false)
+    @JoinColumn(nullable = false, name = "id_matricula", updatable = false, unique = true)
     private Matricula matricula;
 
-    @Column(nullable = false, updatable = false)
+    @Column(nullable = false, updatable = false, columnDefinition = "text")
     private String descricaoContratual;
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime dataAssinatura;
 
     @Column(nullable = false, updatable = false)
-    private String assinatura;
+    private String assinatura; // nome de alguem que assinou
 
     @Column
-    private LocalDateTime dataEncerramento;
+    private LocalDateTime dataEncerramento; // fazer ser calculado a partir da matricula
+
 }
