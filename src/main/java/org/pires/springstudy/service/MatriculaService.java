@@ -1,6 +1,7 @@
 package org.pires.springstudy.service;
 
 import jakarta.transaction.Transactional;
+import org.pires.springstudy.dtos.request.MotivoCancelamentoRequest;
 import org.pires.springstudy.dtos.request.alunoSearch.MatriculaAlunoDadosRequest;
 import org.pires.springstudy.dtos.request.alunoRegister.MatriculaRequest;
 import org.pires.springstudy.dtos.response.alunoSearch.AlunoResponseSearch;
@@ -96,7 +97,7 @@ public class MatriculaService {
     // Este metodo coordena várias alterações relacionadas.
     // A transação garante que todas sejam persistidas juntas ou nenhuma delas.
     @Transactional
-    public void cancelarMatricula(UUID matriculaId, String motivoCancelamento) {
+    public void cancelarMatricula(UUID matriculaId, MotivoCancelamentoRequest motivoCancelamentoRequest) {
         // O service busca  matrícula e usa suas relações para chegar ao aluno (`matricula.getAluno()`),
         // Ao contrato e ao vínculo atual em `MatriculaPlano`.
 
@@ -161,7 +162,7 @@ public class MatriculaService {
 
         // Registra o cancelamento na matrícula e preserva seu histórico.
         matricula.setStatus(StatusMatricula.CANCELADA);
-        matricula.setMotivoDesligamento(motivoCancelamento);
+        matricula.setMotivoDesligamento(motivoCancelamentoRequest.motivoCancelamento());
         matricula.setDataDesligamento(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
         matriculaRepository.save(matricula);
     }

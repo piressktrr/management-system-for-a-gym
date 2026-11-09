@@ -2,6 +2,7 @@ package org.pires.springstudy.controller;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
+import org.pires.springstudy.dtos.request.MotivoCancelamentoRequest;
 import org.pires.springstudy.dtos.request.alunoSearch.MatriculaAlunoDadosRequest;
 import org.pires.springstudy.service.MatriculaService;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +24,7 @@ public class MatriculaController {
 
     @PostMapping("/{matriculaId}/cancelar")
     public ResponseEntity<Void> cancelarMatriculaAluno(@PathVariable UUID matriculaId,
-                                                    @RequestBody @Valid @NotBlank String motivoCancelamento) {
+                                                    @RequestBody @Valid @NotBlank MotivoCancelamentoRequest motivoCancelamento) {
 
         matriculaService.cancelarMatricula(matriculaId, motivoCancelamento);
 
@@ -40,6 +41,8 @@ public class MatriculaController {
 
         matriculaService.alterarDadosMatricula(matriculaId, matriculaAlunoDadosRequest);
 
+
+        // atualização concluida e não há nada a devolver
         return ResponseEntity.noContent().build();
     }
 }
