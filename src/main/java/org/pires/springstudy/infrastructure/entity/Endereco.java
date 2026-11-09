@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.pires.springstudy.infrastructure.entity.enums.Estado;
 
+import java.util.UUID;
+
 
 @Getter
 @Setter
@@ -30,9 +32,9 @@ public class Endereco {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(nullable = false)
-    private Long id;
+    private UUID id;
 
     @Column(nullable = false, length = 100)
     private String rua;

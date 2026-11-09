@@ -11,7 +11,7 @@ import java.util.UUID;
 
 @Entity
 @Getter
-@Setter
+@Setter // deixei o setter pq é mais facil colocar updatable false do que ao contrario
 @AllArgsConstructor
 @NoArgsConstructor
 public class Contrato {
@@ -28,17 +28,17 @@ public class Contrato {
     @Column(nullable = false)
     private UUID id;
 
-    @OneToOne
-    @JoinColumn(nullable = false, name = "matricula_id")
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(nullable = false, name = "id_matricula", updatable = false)
     private Matricula matricula;
 
-    @Column(nullable = false)
+    @Column(nullable = false, updatable = false)
     private String descricaoContratual;
 
-    @Column(nullable = false)
+    @Column(nullable = false, updatable = false)
     private LocalDateTime dataAssinatura;
 
-    @Column(nullable = false)
+    @Column(nullable = false, updatable = false)
     private String assinatura;
 
     @Column

@@ -38,7 +38,7 @@ public class Usuario implements UserDetails {
     @Column(nullable = false, length = 50)
     private String sobrenome;
 
-    @Column(nullable = false, name = "login_email", length = 50, unique = true) // mesmo checando no service, o unique == true mantem a unicidade no banco
+    @Column(nullable = false, name = "email_login", length = 50, unique = true) // mesmo checando no service, o unique == true mantem a unicidade no banco
     private String identificadorLogin; // email que vai ser usado como login do usuario
 
     @Column(nullable = false)

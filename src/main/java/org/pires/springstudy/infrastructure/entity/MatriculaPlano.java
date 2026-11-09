@@ -26,7 +26,7 @@ public class MatriculaPlano {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "ID_matricula_plano")
+    @Column()
     private UUID id;
 
     @ManyToOne(fetch = FetchType.LAZY)

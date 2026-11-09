@@ -29,19 +29,13 @@ public class Matricula {
         this.motivoDesligamento = motivoDesligamento;
         this.dataDesligamento = dataDesligamento;
     }
-
-    public Matricula(UUID id, Aluno aluno, LocalDateTime dataMatricula, StatusMatricula status) {
-        this.id = id;
-        this.aluno = aluno;
-        this.dataMatricula = dataMatricula;
-        this.status = status;
-    }
+    
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "id_aluno")
     private Aluno aluno;
 

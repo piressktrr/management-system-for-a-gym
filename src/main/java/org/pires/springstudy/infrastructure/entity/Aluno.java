@@ -31,19 +31,13 @@ public class Aluno {
         this.email = email;
     }
 
-    public Aluno(UUID id, String nome, String sobrenome, Sexo sexo) {
-        this.id = id;
-        this.nome = nome;
-        this.sobrenome = sobrenome;
-        this.sexo = sexo;
-    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(nullable = false)
     private UUID id;
 
-    @ManyToOne(optional = false, cascade = CascadeType.PERSIST) // endereço tem varios alunos
+    @ManyToOne(optional = false, cascade = CascadeType.PERSIST, fetch = FetchType.LAZY) // endereço tem varios alunos
     // o cascade type me permite salvar aluno com endereço e ja levar pro banco ambas as entidades
     @JoinColumn(name = "id_endereco", nullable = false)
     private Endereco endereco;

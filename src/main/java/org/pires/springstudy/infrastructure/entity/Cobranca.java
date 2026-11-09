@@ -21,7 +21,7 @@ import java.util.UUID;
 public class Cobranca {
 
     public Cobranca(MatriculaPlano idMatriculaPlano, LocalDateTime dataDeVencimento, BigDecimal valorAPagar, TipoCobranca tipoCobranca, StatusCobranca statusCobranca) {
-        this.idMatriculaPlano = idMatriculaPlano;
+        this.matriculaPlano = idMatriculaPlano;
         this.dataDeVencimento = dataDeVencimento;
         this.valorAPagar = valorAPagar;
         this.tipoCobranca = tipoCobranca;
@@ -34,8 +34,8 @@ public class Cobranca {
     private UUID id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(nullable = false, name = "id_matricula_plano")
-    private MatriculaPlano idMatriculaPlano;
+    @JoinColumn(nullable = false, name = "matriculaPlano")
+    private MatriculaPlano matriculaPlano;
 
 
     @Column(nullable = false, name = "data_de_vencimento_cobranca")

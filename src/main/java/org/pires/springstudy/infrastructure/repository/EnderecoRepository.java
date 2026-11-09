@@ -8,7 +8,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface EnderecoRepository extends JpaRepository<Endereco, Long> {
+public interface EnderecoRepository extends JpaRepository<Endereco, UUID> {
 
 
     Optional<Endereco> findByNumeroAndComplementoAndCep(Integer numero, String complemento, String cep);
