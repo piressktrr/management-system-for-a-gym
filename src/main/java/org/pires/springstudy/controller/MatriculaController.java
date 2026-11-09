@@ -36,7 +36,7 @@ public class MatriculaController {
     @PatchMapping("/{matriculaId}/atualizar")
     public ResponseEntity<Void> alterarMatricula(
             @PathVariable UUID matriculaId,
-            @RequestBody MatriculaAlunoDadosRequest matriculaAlunoDadosRequest) {
+            @Valid @RequestBody MatriculaAlunoDadosRequest matriculaAlunoDadosRequest) {
 
         matriculaService.alterarDadosMatricula(matriculaId, matriculaAlunoDadosRequest);
 

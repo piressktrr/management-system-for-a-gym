@@ -15,7 +15,7 @@ import java.util.UUID;
 @Repository
 public interface MatriculaPlanoRepository extends JpaRepository<MatriculaPlano, UUID> {
     @Query("""
-    SELECT DISTINCT alunos FROM MatriculaPlano mp JOIN Matricula m JOIN Aluno alunos WHERE mp.plano = :planoId AND mp.dataFim = null
+    SELECT DISTINCT a FROM MatriculaPlano mp JOIN mp.matricula m JOIN m.aluno a WHERE mp.plano.id = :planoId AND mp.dataFim IS NULL
     """)
     List<Aluno> findAlunosByPlanoId(@Param("planoId") Long planoId);
 
