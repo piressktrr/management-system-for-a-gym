@@ -12,10 +12,10 @@ import java.util.UUID;
 public interface AlunoRepository extends JpaRepository<Aluno, UUID> {
     List<Aluno> findAllByNome(String nome);
 
-    Optional<Aluno> findByCPF(String cpf);
+    Optional<Aluno> findByCpf(String cpf);
 
 
-    boolean existsByCPF(String cpf);
+    boolean existsByCpf(String cpf);
     boolean existsByEmail(String email);
     boolean existsByTelefone(String telefone);
 

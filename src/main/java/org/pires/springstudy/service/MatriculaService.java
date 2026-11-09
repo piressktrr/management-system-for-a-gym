@@ -133,7 +133,7 @@ public class MatriculaService {
         // Vencimento hoje não é dívida vencida; só uma data anterior bloqueia.
 
         var cobrancasPendentes =
-                cobrancaRepository.findAllByIdMatriculaPlano_Matricula_IdAndStatusCobranca(
+                cobrancaRepository.findAllByMatriculaPlano_Matricula_IdAndStatusCobranca(
                         matriculaId, StatusCobranca.PENDENTE);
 
         boolean existeCobrancaVencida =

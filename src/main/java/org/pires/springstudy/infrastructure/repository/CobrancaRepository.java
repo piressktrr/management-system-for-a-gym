@@ -51,7 +51,8 @@ public interface CobrancaRepository extends JpaRepository<Cobranca, UUID> {
     // O nome percorre os campos Java:
     // `Cobranca.idMatriculaPlano → MatriculaPlano.matricula → Matricula.id`,
     // e restringe a consulta às cobranças com o status informado.
-    List<Cobranca> findAllByIdMatriculaPlano_Matricula_IdAndStatusCobranca(
+    
+    List<Cobranca> findAllByMatriculaPlano_Matricula_IdAndStatusCobranca(
             UUID matriculaId,
             StatusCobranca statusCobranca);
 
