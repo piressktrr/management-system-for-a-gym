@@ -1,25 +1,19 @@
 package org.pires.springstudy.service;
 
 import jakarta.transaction.Transactional;
-import org.pires.springstudy.dtos.request.MatriculaAlunoDadosRequest;
+import org.pires.springstudy.dtos.request.alunoSearch.MatriculaAlunoDadosRequest;
 import org.pires.springstudy.dtos.request.alunoRegister.MatriculaRequest;
-import org.pires.springstudy.dtos.response.MatriculaResponseSearch;
-import org.pires.springstudy.dtos.response.alunoRegister.AlunoResponse;
-import org.pires.springstudy.dtos.response.alunoRegister.MatriculaResponse;
+import org.pires.springstudy.dtos.response.alunoSearch.AlunoResponseSearch;
+import org.pires.springstudy.dtos.response.alunoSearch.MatriculaResponseSearch;
 import org.pires.springstudy.infrastructure.entity.Aluno;
 import org.pires.springstudy.infrastructure.entity.Cobranca;
 import org.pires.springstudy.infrastructure.entity.Matricula;
-import org.pires.springstudy.infrastructure.entity.MatriculaPlano;
 import org.pires.springstudy.infrastructure.entity.enums.StatusCobranca;
 import org.pires.springstudy.infrastructure.entity.enums.StatusMatricula;
-import org.pires.springstudy.infrastructure.exceptions.AlunoHasACobrancaVencida;
 import org.pires.springstudy.infrastructure.exceptions.AlunoNotFoundException;
 import org.pires.springstudy.infrastructure.exceptions.InvalidMatriculaCancellationException;
 import org.pires.springstudy.infrastructure.exceptions.ResourceNotFoundException;
-import org.pires.springstudy.infrastructure.repository.CobrancaRepository;
-import org.pires.springstudy.infrastructure.repository.ContratoRepository;
-import org.pires.springstudy.infrastructure.repository.MatriculaPlanoRepository;
-import org.pires.springstudy.infrastructure.repository.MatriculaRepository;
+import org.pires.springstudy.infrastructure.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,6 +35,8 @@ public class MatriculaService {
 
     private final ContratoRepository contratoRepository;
 
+    @Autowired
+    private AlunoRepository alunoRepository;
     public MatriculaService(MatriculaRepository matriculaRepository,
                             CobrancaRepository cobrancaRepository,
                             MatriculaPlanoRepository matriculaPlanoRepository,
@@ -162,13 +158,25 @@ public class MatriculaService {
 
 
     public List<MatriculaResponseSearch> searchAllMatriculasByAluno(UUID alunoId) {
-        var aluno = matriculaRepository.findByAluno_Id(alunoId).orElseThrow(() ->
-                new AlunoNotFoundException("Aluno não encontrado!"));
 
-        var lista = matriculaRepository.findAllMatriculasByAluno(aluno.getAluno());
+        if (alunoRepository.existsById(alunoId)) {
+            var aluno = alunoRepository.findById(alunoId).orElseThrow(() -> new AlunoNotFoundException("Aluno não encontrado!! "));
+            var lista = matriculaRepository.findAllMatriculasByAluno(aluno.getId());
 
-        return lista.stream().map(m ->
-                new MatriculaResponseSearch(m.getId(), m.getAluno(), m.getDataMatricula(), m.getStatus()))
-                .toList();
+            return lista.stream().map(m ->
+                            new MatriculaResponseSearch(
+                                    m.getId(),
+                                    new AlunoResponseSearch(
+                                            m.getAluno().getId(),
+                                            m.getAluno().getNome(),
+                                            m.getAluno().getSobrenome(),
+                                            m.getAluno().getSexo()),
+                                    m.getDataMatricula(),
+                                    m.getStatus()))
+                    .toList();
+        } else {
+            throw new AlunoNotFoundException("ID de aluno não existe na base de dados!");
+        }
+
     }
 }

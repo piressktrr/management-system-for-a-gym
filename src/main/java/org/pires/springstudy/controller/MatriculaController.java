@@ -2,9 +2,7 @@ package org.pires.springstudy.controller;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
-import org.pires.springstudy.dtos.request.MatriculaAlunoDadosRequest;
-import org.pires.springstudy.dtos.request.alunoRegister.MatriculaRequest;
-import org.pires.springstudy.infrastructure.entity.enums.StatusMatricula;
+import org.pires.springstudy.dtos.request.alunoSearch.MatriculaAlunoDadosRequest;
 import org.pires.springstudy.service.MatriculaService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

@@ -1,5 +1,6 @@
 package org.pires.springstudy.infrastructure.repository;
 
+import org.jspecify.annotations.NonNull;
 import org.pires.springstudy.infrastructure.entity.Aluno;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -13,11 +14,12 @@ public interface AlunoRepository extends JpaRepository<Aluno, UUID> {
 
     Optional<Aluno> findByCPF(String cpf);
 
+
     boolean existsByCPF(String cpf);
     boolean existsByEmail(String email);
     boolean existsByTelefone(String telefone);
 
+    boolean existsById(@NonNull UUID id);
 
-    boolean existsAlunoByEndereco_NumeroAndEndereco_ComplementoAndEndereco_Cep(Integer numero, String complemento, String cep);
-//    Optional<Aluno> findAlunoByEndereco_NumeroAndEndereco_ComplementoAndEndereco_Cep(Integer numero, String complemento, String cep);
+
 }

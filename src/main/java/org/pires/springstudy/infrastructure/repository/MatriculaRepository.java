@@ -16,8 +16,8 @@ public interface MatriculaRepository extends JpaRepository<Matricula, UUID> {
     Optional<Matricula> findByAluno_Id(UUID alunoId);
 
     @Query("""
-    SELECT matriculas FROM Matricula matriculas JOIN Aluno a WHERE matriculas.aluno = :aluno
+    SELECT matriculas FROM Matricula matriculas WHERE matriculas.aluno.id = :alunoId
 """)
-    List<Matricula> findAllMatriculasByAluno(@Param("aluno")  Aluno aluno);
+    List<Matricula> findAllMatriculasByAluno(@Param("alunoId")  UUID alunoId);
 
 }

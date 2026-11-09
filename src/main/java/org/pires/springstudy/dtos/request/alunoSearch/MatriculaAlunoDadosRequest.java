@@ -1,4 +1,4 @@
-package org.pires.springstudy.dtos.request;
+package org.pires.springstudy.dtos.request.alunoSearch;
 
 import jakarta.validation.constraints.*;
 

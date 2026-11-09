@@ -33,12 +33,17 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(AlunoHasACobrancaVencida.class)
     public ResponseEntity<String>  handleCobrancaVencida(AlunoHasACobrancaVencida e) {
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(e.getMessage());
     }
 
     @ExceptionHandler(InvalidMatriculaCancellationException.class)
     public ResponseEntity<String>  handleInvalidMatriculaCancellationException(InvalidMatriculaCancellationException e) {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
 
+    }
+
+    @ExceptionHandler(AlunoNotFoundException.class)
+    public ResponseEntity<String> handleAlunoNotFoundException(AlunoNotFoundException e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
     }
 }
