@@ -34,7 +34,7 @@ public class PlanoService {
         var w = planoRepository.findAll();
 
         return w.stream().map(p -> new PlanoResponseSearch(
-                p.getId(), p.getTipoPlano(), p.getValorPlano(), p.getDuracaoMeses(), p.isPessoaExtra())).toList();
+                p.getId(), p.getTipoPlano(), p.getValorPlano(), p.getDuracaoMeses(), p.isPermitePessoaExtra())).toList();
 
     }
 

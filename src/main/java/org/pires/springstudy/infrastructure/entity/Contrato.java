@@ -39,7 +39,7 @@ public class Contrato {
     @Column(nullable = false, updatable = false)
     private LocalDateTime dataAssinatura;
 
-    @Column(nullable = false, updatable = false)
+    @Column(nullable = false, updatable = false, length = 200)
     private String assinatura; // nome de alguem que assinou
 
     @Column

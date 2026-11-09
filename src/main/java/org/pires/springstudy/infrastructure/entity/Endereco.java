@@ -39,7 +39,7 @@ public class Endereco {
     @Column(nullable = false, length = 100)
     private String rua;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 10)
     private String numero;
 
     @Column(length = 50, nullable = false)

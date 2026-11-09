@@ -57,7 +57,7 @@ public class MatriculaService {
                         matriculaRequest.descricaoSaude(),
                         LocalDateTime.now(),
                         BigDecimal.valueOf(60.00),
-                        StatusMatricula.ATIVO,
+                        StatusMatricula.ATIVA,
                         "",
                         null)
         );
@@ -71,7 +71,7 @@ public class MatriculaService {
         Matricula matricula = matriculaRepository.findById(matriculaId).orElseThrow(() ->
                 new ResourceNotFoundException("Matricula não encontrada"));
 
-        if (matricula.getStatus() != StatusMatricula.ATIVO) {
+        if (matricula.getStatus() != StatusMatricula.ATIVA) {
             throw new IllegalArgumentException("Uma matricula cancelada ou inativa não pode ser alterada");
         }
 
@@ -105,7 +105,7 @@ public class MatriculaService {
         var matricula = matriculaRepository.findById(matriculaId).orElseThrow(() ->
                 new ResourceNotFoundException("Matricula não encontrada!"));
 
-        if (matricula.getStatus() != StatusMatricula.ATIVO) {
+        if (matricula.getStatus() != StatusMatricula.ATIVA) {
             throw new InvalidMatriculaCancellationException(
                     "Somente uma matrícula ativa pode ser cancelada.");
         }

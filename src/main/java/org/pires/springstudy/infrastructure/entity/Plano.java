@@ -24,7 +24,7 @@ public class Plano {
     @Column(nullable = false)
     private Long id;
 
-    @Column(nullable = false, length = 30)
+    @Column(nullable = false, length = 30, unique = true)
     @Enumerated(EnumType.STRING)
     private TipoPlano tipoPlano; // vou expor isso aqui pra matricula associar o id do planoId
 

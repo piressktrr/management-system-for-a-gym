@@ -22,7 +22,7 @@ public interface CobrancaRepository extends JpaRepository<Cobranca, UUID> {
     @Query("""
         SELECT DISTINCT a
         FROM Cobranca c
-        JOIN c.idMatriculaPlano mp
+        JOIN c.matriculaPlano mp
         JOIN mp.matricula m
         JOIN m.aluno a
         WHERE c.statusCobranca = :status
@@ -34,7 +34,7 @@ public interface CobrancaRepository extends JpaRepository<Cobranca, UUID> {
     @Query("""
         SELECT DISTINCT a
         FROM Cobranca c
-        JOIN c.idMatriculaPlano mp
+        JOIN c.matriculaPlano mp
         JOIN mp.matricula m
         JOIN m.aluno a
         WHERE c.statusCobranca = :status AND c.dataDeVencimento < :dataAtual

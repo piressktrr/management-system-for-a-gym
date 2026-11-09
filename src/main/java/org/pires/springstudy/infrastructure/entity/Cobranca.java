@@ -18,11 +18,12 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "cobranca", check = valorAPagar >= 0)
+@Table(name = "cobranca")
 public class Cobranca {
 
-    public Cobranca(MatriculaPlano idMatriculaPlano, LocalDate dataDeVencimento, BigDecimal valorAPagar, TipoCobranca tipoCobranca, StatusCobranca statusCobranca) {
-        this.matriculaPlano = idMatriculaPlano;
+    public Cobranca(Matricula matricula, MatriculaPlano matriculaPlano, LocalDate dataDeVencimento, BigDecimal valorAPagar, TipoCobranca tipoCobranca, StatusCobranca statusCobranca) {
+        this.matricula = matricula;
+        this.matriculaPlano = matriculaPlano;
         this.dataDeVencimento = dataDeVencimento;
         this.valorAPagar = valorAPagar;
         this.tipoCobranca = tipoCobranca;
@@ -35,18 +36,18 @@ public class Cobranca {
     private UUID id;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(nullable = false, name = id_matricula)
+    @JoinColumn(nullable = false, name = "id_matricula", unique = false)
     private Matricula matricula;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "matricula_plano")
+    @JoinColumn(name = "id_matricula_plano")
     private MatriculaPlano matriculaPlano;
 
 
     @Column(nullable = false, name = "data_de_vencimento_cobranca")
     private LocalDate dataDeVencimento;
 
-    @Column(nullable = false, precision = 10, scale = 2, name = "Valor_A_Pagar")
+    @Column(nullable = false, precision = 10, scale = 2, name = "valor_a_pagar")
     private BigDecimal valorAPagar;
 
     @Column(nullable = false, name = "tipo_de_cobranca", length = 30)
